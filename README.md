@@ -3,7 +3,6 @@ INF2100
 Contributors:
 
 	*	Aulon Mujaj - aulonm
-	*	test
 
 
 
