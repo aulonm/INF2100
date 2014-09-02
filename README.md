@@ -4,9 +4,6 @@ Contributors:
 
 	*	Aulon Mujaj - aulonm
 	*	Halvor Mangseth - halvorhm
-	
-	
-	test2
 
 
 
