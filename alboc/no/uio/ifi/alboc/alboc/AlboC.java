@@ -79,7 +79,7 @@ public class AlboC {
 			       " on " + myOS + ")");
 	    System.out.println("It is written by Dag Langmyhr");
 	    System.out.println("Modified by: Aulon Mujaj");
-	    System.out.println("\t\t Halvor Holmebakk Mangseth");
+	    System.out.println("\t     Halvor Holmebakk Mangseth");
 	    try {
 		Error.init();  Log.init();  Code.init();  Types.init();
 		CharGenerator.init();  Scanner.init();  Syntax.init();
