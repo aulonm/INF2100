@@ -21,28 +21,28 @@ public enum Token {
     semicolonToken, starToken, subtractToken, 
     whileToken;
 
-    public static boolean isFactorOperator(Token t) {
-	//-- Must be changed in part 0:
-	return false;
-    }
+	public static boolean isFactorOperator(Token t) {
+		// -- Must be changed in part 0:
+		return false;
+	}
 
-    public static boolean isTermOperator(Token t) {
-	//-- Must be changed in part 0:
-	return false;
-    }
+	public static boolean isTermOperator(Token t) {
+		// -- Must be changed in part 0:
+		return false;
+	}
 
-    public static boolean isPrefixOperator(Token t) {
-	//-- Must be changed in part 0:
-	return false;
-    }
+	public static boolean isPrefixOperator(Token t) {
+		// -- Must be changed in part 0:
+		return false;
+	}
 
-    public static boolean isRelOperator(Token t) {
-	//-- Must be changed in part 0:
-	return false;
-    }
+	public static boolean isRelOperator(Token t) {
+		// -- Must be changed in part 0:
+		return false;
+	}
 
-    public static boolean isOperand(Token t) {
-	//-- Must be changed in part 0:
-	return false;
-    }
+	public static boolean isOperand(Token t) {
+		// -- Must be changed in part 0:
+		return false;
+	}
 }

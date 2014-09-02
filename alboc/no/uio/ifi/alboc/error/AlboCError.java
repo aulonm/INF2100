@@ -5,7 +5,7 @@ package no.uio.ifi.alboc.error;
  */
 
 public class AlboCError extends RuntimeException {
-    AlboCError(String message) {
-	super(message);
-    }
+	AlboCError(String message) {
+		super(message);
+	}
 }
