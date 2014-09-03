@@ -5,7 +5,7 @@ Contributors:
 	*	Aulon Mujaj - aulonm
 	*	Halvor Mangseth - halvorhm
 
-lets test this shit again
+vær så snill og funk di fitte
 
 INF2100 School Project - AlboC Compiler
 
