@@ -2,8 +2,11 @@ INF2100
 =======
 Contributors:
 
-	*	Aulon Mujaj - aulonm
-	*	Halvor Mangseth - halvorhm
+	*	Aulon Mujaj
+		* Bruker: aulonm
+		* Mail: aulon@mujaj.no
+	*	Halvor Mangseth
+		*Bruker: halvorhm
 
 
 INF2100 School Project - AlboC Compiler
