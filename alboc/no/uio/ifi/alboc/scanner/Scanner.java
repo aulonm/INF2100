@@ -48,10 +48,15 @@ public class Scanner {
 		Log.noteToken();
 	}
 
-	private static boolean isLetterAZ(char c) {
-		// -- Must be changed in part 0:
-		return false;
-	}
+    private static boolean isLetterAZ(char c) {
+    	// check if the character passed in the parameters is a legal letter, small or big.
+    	private char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+    									  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    	for (int i = 0 ; i < legalCharacters ; i++) if (c == legalCharacters[i]) return true;
+    	return false;
+    }
 
 	public static void check(Token t) {
 		if (curToken != t)
