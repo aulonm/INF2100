@@ -5,6 +5,7 @@ package no.uio.ifi.alboc.chargenerator;
  */
 
 import java.io.*;
+
 import no.uio.ifi.alboc.alboc.AlboC;
 import no.uio.ifi.alboc.error.Error;
 import no.uio.ifi.alboc.log.Log;
@@ -18,6 +19,7 @@ public class CharGenerator {
 	private static LineNumberReader sourceFile = null;
 	private static String sourceLine;
 	private static int sourcePos;
+	private static int sourceLength;
 
 	public static void init() {
 		try {
@@ -43,7 +45,7 @@ public class CharGenerator {
 	}
 
 	public static boolean isMoreToRead() {
-		// -- Must be changed in part 0:
+
 		return false;
 	}
 
@@ -53,10 +55,23 @@ public class CharGenerator {
 
 	public static void readNext() {
 		curC = nextC;
+		
 		if (!isMoreToRead())
 			return;
-		while ((sourceLine = sourceFile.readLine())!= null ){
+		try {
 			
+			if (sourcePos > sourceLine.length()){
+				sourceLine = sourceFile.readLine();
+				sourcePos = 0;
+			}
+			nextC = sourceLine.charAt(sourcePos);
+			sourcePos++;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		
+		
+		
 	}
 }
