@@ -84,6 +84,12 @@ public class Scanner {
 					// do number logic
 				} else if(CharGenerator.curC == '=') {
 					// check if next one is equals as well
+					if(CharGenerator.nextC == '=') {
+						curToken = equalToken; // boolean equal
+					} else {
+						curToken = assignToken;
+					}
+					readNextHelper();
 				} else if(CharGenerator.curC == '>') {
 					// check if next one is equals
 				} else if(CharGenerator.curC == '>') {
