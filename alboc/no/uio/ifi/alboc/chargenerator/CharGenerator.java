@@ -60,17 +60,23 @@ public class CharGenerator {
 		if (!isMoreToRead())
 			return;
 		try {
+			// If position is bigger than sourceLine-1 then this happens
 			if (sourcePos > sourceLine.length()-1){
+				// charAt(position) is assigned to nextC
 				nextC = sourceLine.charAt(sourcePos);
 				sourcePos++;
+				// Reads an entire line
 				sourceLine = sourceFile.readLine();
+				// Checks if that new line i null, eof
 				if(sourceLine == null)
 					return;
+				// Checks if there are any single-line comments
 				if(sourceLine.charAt(0) == '#')
 					sourceLine = sourceFile.readLine();
+				// Resets the position
 				sourcePos = 0;
-				
 			}
+			// charAt(position) is assigned to nextC
 			nextC = sourceLine.charAt(sourcePos);
 			sourcePos++;
 		} catch (Exception e) {

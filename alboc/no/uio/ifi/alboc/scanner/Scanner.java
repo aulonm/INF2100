@@ -39,101 +39,6 @@ public class Scanner {
 			if (!CharGenerator.isMoreToRead()) {
 				nextToken = eofToken;
 			} else
-				// burde vi sette curToken = nextToken, og s[ assigne nextToken kanskje? hmmm.
-				
-				// check if space
-				while(CharGenerator.curC == ' ') {
-					CharGenerator.readNext();
-				}
-
-				// check for comment blocks
-				if(CharGenerator.curC == '/' && CharGenerator.nextC == '*') {
-					CharGenerator.readNext();
-					CharGenerator.readNext(); // read past these two
-
-					while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
-						CharGenerator.readNext();
-					}
-				}
-
-				//first we pick up the simple ones:
-				if(CharGenerator.curC == '+') {
-					nextToken = addToken;
-				} else if(CharGenerator.curC == '&') {
-					nextToken = ampToken;
-				} else if(CharGenerator.curC == ',') {
-					nextToken = commaToken;
-				} else if(CharGenerator.curC == '[') {
-					nextToken = leftBrackToken;
-				} else if(CharGenerator.curC == '(') {
-					nextToken = leftParToken;
-				} else if(CharGenerator.curC == '{') {
-					nextToken = leftCurlToken;
-				} else if(CharGenerator.curC == ']') {
-					nextToken = rightBrackToken;
-				} else if(CharGenerator.curC == ')') {
-					nextToken = rightParToken;
-				} else if(CharGenerator.curC == '}') {
-					nextToken = rightCurlToken;
-				} else if(CharGenerator.curC == ';') {
-					nextToken = semiColonToken;
-				} else if(CharGenerator.curC == '*') {
-					nextToken = starToken;
-				// we get a bit more advanced
-				} else if(isNumber(charGenerator.curC) == true) {
-					String num = ""; // initial empty string
-					while(isNumber(charGenerator.curC) == true) {
-						num += charGenerator.curC;
-						CharGenerator.readNext(); // increment by one
-					}
-					nextToken = numberToken;
-					nextNum = Integer.parseInt(num); // convert string representation of the int to an integer
-				} else if(CharGenerator.curC == '=') {
-					// check if next one is equals as well
-					if(CharGenerator.nextC == '=') {
-						nextToken = equalToken; // boolean equal
-						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
-					} else {
-						nextToken = assignToken;
-					}
-					
-				} else if(CharGenerator.curC == '>') {
-					// check if next one is equals
-					if(CharGenerator.nextC == '=') {
-						nextToken = greaterEqualToken; // boolean equal
-						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
-					} else {
-						nextToken = greaterToken;
-					}
-				} else if(CharGenerator.curC == '<') {
-					// check if next one is equals
-					if(CharGenerator.nextC == '=') {
-						nextToken = lessEqualToken; // boolean equal
-						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
-					} else {
-						nextToken = lessToken;
-					}
-					
-				} else if(isLetterAZ(CharGenerator.curC) == true) {
-					String name = "";
-					while(isLetterAZ(CharGenerator.curC) == true) {
-						name += CharGenerator.curC; // generate complete string
-						CharGenerator.readNext(); // increment by one
-					}
-					// now check if it's a name or something specific.
-					if(name.equals("int")) nextToken = intToken;
-					else if(name.equals("for")) nextToken = forToken;
-					else if(name.equals("else")) nextToken = elseToken;
-					else if(name.equals("return")) nextToken = returnToken;
-					else if(name.equals("while")) nextToken = whileToken;
-					else {
-						nextToken = nameToken;
-						nextName = name;
-					}
-				}
-
-				CharGenerator.readNext();
-				
 			// -- Must be changed in part 0:
 			{
 				Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
@@ -142,19 +47,13 @@ public class Scanner {
 		}
 		Log.noteToken();
 	}
-	
-	private boolean isNumber(char c) {
-		private char[] legalNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-		for (int i = 0 ; i < legalNumbers ; i++) if (c == legalNumbers[i]) return true;
-		return false
-	}
 
     private static boolean isLetterAZ(char c) {
     	// check if the character passed in the parameters is a legal letter, small or big.
     	private char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
     									  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
+    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
     	for (int i = 0 ; i < legalCharacters ; i++) if (c == legalCharacters[i]) return true;
     	return false;
     }
