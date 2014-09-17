@@ -120,7 +120,13 @@ public class Scanner {
 						nextToken = lessToken;
 					}
 					readNextHelper();
-				} else if(isLetterAZ(CharGenerator.curC) || CharGenerator.curC == '_') {
+				} else if(isLetterAZ(CharGenerator.curC)) {
+					curToken = nextToken;
+					String name = "";
+					while(isLetterAZ(CharGenerator.curC)) {
+						
+					}
+
 					// it's a word, an int, an if, and else or 
 				}
 				
@@ -148,7 +154,7 @@ public class Scanner {
     	private char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
     									  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
     	for (int i = 0 ; i < legalCharacters ; i++) if (c == legalCharacters[i]) return true;
     	return false;
     }
