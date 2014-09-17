@@ -39,6 +39,59 @@ public class Scanner {
 			if (!CharGenerator.isMoreToRead()) {
 				nextToken = eofToken;
 			} else
+				// burde vi sette curToken = nextToken, og s[ assigne nextToken kanskje? hmmm.
+				
+				// check if space
+				if(CharGenerator.curC == ' ') {
+					// skip it somehow
+				}
+				//first we pick up the simple ones:
+				else if(CharGenerator.curC == '+') {
+					curToken = addToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '&') {
+					curToken = ampToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == ',') {
+					curToken = commaToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '[') {
+					curToken = leftBrackToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '(') {
+					curToken = leftParToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '{') {
+					curToken = leftCurlToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == ']') {
+					curToken = rightBrackToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == ')') {
+					curToken = rightParToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '}') {
+					curToken = rightCurlToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == ';') {
+					curToken = semiColonToken;
+					readNextHelper();
+				} else if(CharGenerator.curC == '*') {
+					curToken = starToken;
+					readNextHelper();
+				// we get a bit more advanced
+				} else if(isNumber(charGenerator.curC) == true) {
+					// do number logic
+				} else if(CharGenerator.curC == '=') {
+					// check if next one is equals as well
+				} else if(CharGenerator.curC == '>') {
+					// check if next one is equals
+				} else if(CharGenerator.curC == '>') {
+					// check if next one is equals
+				} else if(isLetterAZ(CharGenerator.curC) || CharGenerator.curC == '_') {
+					// it's a word, an int, an if, and else or 
+				}
+				
 			// -- Must be changed in part 0:
 			{
 				Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
@@ -46,6 +99,16 @@ public class Scanner {
 			}
 		}
 		Log.noteToken();
+	}
+	
+	private void readNextHelper() {
+		// this method does the steps common for all happy cases of readNext
+	}
+	
+	private boolean isNumber(char c) {
+		private char[] legalNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		for (int i = 0 ; i < legalNumbers ; i++) if (c == legalNumbers[i]) return true;
+		return false
 	}
 
     private static boolean isLetterAZ(char c) {
