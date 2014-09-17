@@ -45,8 +45,9 @@ public class CharGenerator {
 	}
 
 	public static boolean isMoreToRead() {
-
-		return false;
+		if(sourceLine == null)
+			return false;
+		return true;
 	}
 
 	public static int curLineNum() {
@@ -59,10 +60,12 @@ public class CharGenerator {
 		if (!isMoreToRead())
 			return;
 		try {
-			if (sourcePos == sourceLine.length()){
+			if (sourcePos > sourceLine.length()-1){
 				nextC = sourceLine.charAt(sourcePos);
 				sourcePos++;
 				sourceLine = sourceFile.readLine();
+				if(sourceLine == null)
+					return;
 				if(sourceLine.charAt(0) == '#')
 					sourceLine = sourceFile.readLine();
 				sourcePos = 0;
@@ -73,9 +76,5 @@ public class CharGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 }
