@@ -42,78 +42,97 @@ public class Scanner {
 				// burde vi sette curToken = nextToken, og s[ assigne nextToken kanskje? hmmm.
 				
 				// check if space
-				if(CharGenerator.curC == ' ') {
-					// skip it somehow
+				while(CharGenerator.curC == ' ') {
+					CharGenerator.readNext();
 				}
+
+				// check for comment blocks
+				if(CharGenerator.curC == '/' && CharGenerator.nextC == '*') {
+					CharGenerator.readNext();
+					CharGenerator.readNext(); // read past these two
+
+					while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
+						CharGenerator.readNext();
+					}
+				}
+
 				//first we pick up the simple ones:
-				else if(CharGenerator.curC == '+') {
+				if(CharGenerator.curC == '+') {
 					nextToken = addToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '&') {
 					nextToken = ampToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == ',') {
 					nextToken = commaToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '[') {
 					nextToken = leftBrackToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '(') {
 					nextToken = leftParToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '{') {
 					nextToken = leftCurlToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == ']') {
 					nextToken = rightBrackToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == ')') {
 					nextToken = rightParToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '}') {
 					nextToken = rightCurlToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == ';') {
 					nextToken = semiColonToken;
-					readNextHelper();
 				} else if(CharGenerator.curC == '*') {
 					nextToken = starToken;
-					readNextHelper();
 				// we get a bit more advanced
 				} else if(isNumber(charGenerator.curC) == true) {
-					// do number logic
+					String num = ""; // initial empty string
+					while(isNumber(charGenerator.curC) == true) {
+						num += charGenerator.curC;
+						CharGenerator.readNext(); // increment by one
+					}
+					nextToken = numberToken;
+					nextNum = Integer.parseInt(num); // convert string representation of the int to an integer
 				} else if(CharGenerator.curC == '=') {
 					// check if next one is equals as well
 					if(CharGenerator.nextC == '=') {
 						nextToken = equalToken; // boolean equal
+						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
 					} else {
 						nextToken = assignToken;
 					}
-					readNextHelper();
+					
 				} else if(CharGenerator.curC == '>') {
 					// check if next one is equals
 					if(CharGenerator.nextC == '=') {
 						nextToken = greaterEqualToken; // boolean equal
+						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
 					} else {
 						nextToken = greaterToken;
 					}
-					readNextHelper();
 				} else if(CharGenerator.curC == '<') {
 					// check if next one is equals
 					if(CharGenerator.nextC == '=') {
 						nextToken = lessEqualToken; // boolean equal
+						CharGenerator.readNext(); // we use both chars in token, need to increment the chargenerator
 					} else {
 						nextToken = lessToken;
 					}
-					readNextHelper();
-				} else if(isLetterAZ(CharGenerator.curC)) {
+					
+				} else if(isLetterAZ(CharGenerator.curC) == true) {
 					String name = "";
-					while(isLetterAZ(CharGenerator.curC)) {
-						
+					while(isLetterAZ(CharGenerator.curC) == true) {
+						name += CharGenerator.curC; // generate complete string
+						CharGenerator.readNext(); // increment by one
 					}
-
-					// it's a word, an int, an if, and else or 
+					// now check if it's a name or something specific.
+					if(name.equals("int")) nextToken = intToken;
+					else if(name.equals("for")) nextToken = forToken;
+					else if(name.equals("else")) nextToken = elseToken;
+					else if(name.equals("return")) nextToken = returnToken;
+					else if(name.equals("while")) nextToken = whileToken;
+					else {
+						nextToken = nameToken;
+						nextName = name;
+					}
 				}
+
+				CharGenerator.readNext();
 				
 			// -- Must be changed in part 0:
 			{
@@ -122,10 +141,6 @@ public class Scanner {
 			}
 		}
 		Log.noteToken();
-	}
-	
-	private void readNextHelper() {
-		// this method does the steps common for all happy cases of readNext
 	}
 	
 	private boolean isNumber(char c) {
