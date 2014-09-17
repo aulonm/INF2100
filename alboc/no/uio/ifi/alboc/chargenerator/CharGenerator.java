@@ -55,7 +55,8 @@ public class CharGenerator {
 		curC = nextC;
 		if (!isMoreToRead())
 			return;
-
-		// -- Must be changed in part 0:
+		while ((sourceLine = sourceFile.readLine())!= null ){
+			
+		}
 	}
 }

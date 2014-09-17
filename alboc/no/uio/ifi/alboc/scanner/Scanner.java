@@ -19,7 +19,7 @@ public class Scanner {
 	public static int curLine, nextLine;
 
 	public static void init() {
-		// -- Must be changed in part 0:
+		// -- Must be changed in part 0:	
 	}
 
 	public static void finish() {
