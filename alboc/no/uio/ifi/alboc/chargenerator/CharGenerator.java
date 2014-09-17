@@ -59,11 +59,15 @@ public class CharGenerator {
 		if (!isMoreToRead())
 			return;
 		try {
-			if (sourcePos > sourceLine.length()){
+			if (sourcePos == sourceLine.length()){
+				nextC = sourceLine.charAt(sourcePos);
+				sourcePos++;
 				sourceLine = sourceFile.readLine();
+				if(sourceLine.charAt(0) == '#')
+					sourceLine = sourceFile.readLine();
 				sourcePos = 0;
-			}	
-			testest
+				
+			}
 			nextC = sourceLine.charAt(sourcePos);
 			sourcePos++;
 		} catch (Exception e) {
