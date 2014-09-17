@@ -47,47 +47,36 @@ public class Scanner {
 				}
 				//first we pick up the simple ones:
 				else if(CharGenerator.curC == '+') {
-					curToken = nextToken;
 					nextToken = addToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '&') {
-					curToken = nextToken;
 					nextToken = ampToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ',') {
-					curToken = nextToken;
 					nextToken = commaToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '[') {
-					curToken = nextToken;
 					nextToken = leftBrackToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '(') {
-					curToken = nextToken;
 					nextToken = leftParToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '{') {
-					curToken = nextToken;
 					nextToken = leftCurlToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ']') {
-					curToken = nextToken;
 					nextToken = rightBrackToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ')') {
-					curToken = nextToken;
 					nextToken = rightParToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '}') {
-					curToken = nextToken;
 					nextToken = rightCurlToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ';') {
-					curToken = nextToken;
 					nextToken = semiColonToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '*') {
-					curToken = nextToken;
 					nextToken = starToken;
 					readNextHelper();
 				// we get a bit more advanced
@@ -95,7 +84,6 @@ public class Scanner {
 					// do number logic
 				} else if(CharGenerator.curC == '=') {
 					// check if next one is equals as well
-					curToken = nextToken;
 					if(CharGenerator.nextC == '=') {
 						nextToken = equalToken; // boolean equal
 					} else {
@@ -104,7 +92,6 @@ public class Scanner {
 					readNextHelper();
 				} else if(CharGenerator.curC == '>') {
 					// check if next one is equals
-					curToken = nextToken;
 					if(CharGenerator.nextC == '=') {
 						nextToken = greaterEqualToken; // boolean equal
 					} else {
@@ -113,14 +100,18 @@ public class Scanner {
 					readNextHelper();
 				} else if(CharGenerator.curC == '<') {
 					// check if next one is equals
-					curToken = nextToken;
 					if(CharGenerator.nextC == '=') {
 						nextToken = lessEqualToken; // boolean equal
 					} else {
 						nextToken = lessToken;
 					}
 					readNextHelper();
-				} else if(isLetterAZ(CharGenerator.curC) || CharGenerator.curC == '_') {
+				} else if(isLetterAZ(CharGenerator.curC)) {
+					String name = "";
+					while(isLetterAZ(CharGenerator.curC)) {
+						
+					}
+
 					// it's a word, an int, an if, and else or 
 				}
 				
@@ -148,7 +139,7 @@ public class Scanner {
     	private char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
     									  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
     	for (int i = 0 ; i < legalCharacters ; i++) if (c == legalCharacters[i]) return true;
     	return false;
     }
