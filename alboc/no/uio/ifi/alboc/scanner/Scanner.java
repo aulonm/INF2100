@@ -38,7 +38,7 @@ public class Scanner {
 
 			if (!CharGenerator.isMoreToRead()) {
 				nextToken = eofToken;
-			} else
+			} else{
 				// burde vi sette curToken = nextToken, og s[ assigne nextToken kanskje? hmmm.
 				
 				// check if space
@@ -64,26 +64,26 @@ public class Scanner {
 				} else if(CharGenerator.curC == ',') {
 					nextToken = commaToken;
 				} else if(CharGenerator.curC == '[') {
-					nextToken = leftBrackToken;
+					nextToken = leftBracketToken;
 				} else if(CharGenerator.curC == '(') {
 					nextToken = leftParToken;
 				} else if(CharGenerator.curC == '{') {
 					nextToken = leftCurlToken;
 				} else if(CharGenerator.curC == ']') {
-					nextToken = rightBrackToken;
+					nextToken = rightBracketToken;
 				} else if(CharGenerator.curC == ')') {
 					nextToken = rightParToken;
 				} else if(CharGenerator.curC == '}') {
 					nextToken = rightCurlToken;
 				} else if(CharGenerator.curC == ';') {
-					nextToken = semiColonToken;
+					nextToken = semicolonToken;
 				} else if(CharGenerator.curC == '*') {
 					nextToken = starToken;
 				// we get a bit more advanced
-				} else if(isNumber(charGenerator.curC) == true) {
+				} else if((isNumber(CharGenerator.curC)) == true) {
 					String num = ""; // initial empty string
-					while(isNumber(charGenerator.curC) == true) {
-						num += charGenerator.curC;
+					while((isNumber(CharGenerator.curC)) == true) {
+						num += CharGenerator.curC;
 						CharGenerator.readNext(); // increment by one
 					}
 					nextToken = numberToken;
@@ -135,7 +135,6 @@ public class Scanner {
 				CharGenerator.readNext();
 				
 			// -- Must be changed in part 0:
-			{
 				Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
 						+ "'!");
 			}
@@ -143,19 +142,19 @@ public class Scanner {
 		Log.noteToken();
 	}
 	
-	private boolean isNumber(char c) {
-		private char[] legalNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-		for (int i = 0 ; i < legalNumbers ; i++) if (c == legalNumbers[i]) return true;
-		return false
+	private static boolean isNumber(char c) {
+		char[] legalNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		for (int i = 0 ; i < legalNumbers.length ; i++) if (c == legalNumbers[i]) return true;
+		return false;
 	}
 
     private static boolean isLetterAZ(char c) {
     	// check if the character passed in the parameters is a legal letter, small or big.
-    	private char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+    	char[] legalCharacters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
     									  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
     									  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
-    	for (int i = 0 ; i < legalCharacters ; i++) if (c == legalCharacters[i]) return true;
+    	for (int i = 0 ; i < legalCharacters.length ; i++) if (c == legalCharacters[i]) return true;
     	return false;
     }
 
