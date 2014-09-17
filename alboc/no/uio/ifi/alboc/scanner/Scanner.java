@@ -95,16 +95,31 @@ public class Scanner {
 					// do number logic
 				} else if(CharGenerator.curC == '=') {
 					// check if next one is equals as well
+					curToken = nextToken;
 					if(CharGenerator.nextC == '=') {
-						curToken = equalToken; // boolean equal
+						nextToken = equalToken; // boolean equal
 					} else {
-						curToken = assignToken;
+						nextToken = assignToken;
 					}
 					readNextHelper();
 				} else if(CharGenerator.curC == '>') {
 					// check if next one is equals
-				} else if(CharGenerator.curC == '>') {
+					curToken = nextToken;
+					if(CharGenerator.nextC == '=') {
+						nextToken = greaterEqualToken; // boolean equal
+					} else {
+						nextToken = greaterToken;
+					}
+					readNextHelper();
+				} else if(CharGenerator.curC == '<') {
 					// check if next one is equals
+					curToken = nextToken;
+					if(CharGenerator.nextC == '=') {
+						nextToken = lessEqualToken; // boolean equal
+					} else {
+						nextToken = lessToken;
+					}
+					readNextHelper();
 				} else if(isLetterAZ(CharGenerator.curC) || CharGenerator.curC == '_') {
 					// it's a word, an int, an if, and else or 
 				}
