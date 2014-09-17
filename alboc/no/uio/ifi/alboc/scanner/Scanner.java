@@ -47,37 +47,48 @@ public class Scanner {
 				}
 				//first we pick up the simple ones:
 				else if(CharGenerator.curC == '+') {
-					curToken = addToken;
+					curToken = nextToken;
+					nextToken = addToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '&') {
-					curToken = ampToken;
+					curToken = nextToken;
+					nextToken = ampToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ',') {
-					curToken = commaToken;
+					curToken = nextToken;
+					nextToken = commaToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '[') {
-					curToken = leftBrackToken;
+					curToken = nextToken;
+					nextToken = leftBrackToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '(') {
-					curToken = leftParToken;
+					curToken = nextToken;
+					nextToken = leftParToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '{') {
-					curToken = leftCurlToken;
+					curToken = nextToken;
+					nextToken = leftCurlToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ']') {
-					curToken = rightBrackToken;
+					curToken = nextToken;
+					nextToken = rightBrackToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ')') {
-					curToken = rightParToken;
+					curToken = nextToken;
+					nextToken = rightParToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '}') {
-					curToken = rightCurlToken;
+					curToken = nextToken;
+					nextToken = rightCurlToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == ';') {
-					curToken = semiColonToken;
+					curToken = nextToken;
+					nextToken = semiColonToken;
 					readNextHelper();
 				} else if(CharGenerator.curC == '*') {
-					curToken = starToken;
+					curToken = nextToken;
+					nextToken = starToken;
 					readNextHelper();
 				// we get a bit more advanced
 				} else if(isNumber(charGenerator.curC) == true) {
