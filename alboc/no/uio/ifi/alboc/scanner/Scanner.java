@@ -78,7 +78,18 @@ public class Scanner {
 				nextToken = semicolonToken;
 			} else if(CharGenerator.curC == '*') {
 				nextToken = starToken;
+			} else if(CharGenerator.curC == '-') {
+				nextToken = subtractToken;
+			} else if(CharGenerator.curC == '/') {
+				nextToken = divideToken;
+			}
 			// we get a bit more advanced
+			else if (CharGenerator.curC == '\'') {
+				CharGenerator.readNext();
+				nextToken = numberToken;
+				nextNum = (int) CharGenerator.curC;
+				CharGenerator.readNext();
+			
 			} else if((isNumber(CharGenerator.curC)) == true) {
 				String num = ""+CharGenerator.curC; // initial number
 
@@ -147,6 +158,10 @@ public class Scanner {
 		Log.noteToken();
 		CharGenerator.readNext();
 		
+	}
+
+	private static int convertCharToInt(char c) {
+
 	}
 	
 	private static boolean isNumber(char c) {
