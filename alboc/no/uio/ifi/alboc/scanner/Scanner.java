@@ -33,26 +33,13 @@ public class Scanner {
 		curNum = nextNum;
 		curLine = nextLine;
 		nextToken = null;
+		private boolean testSpacesAndComments = true;
 			
 		
 		while(nextToken == null) {
 			nextLine = CharGenerator.curLineNum();
-			// check if space
-			while(CharGenerator.curC == ' ') {
-				CharGenerator.readNext();
-			}
-
-			// check for comment blocks
-			if(CharGenerator.curC == '/' && CharGenerator.nextC == '*') {
-				CharGenerator.readNext();
-				CharGenerator.readNext(); // read past these two
-
-				while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
-					CharGenerator.readNext();
-				}
-				CharGenerator.readNext();
-				CharGenerator.readNext();
-			}
+			
+			while(testSpacesAndComments) removeTrash(testSpacesAndComments);
 				
 			if (!CharGenerator.isMoreToRead()) {
 				nextToken = eofToken;
@@ -164,8 +151,28 @@ public class Scanner {
 		}
 		//System.out.println("\t" + nextToken);
 		Log.noteToken();
-		CharGenerator.readNext();
-		
+		CharGenerator.readNext();	
+	}
+
+	private removeTrash(boolean test) {
+		test = false;
+		while(CharGenerator.curC == ' ') {
+			test = true;
+			CharGenerator.readNext();
+		}
+
+		// check for comment blocks
+		if(CharGenerator.curC == '/' && CharGenerator.nextC == '*') {
+			test = true;
+			CharGenerator.readNext();
+			CharGenerator.readNext(); // read past these two
+
+			while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
+				CharGenerator.readNext();
+			}
+			CharGenerator.readNext();
+			CharGenerator.readNext();
+		}
 	}
 	
 	private static boolean isNumber(char c) {
