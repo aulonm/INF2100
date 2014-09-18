@@ -142,9 +142,7 @@ public class Scanner {
 			}
 			Log.noteToken();
 			CharGenerator.readNext();
-			
 		}
-		Log.noteToken();
 	}
 	
 	private static boolean isNumber(char c) {
