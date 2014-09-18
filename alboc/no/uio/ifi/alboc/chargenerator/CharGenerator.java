@@ -20,6 +20,7 @@ public class CharGenerator {
 	private static String sourceLine;
 	private static int sourcePos;
 	private static int lineNum;
+	private static boolean logLine;
 
 	public static void init() {
 		try {
@@ -31,6 +32,7 @@ public class CharGenerator {
 		sourcePos = 0;
 		curC = nextC = ' ';
 		lineNum = 1;
+		logLine = false;
 		readNext();
 		readNext();
 		
@@ -58,8 +60,6 @@ public class CharGenerator {
 	}
 
 	public static void readNext() {
-		System.out.println("CurC \t nextC");
-		System.out.println(curC + "\t" + nextC);
 		curC = nextC;
 		if (!isMoreToRead())
 			return;
@@ -70,9 +70,15 @@ public class CharGenerator {
 			// Reads an entire line
 			try {
 				sourceLine = sourceFile.readLine();
-				while(sourceLine.length() == 0){
+				System.out.println(sourceLine);
+				logLine = true;
+				while(sourceLine != null && sourceLine.length() == 0){
 					Log.noteSourceLine(lineNum, sourceLine);
 					lineNum++;
+					if(sourceLine == null){
+						nextC = 0x03;
+						return;
+					}
 					sourceLine = sourceFile.readLine();
 				}
 			} catch (IOException e) {
@@ -80,19 +86,15 @@ public class CharGenerator {
 				e.printStackTrace();
 			}
 			// Checks if that new line i null, eof
-			
 			if (sourceLine == null){
 				nextC = 0x03;
 				return;
 			}
 			Log.noteSourceLine(lineNum, sourceLine);
-			//System.out.println(lineNum + "\t " + sourceLine);
 			lineNum++;
-			// Checks if there are any single-line comments
-			
 			if (sourceLine.charAt(0) == '#')
 				readNextHelper();
-			nextC = 0x20;
+			nextC = ' ';
 		}
 		// charAt(position) is assigned to nextC
 		else{
@@ -108,12 +110,12 @@ public class CharGenerator {
 	private static void readNextHelper(){
 		try {
 			sourceLine = sourceFile.readLine();
+			logLine = true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Log.noteSourceLine(lineNum, sourceLine);
-		//System.out.println(lineNum + "\t " + sourceLine);
 		lineNum++;
 		readNext();
 	}
