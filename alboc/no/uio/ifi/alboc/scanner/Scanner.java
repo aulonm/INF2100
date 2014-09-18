@@ -107,7 +107,10 @@ public class Scanner {
 				nextNum = Integer.parseInt(num); // convert string representation of the int to an integer
 
 
-			} else if(CharGenerator.curC == '=') {
+			} else if(CharGenerator.curC == '!' && CharGenerator.nextC == '=') {
+				nextToken = notEqualToken;
+				CharGenerator.readNext()
+			}else if(CharGenerator.curC == '=') {
 				// check if next one is equals as well
 				if(CharGenerator.nextC == '=') {
 					nextToken = equalToken; // boolean equal
