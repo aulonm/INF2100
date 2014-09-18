@@ -96,9 +96,9 @@ public class Log {
 			return;
 
 		String logString = "Scanner:	";
-		if(Scanner.curToken == Token.nameToken) logString += "nameToken " + Scanner.curName;
-		else if(Scanner.curToken == Token.numberToken)  logString += "numberToken " + Scanner.curNum;
-		else logString += Scanner.curToken;
+		if(Scanner.nextToken == Token.nameToken) logString += "nameToken " + Scanner.nextName;
+		else if(Scanner.nextToken == Token.numberToken)  logString += "numberToken " + Scanner.curNum;
+		else logString += Scanner.nextToken;
 
 		writeLogLine(logString);
 		// -- Must be changed in part 0:

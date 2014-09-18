@@ -28,6 +28,7 @@ public class Scanner {
 
 	public static void readNext() {
 		curToken = nextToken;
+		System.out.println("" + curToken);
 		curName = nextName;
 		curNum = nextNum;
 		curLine = nextLine;
@@ -111,13 +112,16 @@ public class Scanner {
 			}
 			
 		} else if(isLetterAZ(CharGenerator.curC) == true) {
+			//System.out.println("Gaar inn");
 			String name = "";
 			while(isLetterAZ(CharGenerator.curC) == true) {
 				name += CharGenerator.curC; // generate complete string
 				CharGenerator.readNext(); // increment by one
 			}
+			//System.out.println("" + name);
 			// now check if it's a name or something specific.
 			if(name.equals("int")){
+				nextToken = intToken;
 			}
 			else if(name.equals("for")) nextToken = forToken;
 			else if(name.equals("else")) nextToken = elseToken;
@@ -132,8 +136,10 @@ public class Scanner {
 			Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
 					+ "'!");
 		}
+		System.out.println("\t" + nextToken);
 		Log.noteToken();
 		CharGenerator.readNext();
+		
 	}
 	
 	private static boolean isNumber(char c) {

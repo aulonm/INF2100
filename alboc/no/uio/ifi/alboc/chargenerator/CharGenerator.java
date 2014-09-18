@@ -59,13 +59,12 @@ public class CharGenerator {
 
 	public static void readNext() {
 		curC = nextC;
-
 		if (!isMoreToRead())
 			return;
 		// If position is bigger than sourceLine-1 then this happens
+		System.out.println(curC+ "\t" + sourcePos + "\t" + sourceLine.length());
 		if (sourcePos > sourceLine.length() - 1) {
 			sourcePos = 0;
-			// charAt(position) is assigned to nextC
 			// Reads an entire line
 			try {
 				sourceLine = sourceFile.readLine();
@@ -74,14 +73,17 @@ public class CharGenerator {
 				e.printStackTrace();
 			}
 			// Checks if that new line i null, eof
-			if (sourceLine == null)
+			if (sourceLine == null){
 				return;
+			}
 			Log.noteSourceLine(lineNum, sourceLine);
 			//System.out.println(lineNum + "\t " + sourceLine);
 			lineNum++;
 			// Checks if there are any single-line comments
+			
 			if (sourceLine.charAt(sourcePos) == '#')
 				readNextHelper();
+			nextC = ' ';
 		}
 		// charAt(position) is assigned to nextC
 		else{
@@ -90,9 +92,9 @@ public class CharGenerator {
 			else{
 				nextC = sourceLine.charAt(sourcePos);
 				sourcePos++;
-			}
-				
+			}		
 		}
+		
 	}
 	private static void readNextHelper(){
 		try {
