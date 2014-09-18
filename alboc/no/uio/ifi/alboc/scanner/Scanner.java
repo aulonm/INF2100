@@ -92,7 +92,7 @@ public class Scanner {
 				//System.out.println("" + nextToken);
 				nextToken = numberToken;
 				nextNum = (int) CharGenerator.curC;
-				System.out.println("" + nextNum);
+				//System.out.println("" + nextNum);
 				CharGenerator.readNext();
 			
 			} else if((isNumber(CharGenerator.curC)) == true) {
@@ -109,8 +109,8 @@ public class Scanner {
 
 			} else if(CharGenerator.curC == '!' && CharGenerator.nextC == '=') {
 				nextToken = notEqualToken;
-				CharGenerator.readNext()
-			}else if(CharGenerator.curC == '=') {
+				CharGenerator.readNext();
+			} else if(CharGenerator.curC == '=') {
 				// check if next one is equals as well
 				if(CharGenerator.nextC == '=') {
 					nextToken = equalToken; // boolean equal
