@@ -39,7 +39,6 @@ public class Scanner {
 		// check if space
 		while(CharGenerator.curC == ' ') {
 			CharGenerator.readNext();
-			
 		}
 
 		// check for comment blocks
