@@ -48,7 +48,7 @@ public class CharGenerator {
 	}
 
 	public static boolean isMoreToRead() {
-		if (sourceLine == null)
+		if ((sourceLine == null) && (curC == 0x03))
 			return false;
 		return true;
 	}
@@ -74,6 +74,7 @@ public class CharGenerator {
 			}
 			// Checks if that new line i null, eof
 			if (sourceLine == null){
+				nextC = 0x03;
 				return;
 			}
 			Log.noteSourceLine(lineNum, sourceLine);

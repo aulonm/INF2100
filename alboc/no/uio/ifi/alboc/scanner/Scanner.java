@@ -28,12 +28,14 @@ public class Scanner {
 
 	public static void readNext() {
 		curToken = nextToken;
-		System.out.println("" + curToken);
+		//System.out.println("" + curToken);
 		curName = nextName;
 		curNum = nextNum;
 		curLine = nextLine;
 		nextToken = null;
 			
+		
+		
 		// check if space
 		while(CharGenerator.curC == ' ') {
 			CharGenerator.readNext();
