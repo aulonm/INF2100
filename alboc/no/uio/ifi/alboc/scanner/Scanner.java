@@ -31,11 +31,7 @@ public class Scanner {
 		curName = nextName;
 		curNum = nextNum;
 		curLine = nextLine;
-
 		nextToken = null;
-		while (nextToken == null) {
-			nextLine = CharGenerator.curLineNum();
-		}
 			
 		// check if space
 		while(CharGenerator.curC == ' ') {
