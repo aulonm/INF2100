@@ -19,8 +19,7 @@ public class CharGenerator {
 	private static LineNumberReader sourceFile = null;
 	private static String sourceLine;
 	private static int sourcePos;
-	private static int it;
-	private static int i;
+	private static int lineNum;
 
 	public static void init() {
 		try {
@@ -31,6 +30,7 @@ public class CharGenerator {
 		sourceLine = "";
 		sourcePos = 0;
 		curC = nextC = ' ';
+		lineNum = 1;
 		readNext();
 		readNext();
 		
@@ -76,6 +76,9 @@ public class CharGenerator {
 			// Checks if that new line i null, eof
 			if (sourceLine == null)
 				return;
+			Log.noteSourceLine(lineNum, sourceLine);
+			//System.out.println(lineNum + "\t " + sourceLine);
+			lineNum++;
 			// Checks if there are any single-line comments
 			if (sourceLine.charAt(sourcePos) == '#')
 				readNextHelper();
@@ -98,6 +101,9 @@ public class CharGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Log.noteSourceLine(lineNum, sourceLine);
+		//System.out.println(lineNum + "\t " + sourceLine);
+		lineNum++;
 		readNext();
 	}
 }

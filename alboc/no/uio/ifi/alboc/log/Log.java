@@ -36,6 +36,7 @@ public class Log {
 			log.println(data);
 			++nLogLines;
 			log.close();
+			System.out.println("i did this");
 		} catch (FileNotFoundException e) {
 			nLogLines = 0; // To avoid infinite recursion
 							// Error.error -> Log.noteError -> Log.writeLogLine
@@ -46,7 +47,7 @@ public class Log {
 
 	/*
 	 * Make a note in the log file that an error has occured. (If the log file
-	 * is not in use, request is ignored.)
+	 * is not in use, request is ignored.) 
 	 * 
 	 * @param message The error message
 	 */
@@ -81,8 +82,8 @@ public class Log {
 	public static void noteSourceLine(int lineNum, String line) {
 		if (!doLogParser && !doLogScanner)
 			return;
-
-		// -- Must be changed in part 0:
+		String data = "\t" + lineNum + ": " + line;
+		writeLogLine(data);
 	}
 
 	/**
