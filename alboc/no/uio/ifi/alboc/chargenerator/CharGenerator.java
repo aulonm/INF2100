@@ -20,6 +20,7 @@ public class CharGenerator {
 	private static String sourceLine;
 	private static int sourcePos;
 	private static int lineNum;
+	private static boolean logLine;
 
 	public static void init() {
 		try {
@@ -31,6 +32,7 @@ public class CharGenerator {
 		sourcePos = 0;
 		curC = nextC = ' ';
 		lineNum = 1;
+		logLine = false;
 		readNext();
 		readNext();
 		
@@ -58,16 +60,25 @@ public class CharGenerator {
 	}
 
 	public static void readNext() {
+		
+		
 		curC = nextC;
 		if (!isMoreToRead())
 			return;
+		if (logLine == true){
+			Log.noteSourceLine(lineNum, sourceLine);
+			//System.out.println(lineNum + "\t " + sourceLine);
+			lineNum++;
+			logLine = false;
+		}
 		// If position is bigger than sourceLine-1 then this happens
-		System.out.println(curC+ "\t" + sourcePos + "\t" + sourceLine.length());
+		//System.out.println(curC+ "\t" + sourcePos + "\t" + sourceLine.length());
 		if (sourcePos > sourceLine.length() - 1) {
 			sourcePos = 0;
 			// Reads an entire line
 			try {
 				sourceLine = sourceFile.readLine();
+				logLine = true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -77,18 +88,16 @@ public class CharGenerator {
 				nextC = 0x03;
 				return;
 			}
-			Log.noteSourceLine(lineNum, sourceLine);
-			//System.out.println(lineNum + "\t " + sourceLine);
-			lineNum++;
+			
 			// Checks if there are any single-line comments
 			
-			if (sourceLine.charAt(sourcePos) == '#')
+			if (sourceLine.charAt(0) == '#')
 				readNextHelper();
 			nextC = ' ';
 		}
 		// charAt(position) is assigned to nextC
 		else{
-			if(sourceLine.charAt(sourcePos) == '#')
+			if(sourceLine.charAt(0) == '#')
 				readNextHelper();
 			else{
 				nextC = sourceLine.charAt(sourcePos);
@@ -100,13 +109,11 @@ public class CharGenerator {
 	private static void readNextHelper(){
 		try {
 			sourceLine = sourceFile.readLine();
+			logLine = true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.noteSourceLine(lineNum, sourceLine);
-		//System.out.println(lineNum + "\t " + sourceLine);
-		lineNum++;
 		readNext();
 	}
 }

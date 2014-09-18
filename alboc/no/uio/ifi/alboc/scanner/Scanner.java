@@ -50,6 +50,8 @@ public class Scanner {
 				while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
 					CharGenerator.readNext();
 				}
+				CharGenerator.readNext();
+				CharGenerator.readNext();
 			}
 				
 			if (!CharGenerator.isMoreToRead()) {
@@ -85,9 +87,12 @@ public class Scanner {
 			}
 			// we get a bit more advanced
 			else if (CharGenerator.curC == '\'') {
+				//System.out.println(CharGenerator.curC + "   " + CharGenerator.nextC);
 				CharGenerator.readNext();
+				//System.out.println("" + nextToken);
 				nextToken = numberToken;
 				nextNum = (int) CharGenerator.curC;
+				System.out.println("" + nextNum);
 				CharGenerator.readNext();
 			
 			} else if((isNumber(CharGenerator.curC)) == true) {
@@ -154,14 +159,10 @@ public class Scanner {
 						+ "'!");
 			}
 		}
-		System.out.println("\t" + nextToken);
+		//System.out.println("\t" + nextToken);
 		Log.noteToken();
 		CharGenerator.readNext();
 		
-	}
-
-	private static int convertCharToInt(char c) {
-
 	}
 	
 	private static boolean isNumber(char c) {
