@@ -128,7 +128,7 @@ public class Scanner {
 			} else if(isLetterAZ(CharGenerator.curC) == true) {
 				//System.out.println("Gaar inn");
 				String name = "" + CharGenerator.curC;
-				while(isLetterAZ(CharGenerator.nextC) == true) {
+				while(isLetterAZ(CharGenerator.nextC) == true || isNumber(CharGenerator.nextC) == true) {
 					name += CharGenerator.nextC; // generate complete string
 					CharGenerator.readNext(); // increment by one
 				}
@@ -141,6 +141,7 @@ public class Scanner {
 				else if(name.equals("else")) nextToken = elseToken;
 				else if(name.equals("return")) nextToken = returnToken;
 				else if(name.equals("while")) nextToken = whileToken;
+				else if(name.equals("if")) nextToken = ifToken;
 				else {
 					nextToken = nameToken;
 					nextName = name;
