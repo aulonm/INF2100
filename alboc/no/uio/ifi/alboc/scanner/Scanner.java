@@ -140,6 +140,7 @@ public class Scanner {
 				Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
 						+ "'!");
 			}
+			Log.noteToken();
 			CharGenerator.readNext();
 			
 		}
