@@ -19,7 +19,8 @@ public class CharGenerator {
 	private static LineNumberReader sourceFile = null;
 	private static String sourceLine;
 	private static int sourcePos;
-	private static int sourceLength;
+	private static int it;
+	private static int i;
 
 	public static void init() {
 		try {
@@ -32,6 +33,8 @@ public class CharGenerator {
 		curC = nextC = ' ';
 		readNext();
 		readNext();
+		
+
 	}
 
 	public static void finish() {
@@ -45,7 +48,7 @@ public class CharGenerator {
 	}
 
 	public static boolean isMoreToRead() {
-		if(sourceLine == null)
+		if (sourceLine == null)
 			return false;
 		return true;
 	}
@@ -56,31 +59,45 @@ public class CharGenerator {
 
 	public static void readNext() {
 		curC = nextC;
-		
+
 		if (!isMoreToRead())
 			return;
-		try {
-			// If position is bigger than sourceLine-1 then this happens
-			if (sourcePos > sourceLine.length()-1){
-				// charAt(position) is assigned to nextC
+		// If position is bigger than sourceLine-1 then this happens
+		if (sourcePos > sourceLine.length() - 1) {
+			sourcePos = 0;
+			// charAt(position) is assigned to nextC
+			// Reads an entire line
+			try {
+				sourceLine = sourceFile.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Checks if that new line i null, eof
+			if (sourceLine == null)
+				return;
+			// Checks if there are any single-line comments
+			if (sourceLine.charAt(sourcePos) == '#')
+				readNextHelper();
+		}
+		// charAt(position) is assigned to nextC
+		else{
+			if(sourceLine.charAt(sourcePos) == '#')
+				readNextHelper();
+			else{
 				nextC = sourceLine.charAt(sourcePos);
 				sourcePos++;
-				// Reads an entire line
-				sourceLine = sourceFile.readLine();
-				// Checks if that new line i null, eof
-				if(sourceLine == null)
-					return;
-				// Checks if there are any single-line comments
-				if(sourceLine.charAt(0) == '#')
-					sourceLine = sourceFile.readLine();
-				// Resets the position
-				sourcePos = 0;
 			}
-			// charAt(position) is assigned to nextC
-			nextC = sourceLine.charAt(sourcePos);
-			sourcePos++;
-		} catch (Exception e) {
+				
+		}
+	}
+	private static void readNextHelper(){
+		try {
+			sourceLine = sourceFile.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		readNext();
 	}
 }
