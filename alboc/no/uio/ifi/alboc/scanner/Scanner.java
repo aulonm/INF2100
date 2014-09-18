@@ -17,7 +17,8 @@ public class Scanner {
 	public static String curName, nextName;
 	public static int curNum, nextNum;
 	public static int curLine, nextLine;
-
+	private static boolean testSpacesAndComments;
+	
 	public static void init() {
 		// -- Must be changed in part 0:	
 	}
@@ -33,14 +34,15 @@ public class Scanner {
 		curNum = nextNum;
 		curLine = nextLine;
 		nextToken = null;
-		private boolean testSpacesAndComments = true;
+		testSpacesAndComments = true;
 			
 		
 		while(nextToken == null) {
 			nextLine = CharGenerator.curLineNum();
 			
-			while(testSpacesAndComments) removeTrash(testSpacesAndComments);
-				
+			while(testSpacesAndComments){ 
+				removeTrash();
+			}	
 			if (!CharGenerator.isMoreToRead()) {
 				nextToken = eofToken;
 			}
@@ -145,7 +147,7 @@ public class Scanner {
 				}
 				// done checking the tokens
 			} else { // catch illegal tokens
-				Error.error(nextLine, "Illegal symbol: '" + CharGenerator.curC
+				Error.error(nextLine, "Illegal symbol: '" + ((int) CharGenerator.curC)
 						+ "'!");
 			}
 		}
@@ -154,16 +156,17 @@ public class Scanner {
 		CharGenerator.readNext();	
 	}
 
-	private removeTrash(boolean test) {
-		test = false;
+	private static void removeTrash() {
+		testSpacesAndComments = false;
+		
 		while(CharGenerator.curC == ' ') {
-			test = true;
+			testSpacesAndComments = true;
 			CharGenerator.readNext();
 		}
 
 		// check for comment blocks
 		if(CharGenerator.curC == '/' && CharGenerator.nextC == '*') {
-			test = true;
+			testSpacesAndComments = true;
 			CharGenerator.readNext();
 			CharGenerator.readNext(); // read past these two
 
