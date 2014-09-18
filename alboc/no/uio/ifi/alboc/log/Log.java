@@ -66,7 +66,6 @@ public class Log {
 	public static void leaveParser(String symbol) {
 		if (!doLogParser)
 			return;
-
 		// -- Must be changed in part 1:
 	}
 
@@ -95,6 +94,12 @@ public class Log {
 		if (!doLogScanner)
 			return;
 
+		String logString = "Scanner:	";
+		if(Scanner.curToken == Token.nameToken) logString += "nameToken " + Scanner.curName;
+		else if(Scanner.curToken == Token.numberToken)  logString += "numberToken " + Scanner.curNum;
+		else logString += Scanner.curToken;
+
+		writeLogLine(logString);
 		// -- Must be changed in part 0:
 	}
 
