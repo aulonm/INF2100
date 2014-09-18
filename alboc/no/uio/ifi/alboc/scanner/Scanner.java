@@ -50,6 +50,7 @@ public class Scanner {
 				while(! (CharGenerator.curC == '*' && CharGenerator.nextC == '/')) { // while NOT we hit */ keep skipping
 					CharGenerator.readNext();
 				}
+
 			}
 				
 			if (!CharGenerator.isMoreToRead()) {
@@ -100,8 +101,9 @@ public class Scanner {
 				}
 				nextToken = numberToken;
 				nextNum = Integer.parseInt(num); // convert string representation of the int to an integer
-
-
+			} else if(CharGenerator.curC == '!' && CharGenerator.nextC == '=') {
+				nextToken = notEqualToken;
+				CharGenerator.readNext()
 			} else if(CharGenerator.curC == '=') {
 				// check if next one is equals as well
 				if(CharGenerator.nextC == '=') {
