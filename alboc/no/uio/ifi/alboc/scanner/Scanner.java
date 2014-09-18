@@ -159,7 +159,7 @@ public class Scanner {
 	private static void removeTrash() {
 		testSpacesAndComments = false;
 		
-		while(CharGenerator.curC == ' ') {
+		while(CharGenerator.curC == ' '  || CharGenerator.curC == 0x09) {
 			testSpacesAndComments = true;
 			CharGenerator.readNext();
 		}
