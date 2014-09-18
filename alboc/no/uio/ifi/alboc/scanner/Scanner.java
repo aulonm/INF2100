@@ -78,13 +78,17 @@ public class Scanner {
 			nextToken = starToken;
 		// we get a bit more advanced
 		} else if((isNumber(CharGenerator.curC)) == true) {
-			String num = ""; // initial empty string
-			while((isNumber(CharGenerator.curC)) == true) {
-				num += CharGenerator.curC;
+			String num = ""+CharGenerator.curC; // initial number
+
+
+			while((isNumber(CharGenerator.nextC)) == true) {
+				num += CharGenerator.nextC;
 				CharGenerator.readNext(); // increment by one
 			}
 			nextToken = numberToken;
 			nextNum = Integer.parseInt(num); // convert string representation of the int to an integer
+
+
 		} else if(CharGenerator.curC == '=') {
 			// check if next one is equals as well
 			if(CharGenerator.nextC == '=') {
@@ -113,9 +117,9 @@ public class Scanner {
 			
 		} else if(isLetterAZ(CharGenerator.curC) == true) {
 			//System.out.println("Gaar inn");
-			String name = "";
-			while(isLetterAZ(CharGenerator.curC) == true) {
-				name += CharGenerator.curC; // generate complete string
+			String name = "" + CharGenerator.curC;
+			while(isLetterAZ(CharGenerator.nextC) == true) {
+				name += CharGenerator.nextC; // generate complete string
 				CharGenerator.readNext(); // increment by one
 			}
 			//System.out.println("" + name);
