@@ -4,6 +4,7 @@ package no.uio.ifi.alboc.syntax;
  * module Syntax
  */
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import no.uio.ifi.alboc.alboc.AlboC;
 import no.uio.ifi.alboc.code.Code;
 import no.uio.ifi.alboc.error.Error;
@@ -749,6 +750,7 @@ class IfStatm extends Statement {
  */
 class ReturnStatm extends Statement{
     // -- mUST BE CHANGED IN PART 1+2
+    Expression e;
 
     @Override
     void check(DeclList curDecls) {
@@ -762,7 +764,14 @@ class ReturnStatm extends Statement{
 
     static ReturnStatm parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<return-statm>");
+
+        ReturnStatm rs = new ReturnStatm();
+        Scanner.skip(returnToken);
+        rs.e = Expression.parse();
+        Scanner.skip(semicolonToken);
+        Log.leaveParser("</return-statm>");
+        return rs;
     }
 
     @Override
