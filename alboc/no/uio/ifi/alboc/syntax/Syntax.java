@@ -509,7 +509,7 @@ class FuncDecl extends Declaration {
  */
 class StatmList extends SyntaxUnit {
 	// -- Must be changed in part 1:
-    StatmList first = null;
+    Statement first = null;
 
 
 	@Override
@@ -529,8 +529,18 @@ class StatmList extends SyntaxUnit {
 		Statement lastStatm = null;
 		while (Scanner.curToken != rightCurlToken) {
 			// -- Must be changed in part 1:
+            if(sl.first == null){
+                sl.first = Statement.parse();
+            }
+            else{
+                lastStatm = sl.first;
+                while(lastStatm.nextStatm != null){
+                    lastStatm = lastStatm.nextStatm;
+                }
+                lastStatm.nextStatm = Statement.parse();
+            }
 		}
-
+        Scanner.skip(rightCurlToken);
 		Log.leaveParser("</statm list>");
 		return sl;
 	}
