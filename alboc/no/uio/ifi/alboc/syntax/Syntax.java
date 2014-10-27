@@ -535,9 +535,11 @@ abstract class Statement extends SyntaxUnit {
 		Statement s = null;
 		if (Scanner.curToken == nameToken && Scanner.nextToken == leftParToken) {
 			// -- Must be changed in part 1:
+            s = CallStatm.parse();
 		} else if (Scanner.curToken == nameToken
 				|| Scanner.curToken == starToken) {
 			// -- Must be changed in part 1:
+            s = AssignStatm.parse();
 		} else if (Scanner.curToken == forToken) {
 			// -- Must be changed in part 1:
             s = ForStatm.parse();
@@ -557,6 +559,34 @@ abstract class Statement extends SyntaxUnit {
 		Log.leaveParser("</statement>");
 		return s;
 	}
+}
+
+
+/*
+ * An <call-statm>.
+ */
+class CallStatm extends Statement {
+    // -- Must be changed in part 1+2:
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static CallStatm parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
 }
 
 /*
@@ -591,6 +621,8 @@ class EmptyStatm extends Statement {
  */
 class ForStatm extends Statement {
     // -- Must be changed in part 1+2:
+    ForControl control;
+    StatmList statmlist;
 
     @Override
     void check(DeclList curDecls) {
@@ -603,6 +635,46 @@ class ForStatm extends Statement {
     }
 
     static ForStatm parse() {
+        // -- Must be changed in part 1:
+        Log.enterParser("for-statm");
+        
+        ForStatm fs = new ForStatm();
+        Scanner.skip(forToken);
+        Scanner.skip(leftParToken);
+        fs.control = ForControl.parse();
+        Scanner.skip(rightParToken);
+        Scanner.skip(leftCurlToken);
+        fs.statmlist = StatmList.parse();
+        Scanner.skip(rightCurlToken);
+
+        Log.leaveParser("</for-statm>");
+        return fs;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
+
+
+/*
+ * a <for-control>
+ */
+class ForControl extends Statement {
+    // -- Must be changed in part 1+2:
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static ForControl parse() {
         // -- Must be changed in part 1:
         return null;
     }
