@@ -968,6 +968,8 @@ class AssignStatm extends Statement{
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        a.printTree();
+        Log.wTree(";");
     }
 }
 
