@@ -615,6 +615,7 @@ class EmptyStatm extends Statement {
         return es;
 	}
 
+
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
@@ -655,10 +656,16 @@ class ForStatm extends Statement {
         Log.leaveParser("</for-statm>");
         return fs;
     }
-
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        Log.wTree("for (");
+        control.printTree();
+        Log.wTreeLn(") {");
+        Log.indentTree();
+        statmlist.printTree();
+        Log.outdentTree();
+        Log.wTreeLn("}");
     }
 }
 
@@ -706,6 +713,11 @@ class ForControl extends Statement {
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        first.printTree();
+        Log.wTree(";");
+        e.printTree();
+        Log.wTree("}");
+        second.printTree();
     }
 }
 
@@ -974,6 +986,9 @@ class Assignment extends Statement{
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        lhs.printTree();
+        Log.wTree("=");
+        e.printTree();
     }
 }
 
