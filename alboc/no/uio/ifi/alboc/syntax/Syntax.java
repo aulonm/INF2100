@@ -1128,6 +1128,63 @@ class Term extends SyntaxUnit {
 }
 
 /*
+ * A <factor>
+ */
+class Factor extends Term {
+    // -- Must be changed in part 1+2:
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static Factor parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
+
+
+/*
+ * A <primary>
+ */
+class Primary extends SyntaxUnit {
+    // -- Must be changed in part 1+2:
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static Primary parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
+
+
+
+/*
  * An <operator>
  */
 abstract class Operator extends SyntaxUnit {
