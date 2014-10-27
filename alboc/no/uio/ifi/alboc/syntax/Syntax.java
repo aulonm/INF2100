@@ -766,10 +766,34 @@ class IfStatm extends Statement {
         return is;
 
 	}
+    //    void printTree() {
+//        Log.wTree("while (");
+//        test.printTree();
+//        Log.wTreeLn(") {");
+//        Log.indentTree();
+//        body.printTree();
+//        Log.outdentTree();
+//        Log.wTreeLn("}");
+//    }
 
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Log.wTree("if (");
+        e.printTree();
+        Log.wTreeLn(") {");
+        Log.indentTree();
+        ifList.printTree();
+        Log.outdentTree();
+        Log.wTreeLn("}");
+        if(elseList != null) {
+            Log.wTreeLn("else {");
+            Log.indentTree();
+            elseList.printTree();
+            Log.outdentTree();
+            Log.wTreeLn("}");
+        }
+
 	}
 }
 
