@@ -540,10 +540,12 @@ abstract class Statement extends SyntaxUnit {
 			// -- Must be changed in part 1:
 		} else if (Scanner.curToken == forToken) {
 			// -- Must be changed in part 1:
+            s = ForStatm.parse();
 		} else if (Scanner.curToken == ifToken) {
 			s = IfStatm.parse();
 		} else if (Scanner.curToken == returnToken) {
 			// -- Must be changed in part 1:
+            s = ReturnStatm.parse();
 		} else if (Scanner.curToken == whileToken) {
 			s = WhileStatm.parse();
 		} else if (Scanner.curToken == semicolonToken) {
@@ -610,8 +612,6 @@ class ForStatm extends Statement {
         // -- Must be changed in part 1:
     }
 }
-
-
 
 /*
  * An <if-statm>.
