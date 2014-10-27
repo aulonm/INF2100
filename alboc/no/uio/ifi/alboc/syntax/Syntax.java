@@ -766,15 +766,7 @@ class IfStatm extends Statement {
         return is;
 
 	}
-    //    void printTree() {
-//        Log.wTree("while (");
-//        test.printTree();
-//        Log.wTreeLn(") {");
-//        Log.indentTree();
-//        body.printTree();
-//        Log.outdentTree();
-//        Log.wTreeLn("}");
-//    }
+
 
 	@Override
 	void printTree() {
@@ -829,6 +821,9 @@ class ReturnStatm extends Statement{
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        Log.wTree("return ");
+        e.printTree();
+        Log.wTree(";");
     }
 }
 
