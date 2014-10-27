@@ -669,6 +669,7 @@ class ForStatm extends Statement {
 class ForControl extends Statement {
     // -- Must be changed in part 1+2:
     Expression e;
+    Assignment first, second;
 
 
     @Override
@@ -684,6 +685,21 @@ class ForControl extends Statement {
     static ForControl parse() {
         // -- Must be changed in part 1:
         ForControl fc = new ForControl();
+        // Usikker om dette trengs? Greit aa dobbeltsjekke kanskje?
+        if(Scanner.curToken == nameToken
+                || Scanner.curToken == starToken){
+            fc.first = Assignment.parse();
+        }
+
+        Scanner.skip(semicolonToken);
+        fc.e = Expression.parse();
+        Scanner.skip(semicolonToken);
+
+        if(Scanner.curToken == nameToken
+                || Scanner.curToken == starToken){
+            fc.second = Assignment.parse();
+        }
+
         return fc;
     }
 
