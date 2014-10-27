@@ -897,6 +897,7 @@ class LhsVariable extends SyntaxUnit {
  */
 class AssignStatm extends Statement{
     // -- mUST BE CHANGED IN PART 1+2
+    Assignment a;
 
     @Override
     void check(DeclList curDecls) {
@@ -910,7 +911,11 @@ class AssignStatm extends Statement{
 
     static AssignStatm parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<assign-statm>");
+        AssignStatm as = new AssignStatm();
+        as.a = Assignment.parse();
+        Scanner.skip(semicolonToken);
+        return as;
     }
 
     @Override
