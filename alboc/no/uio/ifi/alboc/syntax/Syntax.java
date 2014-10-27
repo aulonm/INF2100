@@ -138,8 +138,18 @@ abstract class DeclList extends SyntaxUnit {
 		// -- Must be changed in part 1:
 	}
 
-	void addDecl(Declaration d) {
+    void addDecl(Declaration d) {
 		// -- Must be changed in part 1:
+        if(firstDecl == null){
+            firstDecl = d;
+            return;
+        }
+        else{
+            Declaration prevDecl = firstDecl;
+            while(prevDecl.nextDecl != null)
+                prevDecl = prevDecl.nextDecl;
+            prevDecl.nextDecl = d;
+        }
 	}
 
 	int dataSize() {
