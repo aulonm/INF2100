@@ -587,6 +587,31 @@ class EmptyStatm extends Statement {
 /*
  * A <for-statm>.
  */
+class ForStatm extends Statement {
+    // -- Must be changed in part 1+2:
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static ForStatm parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
+
+
 
 /*
  * An <if-statm>.
