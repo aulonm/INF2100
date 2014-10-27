@@ -779,6 +779,59 @@ class LhsVariable extends SyntaxUnit {
 		var.printTree();
 	}
 }
+/*
+ * An <assign-statm>
+ */
+class AssignStatm extends Statement{
+    // -- mUST BE CHANGED IN PART 1+2
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static AssignStatm parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
+
+/*
+ * An <assignment>
+ */
+class Assignment extends Statement{
+    // -- mUST BE CHANGED IN PART 1+2
+
+    @Override
+    void check(DeclList curDecls) {
+        // -- Must be changed in part 2:
+    }
+
+    @Override
+    void genCode(FuncDecl curFunc) {
+        // -- Must be changed in part 2:
+    }
+
+    static Assignment parse() {
+        // -- Must be changed in part 1:
+        return null;
+    }
+
+    @Override
+    void printTree() {
+        // -- Must be changed in part 1:
+    }
+}
 
 /*
  * An <expression list>.
