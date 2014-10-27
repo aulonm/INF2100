@@ -548,6 +548,11 @@ class StatmList extends SyntaxUnit {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Statement currStatm = first;
+        while(currStatm != null){
+            currStatm.printTree();
+            currStatm = currStatm.nextStatm;
+        }
 	}
 }
 
