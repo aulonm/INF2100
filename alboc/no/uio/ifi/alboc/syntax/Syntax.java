@@ -509,6 +509,8 @@ class FuncDecl extends Declaration {
  */
 class StatmList extends SyntaxUnit {
 	// -- Must be changed in part 1:
+    StatmList first = null;
+
 
 	@Override
 	void check(DeclList curDecls) {
