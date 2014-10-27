@@ -1161,6 +1161,27 @@ class TermOpr extends Operator{
     }
 }
 
+/*
+ * A <factor opr> (* or /)
+ */
+class FactorOpr extends Operator{
+
+
+    @Override
+    void genCode(FuncDecl curFunc){
+        // PART 2
+    }
+
+    static FactorOpr parse(){
+        // PART 1
+        return null;
+    }
+
+    @Override
+    void printTree(){
+        // MUST BE CHANGED IN PART 1
+    }
+}
 
 
 /*
