@@ -683,7 +683,7 @@ class ForControl extends Statement {
     static ForControl parse() {
         // -- Must be changed in part 1:
         ForControl fc = new ForControl();
-
+        return fc;
     }
 
     @Override
