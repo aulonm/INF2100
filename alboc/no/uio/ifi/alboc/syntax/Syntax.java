@@ -1183,6 +1183,28 @@ class FactorOpr extends Operator{
     }
 }
 
+/*
+ * A <prefix opr> (- or *)
+ */
+class PrefixOpr extends Operator{
+
+
+    @Override
+    void genCode(FuncDecl curFunc){
+        // PART 2
+    }
+
+    static PrefixOpr parse(){
+        // PART 1
+        return null;
+    }
+
+    @Override
+    void printTree(){
+        // MUST BE CHANGED IN PART 1
+    }
+}
+
 
 /*
  * A <rel opr> (==, !=, <, <=, > or >=).
