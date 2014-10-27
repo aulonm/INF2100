@@ -136,6 +136,11 @@ abstract class DeclList extends SyntaxUnit {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Declaration currDecl = firstDecl;
+        while(currDecl != null){
+            currDecl.printTree();
+            currDecl = currDecl.nextDecl;
+        }
 	}
 
     void addDecl(Declaration d) {
