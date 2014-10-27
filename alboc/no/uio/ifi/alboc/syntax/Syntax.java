@@ -607,7 +607,11 @@ class EmptyStatm extends Statement {
 
 	static EmptyStatm parse() {
 		// -- Must be changed in part 1:
-		return null;
+		EmptyStatm es = new EmptyStatm();
+        Log.enterParser("<empty-statm>");
+        Scanner.skip(semicolonToken);
+        Log.leaveParser("</empty-statm>");
+        return es;
 	}
 
 	@Override
@@ -636,8 +640,8 @@ class ForStatm extends Statement {
 
     static ForStatm parse() {
         // -- Must be changed in part 1:
-        Log.enterParser("for-statm");
-        
+        Log.enterParser("<for-statm>");
+
         ForStatm fs = new ForStatm();
         Scanner.skip(forToken);
         Scanner.skip(leftParToken);
@@ -663,6 +667,8 @@ class ForStatm extends Statement {
  */
 class ForControl extends Statement {
     // -- Must be changed in part 1+2:
+    Expression e;
+
 
     @Override
     void check(DeclList curDecls) {
@@ -676,7 +682,8 @@ class ForControl extends Statement {
 
     static ForControl parse() {
         // -- Must be changed in part 1:
-        return null;
+        ForControl fc = new ForControl();
+
     }
 
     @Override
