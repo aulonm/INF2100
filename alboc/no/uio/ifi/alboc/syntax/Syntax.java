@@ -1140,6 +1140,30 @@ abstract class Operator extends SyntaxUnit {
 }
 
 /*
+ * A <term opr> (+ or -)
+ */
+class TermOpr extends Operator{
+
+
+    @Override
+    void genCode(FuncDecl curFunc){
+        // PART 2
+    }
+
+    static TermOpr parse(){
+        // PART 1
+        return null;
+    }
+
+    @Override
+    void printTree(){
+        // MUST BE CHANGED IN PART 1
+    }
+}
+
+
+
+/*
  * A <rel opr> (==, !=, <, <=, > or >=).
  */
 
