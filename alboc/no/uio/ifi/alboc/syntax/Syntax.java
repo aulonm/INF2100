@@ -697,6 +697,10 @@ class ForControl extends Statement {
  */
 class IfStatm extends Statement {
 	// -- Must be changed in part 1+2:
+    Expression e;
+    StatmList ifList;
+    StatmList elseList;
+
 
 	@Override
 	void check(DeclList curDecls) {
@@ -710,7 +714,28 @@ class IfStatm extends Statement {
 
 	static IfStatm parse() {
 		// -- Must be changed in part 1:
-		return null;
+		Log.enterParser("<if-statm>");
+
+        IfStatm is = new IfStatm();
+        Scanner.skip(ifToken);
+        Scanner.skip(leftParToken);
+        is.e = Expression.parse();
+        Scanner.skip(rightParToken);
+        Scanner.skip(leftCurlToken);
+        is.ifList = StatmList.parse();
+        Scanner.skip(rightCurlToken);
+
+        if(Scanner.curToken == Token.elseToken){
+            Log.enterParser("<else-part>");
+            Scanner.skip(elseToken);
+            Scanner.skip(leftCurlToken);
+            is.elseList = StatmList.parse();
+            Scanner.skip(rightCurlToken);
+            Log.leaveParser("</else-part>");
+        }
+        Log.leaveParser("</if-statm>");
+        return is;
+
 	}
 
 	@Override
