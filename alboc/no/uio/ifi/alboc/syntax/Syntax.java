@@ -929,6 +929,8 @@ class AssignStatm extends Statement{
  */
 class Assignment extends Statement{
     // -- mUST BE CHANGED IN PART 1+2
+    Expression e;
+    LhsVariable lhs;
 
     @Override
     void check(DeclList curDecls) {
@@ -942,7 +944,15 @@ class Assignment extends Statement{
 
     static Assignment parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<assignment>");
+
+        Assignment ass = new Assignment();
+        ass.lhs = LhsVariable.parse();
+        Scanner.skip(assignToken);
+        ass.e = Expression.parse();
+
+        Log.leaveParser("</assignment>");
+        return ass;
     }
 
     @Override
