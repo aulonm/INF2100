@@ -147,7 +147,6 @@ abstract class DeclList extends SyntaxUnit {
 		// -- Must be changed in part 1:
         if(firstDecl == null){
             firstDecl = d;
-            return;
         }
         else{
             Declaration prevDecl = firstDecl;
@@ -207,7 +206,13 @@ class LocalDeclList extends DeclList {
 
 	static LocalDeclList parse() {
 		// -- Must be changed in part 1:
-		return null;
+		LocalDeclList ldl = new LocalDeclList();
+
+        while(Scanner.curToken == intToken){
+            DeclType ts = DeclType.parse();
+            ldl.addDecl(Declaration.parse(ts));
+        }
+        return ldl;
 	}
 }
 
@@ -223,7 +228,14 @@ class ParamDeclList extends DeclList {
 
 	static ParamDeclList parse() {
 		// -- Must be changed in part 1:
-		return null;
+		ParamDeclList pdl = new ParamDeclList();
+
+        while(Scanner.curToken == intToken){
+            DeclType ts = DeclType.parse();
+            pdl.addDecl(Declaration.parse(ts));
+        }
+
+        return pdl;
 	}
 
 	@Override
