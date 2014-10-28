@@ -1551,7 +1551,15 @@ class Variable extends Operand {
 	static Variable parse() {
 		Log.enterParser("<variable>");
 		// -- Must be changed in part 1:
-		return null;
+        Variable v = new Variable();
+        v.varName = Scanner.curName;
+        if(Scanner.curToken == leftBracketToken){
+            Scanner.skip(leftBracketToken);
+            v.index = Expression.parse();
+            Scanner.skip(rightBracketToken);
+        }
+        Log.leaveParser("</variable>");
+		return v;
 	}
 
 	@Override
