@@ -1,0 +1,42 @@
+Part 1 todo class/method list
+
+Classes           Parse   Print
+DecList                   x
+GlobalDeclList    x
+LocalDeclList     x
+ParamDeclList     x       x
+DeclType          x       x
+Declaration       x
+varDecl
+GlobalVarDecl
+LocalVarDecl
+ParamDecl                 x
+FuncDecl
+
+StatmList         x       x
+CallStatm         x       x
+EmptyStatm        x       x
+ForStatm          x       x
+IfStatm           x       x
+ReturnStatm       x       x
+WhileStatm        x       x
+LhsVariable       x       x
+AssignStatm       x       x
+AssignStatm       x       x
+Assignment        x       x
+
+ExpList           x       x
+Expression        x       x
+
+Term
+Factor
+Primary
+TermOpr
+FactorOpr
+PrefixOpr
+FunctionCall      x       x
+Number            x       x
+Variable          x       x
+Address           x       x
+InnerExpr         x       x
+
