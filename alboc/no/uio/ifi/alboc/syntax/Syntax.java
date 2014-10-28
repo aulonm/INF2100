@@ -639,6 +639,8 @@ class CallStatm extends Statement {
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        fc.printTree();
+        Log.wTreeLn(";");
     }
 }
 
@@ -1088,7 +1090,24 @@ class ExprList extends SyntaxUnit {
 		Log.enterParser("<expr list>");
 
 		// -- Must be changed in part 1:
-		return null;
+		ExprList el = new ExprList();
+        while(Scanner.curToken != rightParToken){
+            if(el.firstExpr == null){
+                el.firstExpr = Expression.parse();
+            }
+            Expression prevExpr = el.firstExpr;
+            while(prevExpr.nextExpr != null){
+                prevExpr = prevExpr.nextExpr;
+            }
+            prevExpr.nextExpr = Expression.parse();
+
+            if(Scanner.curToken != rightParToken){
+                Scanner.skip(commaToken);
+            }
+        }
+        Scanner.skip(rightParToken);
+        Log.leaveParser("</expr list>");
+        return el;
 	}
 
 	@Override
