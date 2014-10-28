@@ -424,8 +424,9 @@ class GlobalVarDecl extends VarDecl {
             Scanner.skip(intToken); // skip the array size
             Scanner.skip(rightBracketToken); // skip the next right bracket token
         } else {
-            Scanner.readNext(); // read next
+            Scanner.readNext(); // read next tokenn, instead of the current nameToken
         }
+        Scanner.skip(semicolonToken);
         return gv;
 		//return null;
 	}
