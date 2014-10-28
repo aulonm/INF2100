@@ -1161,6 +1161,9 @@ class Expression extends SyntaxUnit {
  */
 class Term extends SyntaxUnit {
 	// -- Must be changed in part 1+2:
+    Factor first;
+    TermOpr termOpr;
+
 
 	@Override
 	void check(DeclList curDecls) {
@@ -1425,6 +1428,8 @@ abstract class Operand extends SyntaxUnit {
  */
 class FunctionCall extends Operand {
 	// -- Must be changed in part 1+2:
+    String funcName;
+    ExprList el;
 
 	@Override
 	void check(DeclList curDecls) {
@@ -1438,8 +1443,17 @@ class FunctionCall extends Operand {
 
 	static FunctionCall parse() {
 		// -- Must be changed in part 1:
-		return null;
-	}
+		Log.enterParser("<function call>");
+
+        FunctionCall fc = new FunctionCall();
+        fc.funcName = Scanner.curName;
+        Scanner.skip(nameToken);
+        Scanner.skip(leftParToken);
+        fc.el = ExprList.parse();
+
+        Log.leaveParser("</function call>");
+	    return fc;
+    }
 
 	@Override
 	void printTree() {
