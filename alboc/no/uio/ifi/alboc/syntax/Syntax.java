@@ -1570,6 +1570,14 @@ class Variable extends Operand {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Log.wTree(varName);
+        if(index != null){
+            Log.wTree("[");
+            index.printTree();
+            Log.wTree("]");
+        }
+
+
 	}
 }
 
