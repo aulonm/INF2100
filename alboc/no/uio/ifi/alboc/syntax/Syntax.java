@@ -1458,6 +1458,10 @@ class FunctionCall extends Operand {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Log.wTree(funcName);
+        Log.wTree("(");
+        el.printTree();
+        Log.wTree(")");
 	}
 	// -- Must be changed in part 1+2:
 }
