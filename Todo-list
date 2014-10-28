@@ -23,7 +23,7 @@ ParamDeclList     x       x
 DeclType          x       x
 Declaration       x
 varDecl
-GlobalVarDecl
+GlobalVarDecl     x
 LocalVarDecl
 ParamDecl                 x
 FuncDecl

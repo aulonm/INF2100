@@ -212,7 +212,7 @@ class LocalDeclList extends DeclList {
 
         while(Scanner.curToken == intToken){
             DeclType ts = DeclType.parse();
-            ldl.addDecl(Declaration.parse(ts));
+            ldl.addDecl(LocalVarDecl.parse(ts));
         }
         return ldl;
 	}
@@ -485,6 +485,8 @@ class ParamDecl extends VarDecl {
  */
 class FuncDecl extends Declaration {
 	ParamDeclList funcParams;
+    LocalDeclList funcVars;
+    StatmList funcBody;
 	String exitLabel;
 
 	FuncDecl(String n) {
@@ -521,8 +523,23 @@ class FuncDecl extends Declaration {
 	}
 
 	static FuncDecl parse(DeclType ts) {
+
+
 		// -- Must be changed in part 1:
-		return null;
+        /*
+        What to do:
+        first parse ParamDecList and save to funcParams.
+        next we need to parse a local declaration list
+        then we need some sort of function body, which would be a statmList i guess.
+        then we return the object.
+        */
+
+        FuncDecl fd = new FuncDecl(Scanner.curName); // start with creating a new object
+        fd.funcParams = ParamDeclList.parse();
+        fd.funcVars = LocalDeclList.parse();
+        fd.funcBody = StatmList.parse();
+
+		return fd;
 	}
 
 	@Override
