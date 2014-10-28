@@ -415,7 +415,19 @@ class GlobalVarDecl extends VarDecl {
 		Log.enterParser("<var decl>");
 
 		// -- Must be changed in part 1:
-		return null;
+        GlobalVarDecl gv = new GlobalVarDecl(Scanner.curName);
+        if(Scanner.curToken == leftBracketToken) {
+            // we found an array.
+            gv.isArray = true;
+            Scanner.skip(leftBracketToken); // skip this leftbracket
+            gv.numElems = Scanner.curNum;
+            Scanner.skip(intToken); // skip the array size
+            Scanner.skip(rightBracketToken); // skip the next right bracket token
+        } else {
+            Scanner.readNext(); // read next
+        }
+        return gv;
+		//return null;
 	}
 }
 
