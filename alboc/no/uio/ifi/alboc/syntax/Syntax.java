@@ -14,6 +14,8 @@ import no.uio.ifi.alboc.scanner.Token;
 import static no.uio.ifi.alboc.scanner.Token.*;
 import no.uio.ifi.alboc.types.*;
 
+import java.util.function.Function;
+
 /*
  * Creates a syntax tree by parsing an AlboC program; 
  * prints the parse tree (if requested);
@@ -612,6 +614,7 @@ abstract class Statement extends SyntaxUnit {
  */
 class CallStatm extends Statement {
     // -- Must be changed in part 1+2:
+    FunctionCall fc;
 
     @Override
     void check(DeclList curDecls) {
@@ -625,7 +628,12 @@ class CallStatm extends Statement {
 
     static CallStatm parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<call-statm>");
+        CallStatm cs = new CallStatm();
+        cs.fc = FunctionCall.parse();
+        Scanner.skip(semicolonToken);
+        Log.leaveParser("</call-statm>");
+        return cs;
     }
 
     @Override
