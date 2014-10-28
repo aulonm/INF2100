@@ -1,3 +1,18 @@
+Todo part 1:
+Finish list
+Make recursive logic in lists
+Finish Token methods:
+  isRelOperator
+  isPrefixOperator
+  istermOperator
+  isFactorOperator
+  isOperand
+
+
+
+
+
+
 Part 1 todo class/method list
 
 Classes           Parse   Print
