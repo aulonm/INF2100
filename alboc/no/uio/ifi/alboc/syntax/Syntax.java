@@ -1480,7 +1480,12 @@ class Number extends Operand {
 
 	static Number parse() {
 		// -- Must be changed in part 1:
-		return null;
+        Log.enterParser("<number>");
+        Number n = new Number();
+        n.numVal = Scanner.curNum;
+        Scanner.skip(numberToken);
+        Log.leaveParser("</number>");
+		return n;
 	}
 
 	@Override
