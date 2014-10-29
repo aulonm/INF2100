@@ -1209,7 +1209,16 @@ class Term extends SyntaxUnit {
 
 	static Term parse() {
 		// -- Must be changed in part 1:
-		return null;
+		Log.enterParser("<term>");
+        Term t = new Term();
+        t.first = Factor.parse();
+        if(Token.isFactorOperator(Scanner.curToken)){
+            t.termOpr = TermOpr.parse();
+            // Maa vi kjore term.parse en gang til? i folge term jernbanediagram saa maa vi det
+        }
+
+        Log.leaveParser("</term>");
+        return t;
 	}
 
 	@Override
@@ -1300,7 +1309,12 @@ class TermOpr extends Operator{
 
     static TermOpr parse(){
         // PART 1
-        return null;
+        Log.enterParser("<term opr>");
+        TermOpr to = new TermOpr();
+        to.oprToken = Scanner.curToken;
+        Scanner.readNext();
+        Log.leaveParser("</term opr>");
+        return to;
     }
 
     @Override
