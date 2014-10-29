@@ -104,13 +104,16 @@ class Program extends SyntaxUnit {
 		if (Scanner.curToken != eofToken) {
             Error.expected("A declaration");
         }
+        System.out.println(Log.ut + "  what  " + Log.inn);
 		Log.leaveParser("</program>");
+
 		return p;
 	}
 
 	@Override
 	void printTree() {
 		progDecls.printTree();
+
 	}
 }
 
@@ -147,6 +150,7 @@ abstract class DeclList extends SyntaxUnit {
         }
 	}
 
+    // Lager FIFO liste
     void addDecl(Declaration d) {
 		// -- Must be changed in part 1:
         if(firstDecl == null){
@@ -207,6 +211,7 @@ class LocalDeclList extends DeclList {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 	}
+
 
 	static LocalDeclList parse() {
 		// -- Must be changed in part 1:
@@ -368,7 +373,6 @@ abstract class Declaration extends SyntaxUnit {
 abstract class VarDecl extends Declaration {
 	boolean isArray = false;
 	int numElems = 0;
-    DeclType dt;
 
 	VarDecl(String n) {
 		super(n);
@@ -381,7 +385,9 @@ abstract class VarDecl extends Declaration {
 
 	@Override
 	void printTree() {
-		// -- Must be changed in part 1:
+        typeSpec.printTree();
+        Log.wTree(" " + name);
+        Log.wTreeLn(";");
 	}
 
 	@Override
@@ -419,7 +425,7 @@ class GlobalVarDecl extends VarDecl {
 
         // -- Must be changed in part 1:
         GlobalVarDecl gv = new GlobalVarDecl(Scanner.curName);
-        gv.dt = dt;
+        gv.typeSpec = dt;
         if(Scanner.curToken == leftBracketToken) {
             // we found an array.
             gv.isArray = true;
@@ -453,7 +459,7 @@ class LocalVarDecl extends VarDecl {
 	static LocalVarDecl parse(DeclType dt) {
 		Log.enterParser("<var decl>");
         LocalVarDecl vv = new LocalVarDecl(Scanner.curName);
-        vv.dt = dt;
+        vv.typeSpec = dt;
         if(Scanner.curToken == leftBracketToken){
             vv.isArray = true;
             Scanner.skip(leftBracketToken);
@@ -488,11 +494,12 @@ class ParamDecl extends VarDecl {
 
 		// -- Must be changed in part 1:
         ParamDecl pd = new ParamDecl(Scanner.curName);
-        pd.dt = dt;
+        pd.typeSpec = dt;
         Scanner.skip(nameToken);
         if(Scanner.curToken == commaToken){
             Scanner.skip(commaToken);
         }
+        Log.leaveParser("</param decl>");
 		return pd;
 	}
 
@@ -556,6 +563,7 @@ class FuncDecl extends Declaration {
         */
         Log.enterParser("<func decl>");
         FuncDecl fd = new FuncDecl(Scanner.curName); // start with creating a new object
+        fd.typeSpec = ts;
         Scanner.skip(nameToken);
         Scanner.skip(leftParToken);
         fd.funcParams = ParamDeclList.parse();
@@ -573,6 +581,18 @@ class FuncDecl extends Declaration {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        typeSpec.printTree();
+        Log.wTree(" " +name);
+        Log.wTree("(");
+        funcParams.printTree();
+        Log.wTree(")");
+        Log.wTreeLn("{");
+        Log.indentTree();
+        funcVars.printTree();
+        funcBody.printTree();
+        Log.wTreeLn();
+        Log.outdentTree();
+        Log.wTreeLn("}");
 	}
 }
 
@@ -732,7 +752,7 @@ class EmptyStatm extends Statement {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
-        Log.wTree(";");
+        Log.wTreeLn(";");
 	}
 }
 
@@ -890,14 +910,15 @@ class IfStatm extends Statement {
         Log.wTreeLn(") {");
         Log.indentTree();
         ifList.printTree();
-        Log.outdentTree();
         Log.wTreeLn("}");
+        Log.outdentTree();
         if(elseList != null) {
             Log.wTreeLn("else {");
             Log.indentTree();
             elseList.printTree();
-            Log.outdentTree();
+            Log.wTreeLn();
             Log.wTreeLn("}");
+            Log.outdentTree();
         }
 
 	}
@@ -1076,6 +1097,7 @@ class AssignStatm extends Statement{
         AssignStatm as = new AssignStatm();
         as.a = Assignment.parse();
         Scanner.skip(semicolonToken);
+        Log.leaveParser("</assign-statm>");
         return as;
     }
 
@@ -1083,7 +1105,7 @@ class AssignStatm extends Statement{
     void printTree() {
         // -- Must be changed in part 1:
         a.printTree();
-        Log.wTree(";");
+        Log.wTreeLn(";");
     }
 }
 
@@ -1215,7 +1237,6 @@ class Expression extends SyntaxUnit {
 			e.relOpr = RelOpr.parse();
 			e.secondTerm = Term.parse();
 		}
-
 		Log.leaveParser("</expression>");
 		return e;
 	}
@@ -1707,6 +1728,9 @@ class Variable extends Operand {
             Scanner.skip(leftBracketToken);
             v.index = Expression.parse();
             Scanner.skip(rightBracketToken);
+        }
+        else{
+            Scanner.skip(nameToken);
         }
         Log.leaveParser("</variable>");
 		return v;
