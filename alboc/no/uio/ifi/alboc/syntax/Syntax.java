@@ -234,7 +234,7 @@ class ParamDeclList extends DeclList {
 
         while(Scanner.curToken == intToken){
             DeclType ts = DeclType.parse();
-            pdl.addDecl(Declaration.parse(ts));
+            pdl.addDecl(ParamDecl.parse(ts));
         }
 
         return pdl;
@@ -366,6 +366,7 @@ abstract class Declaration extends SyntaxUnit {
 abstract class VarDecl extends Declaration {
 	boolean isArray = false;
 	int numElems = 0;
+    DeclType dt;
 
 	VarDecl(String n) {
 		super(n);
@@ -412,12 +413,11 @@ class GlobalVarDecl extends VarDecl {
 	}
 
 	static GlobalVarDecl parse(DeclType dt) {
-		Log.enterParser("<var decl>");
-
         Log.enterParser("<var decl>");
 
         // -- Must be changed in part 1:
         GlobalVarDecl gv = new GlobalVarDecl(Scanner.curName);
+        gv.dt = dt;
         if(Scanner.curToken == leftBracketToken) {
             // we found an array.
             gv.isArray = true;
@@ -429,7 +429,9 @@ class GlobalVarDecl extends VarDecl {
             Scanner.readNext(); // read next tokenn, instead of the current nameToken
         }
         Scanner.skip(semicolonToken);
+        Log.leaveParser("</var decl>");
         return gv;
+
 	}
 }
 
@@ -448,7 +450,19 @@ class LocalVarDecl extends VarDecl {
 
 	static LocalVarDecl parse(DeclType dt) {
 		Log.enterParser("<var decl>");
-
+        LocalVarDecl vv = new LocalVarDecl(Scanner.curName);
+        vv.dt = dt;
+        if(Scanner.curToken == leftBracketToken){
+            vv.isArray = true;
+            Scanner.skip(leftBracketToken);
+            vv.numElems = Scanner.curNum;
+            Scanner.skip(intToken); // skip the array size
+            Scanner.skip(rightBracketToken); // skip the next right bracket token
+        } else {
+            Scanner.readNext(); // read next tokenn, instead of the current nameToken
+        }
+        Scanner.skip(semicolonToken);
+        Log.leaveParser("</var decl>");
 		// -- Must be changed in part 1:
 		return null;
 	}
@@ -471,6 +485,12 @@ class ParamDecl extends VarDecl {
 		Log.enterParser("<param decl>");
 
 		// -- Must be changed in part 1:
+        ParamDecl pd = new ParamDecl(Scanner.curName);
+        pd.dt = dt;
+        Scanner.skip(nameToken);
+        if(Scanner.curToken == commaToken){
+            Scanner.skip(commaToken);
+        }
 		return null;
 	}
 
@@ -532,11 +552,17 @@ class FuncDecl extends Declaration {
         then we need some sort of function body, which would be a statmList i guess.
         then we return the object.
         */
-
+        Log.enterParser("<func decl>");
         FuncDecl fd = new FuncDecl(Scanner.curName); // start with creating a new object
+        Scanner.skip(nameToken);
+        Scanner.skip(leftParToken);
         fd.funcParams = ParamDeclList.parse();
+        Scanner.skip(rightParToken);
+        Log.leaveParser("<func body>");
         fd.funcVars = LocalDeclList.parse();
         fd.funcBody = StatmList.parse();
+        Log.leaveParser("</func body>");
+        Log.leaveParser("</func delc>");
 
         return fd;
 	}
