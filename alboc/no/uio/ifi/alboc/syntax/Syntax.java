@@ -355,7 +355,7 @@ abstract class Declaration extends SyntaxUnit {
 	 *            or too few parameters.)
 	 * @param use
 	 *            From where is the check performed?
-	 * @see checkWhetherVariable
+	 * @see //checkWhetherVariable
 	 */
 	abstract void checkWhetherFunction(int nParamsUsed, SyntaxUnit use);
 }
@@ -459,12 +459,12 @@ class LocalVarDecl extends VarDecl {
             Scanner.skip(intToken); // skip the array size
             Scanner.skip(rightBracketToken); // skip the next right bracket token
         } else {
-            Scanner.readNext(); // read next tokenn, instead of the current nameToken
+            Scanner.skip(nameToken); // read next tokenn, instead of the current nameToken
         }
         Scanner.skip(semicolonToken);
         Log.leaveParser("</var decl>");
 		// -- Must be changed in part 1:
-		return null;
+		return vv;
 	}
 }
 
@@ -491,7 +491,7 @@ class ParamDecl extends VarDecl {
         if(Scanner.curToken == commaToken){
             Scanner.skip(commaToken);
         }
-		return null;
+		return pd;
 	}
 
 	@Override
@@ -558,7 +558,8 @@ class FuncDecl extends Declaration {
         Scanner.skip(leftParToken);
         fd.funcParams = ParamDeclList.parse();
         Scanner.skip(rightParToken);
-        Log.leaveParser("<func body>");
+        Log.enterParser("<func body>");
+        Scanner.skip(leftCurlToken);
         fd.funcVars = LocalDeclList.parse();
         fd.funcBody = StatmList.parse();
         Log.leaveParser("</func body>");
@@ -595,13 +596,14 @@ class StatmList extends SyntaxUnit {
 		Log.enterParser("<statm list>");
 
 		StatmList sl = new StatmList();
-		Statement lastStatm = null;
+
 		while (Scanner.curToken != rightCurlToken) {
 			// -- Must be changed in part 1:
             if(sl.first == null){
                 sl.first = Statement.parse();
             }
             else{
+                Statement lastStatm = null;
                 lastStatm = sl.first;
                 while(lastStatm.nextStatm != null){
                     lastStatm = lastStatm.nextStatm;
@@ -761,7 +763,7 @@ class ForStatm extends Statement {
         Scanner.skip(rightParToken);
         Scanner.skip(leftCurlToken);
         fs.statmlist = StatmList.parse();
-        Scanner.skip(rightCurlToken);
+        //Scanner.skip(rightCurlToken);
 
         Log.leaveParser("</for-statm>");
         return fs;
@@ -862,14 +864,14 @@ class IfStatm extends Statement {
         Scanner.skip(rightParToken);
         Scanner.skip(leftCurlToken);
         is.ifList = StatmList.parse();
-        Scanner.skip(rightCurlToken);
+        //Scanner.skip(rightCurlToken);
 
         if(Scanner.curToken == Token.elseToken){
             Log.enterParser("<else-part>");
             Scanner.skip(elseToken);
             Scanner.skip(leftCurlToken);
             is.elseList = StatmList.parse();
-            Scanner.skip(rightCurlToken);
+            //Scanner.skip(rightCurlToken);
             Log.leaveParser("</else-part>");
         }
         Log.leaveParser("</if-statm>");
@@ -981,7 +983,7 @@ class WhileStatm extends Statement {
 		Scanner.skip(rightParToken);
 		Scanner.skip(leftCurlToken);
 		ws.body = StatmList.parse();
-		Scanner.skip(rightCurlToken);
+		//Scanner.skip(rightCurlToken);
 
 		Log.leaveParser("</while-statm>");
 		return ws;
@@ -1151,12 +1153,13 @@ class ExprList extends SyntaxUnit {
             if(el.firstExpr == null){
                 el.firstExpr = Expression.parse();
             }
-            Expression prevExpr = el.firstExpr;
-            while(prevExpr.nextExpr != null){
-                prevExpr = prevExpr.nextExpr;
+            else{
+                Expression prevExpr = el.firstExpr;
+                while(prevExpr.nextExpr != null){
+                    prevExpr = prevExpr.nextExpr;
+                }
+                prevExpr.nextExpr = Expression.parse();
             }
-            prevExpr.nextExpr = Expression.parse();
-
             if(Scanner.curToken != rightParToken){
                 Scanner.skip(commaToken);
             }
