@@ -28,6 +28,8 @@ public class Syntax {
 
 	public static void init() {
 		// -- Must be changed in part 1+2:
+        Scanner.readNext();
+        Scanner.readNext();
 	}
 
 	public static void finish() {
@@ -99,9 +101,9 @@ class Program extends SyntaxUnit {
 
 		Program p = new Program();
 		p.progDecls = GlobalDeclList.parse();
-		if (Scanner.curToken != eofToken)
-			Error.expected("A declaration");
-
+		if (Scanner.curToken != eofToken) {
+            Error.expected("A declaration");
+        }
 		Log.leaveParser("</program>");
 		return p;
 	}
