@@ -673,6 +673,7 @@ class EmptyStatm extends Statement {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        Log.wTree(";");
 	}
 }
 
@@ -1113,6 +1114,15 @@ class ExprList extends SyntaxUnit {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+
+        Expression currExpr = firstExpr;
+        while(currExpr != null){
+            currExpr.printTree();
+            if(currExpr.nextExpr != null){
+                Log.wTree(", ");
+            }
+            currExpr = currExpr.nextExpr;
+        }
 	}
 	// -- Must be changed in part 1:
 }
@@ -1153,6 +1163,13 @@ class Expression extends SyntaxUnit {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        firstTerm.printTree();
+        if(relOpr != null){
+            relOpr.printTree();
+        }
+        if(secondTerm != null){
+            secondTerm.printTree();
+        }
 	}
 }
 
