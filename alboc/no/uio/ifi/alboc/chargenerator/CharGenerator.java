@@ -64,16 +64,16 @@ public class CharGenerator {
 	/*
 	 * Leser kildefilen linje for linje, ignorer #-linjer
 	 * og sende den resterende kildekoden tegn for tegn videre
-	 * i to variabler curC og nextC. Denne metoden klargjør neste tegn 
+	 * i to variabler curC og nextC. Denne metoden klargjor neste tegn
 	 */
 	public static void readNext() {
 		curC = nextC;
 		if (!isMoreToRead())
 			return;
 		/*
-		 * Hadde et lite problem når vi logget. Hvor CharGenerator var alltid
-		 * et hakk foran Scanneren, dermed måtte denne if setningen inn i bildet
-		 * If den er true så logger den og gjør logLine til false, og lineNum øker
+		 * Hadde et lite problem naar vi logget. Hvor CharGenerator var alltid
+		 * et hakk foran Scanneren, dermed maatte denne if setningen inn i bildet
+		 * If den er true saa logger den og gjor logLine til false, og lineNum oker
 		 */
 		if(logLine == true){
 			Log.noteSourceLine(lineNum, sourceLine);
@@ -81,8 +81,8 @@ public class CharGenerator {
 			logLine = false;
 		}
 		/*
-		 * Hvis position er større enn sourceLine sin lengde
-		 * så vil det si at vi skal lese ny linje fordi vi er ferdig
+		 * Hvis position er storre enn sourceLine sin lengde
+		 * saa vil det si at vi skal lese ny linje fordi vi er ferdig
 		 * med den forrige
 		 */
 		if (sourcePos > sourceLine.length() - 1) {
@@ -92,8 +92,8 @@ public class CharGenerator {
 				// Leser ny linje
 				sourceLine = sourceFile.readLine();
 				/*
-				 * Helt i begynnelsen av fila, så mista jeg første linje
-				 * når jeg satt inn if-setningen over, så dermed måtte en
+				 * Helt i begynnelsen av fila, saa mista jeg forste linje
+				 * naar jeg satt inn if-setningen over, saa dermed maatte en
 				 * kode det litt mer hacky
 				 */
 				if(isFirstLine == true){
@@ -101,12 +101,12 @@ public class CharGenerator {
 					lineNum++;
 					isFirstLine = false;
 				}
-				// Gjør den til true sånn at neste gang readNext blir kjørt, så
+				// Gjï¿½r den til true sï¿½nn at neste gang readNext blir kjort, saa
 				// logges linja
 				logLine = true;
 				/*
-				 * Så lenge sourceLine ikke er null samtidig som lengden
-				 * på den er 0, så skal den logge. Dette er for siste
+				 * Saa lenge sourceLine ikke er null samtidig som lengden
+				 * paa den er 0, saa skal den logge. Dette er for siste
 				 * linje vi leser inn fra fila. 
 				 */
 				while(sourceLine != null && sourceLine.length() == 0){
@@ -127,17 +127,17 @@ public class CharGenerator {
 				nextC = 0x03;
 				return;
 			}
-			// Hvis det er # i begynnelsen så kjør hjelpemetode
-			// for å hoppe over de linjene
+			// Hvis det er # i begynnelsen saa kjor hjelpemetode
+			// for aa hoppe over de linjene
 			if (sourceLine.charAt(0) == '#')
 				readNextHelper();
-			// Må nullstille nextC
+			// Mï¿½ nullstille nextC
 			nextC = ' ';
 		}
 		/*
-		 * Hvis if-setningen ikke slår til så skal dette skje
+		 * Hvis if-setningen ikke slaar til saa skal dette skje
 		 * sjekker igjen om char[0] er # eller ikke
-		 * else sett nextC til å bli sourLine.charAt(pos)
+		 * else sett nextC til aa bli sourLine.charAt(pos)
 		 */
 		else{
 			if(sourceLine.charAt(0) == '#')
@@ -149,8 +149,8 @@ public class CharGenerator {
 		}
 	}
 	/*
-	 * Bruker denne hjelpemetoden for å lese neste linje hvis char[0] var #
-	 * så kjøres dette rekursivt, sånn at readNext blir kalt igjen etter at linja er lest
+	 * Bruker denne hjelpemetoden for aa lese neste linje hvis char[0] var #
+	 * saa kjores dette rekursivt, saann at readNext blir kalt igjen etter at linja er lest
 	 */
 	private static void readNextHelper(){
 		try {
