@@ -414,8 +414,22 @@ class GlobalVarDecl extends VarDecl {
 	static GlobalVarDecl parse(DeclType dt) {
 		Log.enterParser("<var decl>");
 
-		// -- Must be changed in part 1:
-		return null;
+        Log.enterParser("<var decl>");
+
+        // -- Must be changed in part 1:
+        GlobalVarDecl gv = new GlobalVarDecl(Scanner.curName);
+        if(Scanner.curToken == leftBracketToken) {
+            // we found an array.
+            gv.isArray = true;
+            Scanner.skip(leftBracketToken); // skip this leftbracket
+            gv.numElems = Scanner.curNum;
+            Scanner.skip(intToken); // skip the array size
+            Scanner.skip(rightBracketToken); // skip the next right bracket token
+        } else {
+            Scanner.readNext(); // read next tokenn, instead of the current nameToken
+        }
+        Scanner.skip(semicolonToken);
+        return gv;
 	}
 }
 
