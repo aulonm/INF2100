@@ -1194,6 +1194,7 @@ class Expression extends SyntaxUnit {
 class Term extends SyntaxUnit {
 	// -- Must be changed in part 1+2:
     Factor first;
+    Term second;
     TermOpr termOpr;
 
 
@@ -1212,11 +1213,10 @@ class Term extends SyntaxUnit {
 		Log.enterParser("<term>");
         Term t = new Term();
         t.first = Factor.parse();
-        if(Token.isFactorOperator(Scanner.curToken)){
+        if(Token.isTermOperator(Scanner.curToken)) {
             t.termOpr = TermOpr.parse();
-            // Maa vi kjore term.parse en gang til? i folge term jernbanediagram saa maa vi det
+            t.second = Term.parse();
         }
-
         Log.leaveParser("</term>");
         return t;
 	}
@@ -1232,6 +1232,8 @@ class Term extends SyntaxUnit {
  */
 class Factor extends Term {
     // -- Must be changed in part 1+2:
+    FactorOpr factorOpr;
+    Primary first;
 
     @Override
     void check(DeclList curDecls) {
@@ -1245,7 +1247,13 @@ class Factor extends Term {
 
     static Factor parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<factor>");
+        Factor f = new Factor();
+
+
+
+        Log.leaveParser("</factor>");
+        return f;
     }
 
     @Override
@@ -1260,6 +1268,8 @@ class Factor extends Term {
  */
 class Primary extends SyntaxUnit {
     // -- Must be changed in part 1+2:
+    Operand first;
+    PrefixOpr prefix;
 
     @Override
     void check(DeclList curDecls) {
@@ -1273,7 +1283,16 @@ class Primary extends SyntaxUnit {
 
     static Primary parse() {
         // -- Must be changed in part 1:
-        return null;
+        Log.enterParser("<primary>");
+        Primary p = new Primary();
+
+        if(Token.isPrefixOperator(Scanner.curToken)){
+            p.prefix = PrefixOpr.parse();
+        }
+        p.first = Operand.parse();
+
+        Log.leaveParser("</primary>");
+        return p;
     }
 
     @Override
