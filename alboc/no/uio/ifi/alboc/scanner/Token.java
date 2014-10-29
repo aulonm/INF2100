@@ -23,26 +23,28 @@ public enum Token {
 
 	public static boolean isFactorOperator(Token t) {
 		// -- Must be changed in part 0:
-		return false;
+        return (t == starToken || t == divideToken);
 	}
 
 	public static boolean isTermOperator(Token t) {
 		// -- Must be changed in part 0:
-		return false;
+        return (t == addToken || t == subtractToken);
 	}
 
 	public static boolean isPrefixOperator(Token t) {
 		// -- Must be changed in part 0:
-		return false;
+		return (t == subtractToken || t == starToken);
 	}
 
 	public static boolean isRelOperator(Token t) {
 		// -- Must be changed in part 0:
-		return false;
+		return (t == equalToken || t == notEqualToken || t == lessToken
+                || t == lessEqualToken || t == greaterToken || t == greaterEqualToken);
 	}
 
 	public static boolean isOperand(Token t) {
 		// -- Must be changed in part 0:
-		return false;
+		return (t == numberToken || t == nameToken || t == leftParToken
+                || t == ampToken);
 	}
 }
