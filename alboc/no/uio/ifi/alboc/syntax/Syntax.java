@@ -1197,7 +1197,6 @@ class Term extends SyntaxUnit {
     Term second;
     TermOpr termOpr;
 
-
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
@@ -1224,6 +1223,13 @@ class Term extends SyntaxUnit {
 	@Override
 	void printTree() {
 		// -- Must be changed in part 1:
+        first.printTree();
+        if(termOpr != null){
+            termOpr.printTree();
+        }
+        if(second != null){
+            second.printTree();
+        }
 	}
 }
 
@@ -1234,6 +1240,7 @@ class Factor extends Term {
     // -- Must be changed in part 1+2:
     FactorOpr factorOpr;
     Primary first;
+    Factor second;
 
     @Override
     void check(DeclList curDecls) {
@@ -1249,8 +1256,11 @@ class Factor extends Term {
         // -- Must be changed in part 1:
         Log.enterParser("<factor>");
         Factor f = new Factor();
-
-
+        f.first = Primary.parse();
+        if(Token.isFactorOperator(Scanner.curToken)){
+            f.factorOpr = FactorOpr.parse();
+            f.second = Factor.parse();
+        }
 
         Log.leaveParser("</factor>");
         return f;
@@ -1259,6 +1269,13 @@ class Factor extends Term {
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        first.printTree();
+        if(factorOpr != null){
+            factorOpr.printTree();
+        }
+        if(second != null){
+            second.printTree();
+        }
     }
 }
 
@@ -1298,6 +1315,10 @@ class Primary extends SyntaxUnit {
     @Override
     void printTree() {
         // -- Must be changed in part 1:
+        if(prefix != null){
+            prefix.printTree();
+        }
+        first.printTree();
     }
 }
 
@@ -1355,7 +1376,12 @@ class FactorOpr extends Operator{
 
     static FactorOpr parse(){
         // PART 1
-        return null;
+        Log.enterParser("<factor opr>");
+        FactorOpr fo = new FactorOpr();
+        fo.oprToken = Scanner.curToken;
+        Scanner.readNext();
+        Log.leaveParser("</factor opr>");
+        return fo;
     }
 
     @Override
@@ -1377,7 +1403,12 @@ class PrefixOpr extends Operator{
 
     static PrefixOpr parse(){
         // PART 1
-        return null;
+        Log.enterParser("<prefix opr>");
+        PrefixOpr po = new PrefixOpr();
+        po.oprToken = Scanner.curToken;
+        Scanner.readNext();
+        Log.leaveParser("</prefix opr>");
+        return po;
     }
 
     @Override
