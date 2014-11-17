@@ -15,7 +15,7 @@ Finish Token methods:
 
 Part 1 todo class/method list
 
-Classes           Parse   Print
+Classes           Parse   Print   check   gencode
 DecList                   x
 GlobalDeclList    x
 LocalDeclList     x
@@ -32,9 +32,9 @@ StatmList         x       x
 CallStatm         x       x
 EmptyStatm        x       x
 ForStatm          x       x
-IfStatm           x       x
-ReturnStatm       x       x
-WhileStatm        x       x
+IfStatm           x       x                 x
+ReturnStatm       x       x                 x (njaaaa)
+WhileStatm        x       x         x       x
 LhsVariable       x       x
 AssignStatm       x       x
 AssignStatm       x       x
