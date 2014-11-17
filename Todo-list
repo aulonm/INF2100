@@ -24,9 +24,9 @@ DeclType          x       x
 Declaration       x
 varDecl
 GlobalVarDecl     x
-LocalVarDecl
-ParamDecl                 x
-FuncDecl
+LocalVarDecl      x
+ParamDecl         x        x
+FuncDecl          x
 
 StatmList         x       x
 CallStatm         x       x

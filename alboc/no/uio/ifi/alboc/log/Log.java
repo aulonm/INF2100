@@ -23,6 +23,11 @@ public class Log {
 	private static String logName, curTreeLine = "";
 	private static int nLogLines = 0, parseLevel = 0, treeLevel = 0;
 
+    private static String indent = "";
+    public static int inn = 0;
+    public static int ut = 0;
+
+
 	public static void init() {
 		logName = AlboC.sourceBaseName + ".log";
 	}
@@ -60,7 +65,9 @@ public class Log {
 	public static void enterParser(String symbol) {
 		if (!doLogParser)
 			return;
-
+        indentTree();
+        writeLogLine("Parser: " + indent + symbol);
+        inn++;
 		// -- Must be changed in part 1:
 	}
 
@@ -68,6 +75,9 @@ public class Log {
 		if (!doLogParser)
 			return;
 		// -- Must be changed in part 1:
+        writeLogLine("Parser: " + indent + symbol);
+        outdentTree();
+        ut++;
 	}
 
 	/**
@@ -139,7 +149,7 @@ public class Log {
 	}
 
 	public static void wTreeLn() {
-		writeLogLine("Tree:     " + curTreeLine);
+		writeLogLine("Tree:     " + indent + curTreeLine);
 		curTreeLine = "";
 	}
 
@@ -150,9 +160,11 @@ public class Log {
 
 	public static void indentTree() {
 		// -- Must be changed in part 1:
+        indent = "  " + indent;
 	}
 
 	public static void outdentTree() {
 		// -- Must be changed in part 1:
-	}
+        indent = indent.substring(2);
+    }
 }
