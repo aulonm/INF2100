@@ -791,6 +791,11 @@ class ForStatm extends Statement {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+        // Sender med statm list til forControl
+        // Saa slipper man control.first.gencode(), naar
+        // man kan heller bare skrive first.gencode :P
+        control.statmlist = statmlist;
+        control.genCode(curFunc);
     }
 
     static ForStatm parse() {
@@ -830,16 +835,21 @@ class ForControl extends Statement {
     // -- Must be changed in part 1+2:
     Expression e;
     Assignment first, second;
+    StatmList statmlist = null;
 
 
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        first.check(curDecls);
+        second.check(curDecls);
+        e.check(curDecls);
     }
 
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+
     }
 
     static ForControl parse() {
@@ -1214,6 +1224,12 @@ class ExprList extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+        Expression curr = firstExpr;
+        while(curr != null){
+            curr.genCode(curFunc);
+            Code.genInstr("", "pushl", "%eax", "Push to stack");
+            curr = curr.nextExpr;
+        }
 	}
 
 	static ExprList parse() {
@@ -1688,6 +1704,9 @@ class FunctionCall extends Operand {
 	// -- Must be changed in part 1+2:
     String funcName;
     ExprList el;
+    FuncDecl declRef = null;
+
+
 
 	@Override
 	void check(DeclList curDecls) {
@@ -1697,7 +1716,15 @@ class FunctionCall extends Operand {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+        el.genCode(curFunc);
 
+        FuncDecl f = declRef;
+
+        Code.genInstr("", "call", f.assemblerName, f.assemblerName+"()");
+
+        if(f.funcParams.dataSize() > 0){
+            Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+", %esp", "Stack cleaned");
+        }
 
 	}
 
@@ -1797,9 +1824,21 @@ class Variable extends Operand {
 
 	@Override
 	void genCode(FuncDecl curFunc) {
-		// -- Must be changed in part 2:
-	}
-
+        // -- Must be changed in part 2:
+        if (index == null) {
+            Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
+        } else {
+            index.genCode(curFunc);
+            if (declRef.type instanceof ArrayType) {
+                Code.genInstr("", "leal", declRef.assemblerName + ",%edx",
+                        varName + "[...]");
+            } else {
+                Code.genInstr("", "movl", declRef.assemblerName + ",%edx",
+                        varName + "[...]");
+            }
+            Code.genInstr("", "movl", "(%edx, %eax, 4), %eax", "");
+        }
+    }
 	void genAddressCode(FuncDecl curFunc) {
 		// Generate code to load the _address_ of the variable
 		// rather than its value.

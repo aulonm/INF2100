@@ -29,16 +29,16 @@ ParamDecl         x        x
 FuncDecl          x
 
 StatmList         x       x
-CallStatm         x       x
+CallStatm         x       x         x       x
 EmptyStatm        x       x         x       x
-ForStatm          x       x         x
+ForStatm          x       x         x       x
+ForControl        x       x         x
 IfStatm           x       x         x       x
 ReturnStatm       x       x                 x
 WhileStatm        x       x         x       x
 LhsVariable       x       x         x       x
 AssignStatm       x       x         x       x
-AssignStatm       x       x
-Assignment        x       x
+Assignment        x       x                 x
 
 ExpList           x       x
 Expression        x       x                 x
@@ -49,9 +49,9 @@ Primary           x       x                 x
 TermOpr           x       x                 x
 FactorOpr         x       x                 x
 PrefixOpr         x       x                 x
-FunctionCall      x       x
+FunctionCall      x       x                 x (i think)
 Number            x       x         x       x
-Variable          x       x         x
+Variable          x       x         x       x
 Address           x       x         x       x
 InnerExpr         x       x         x       x
 
