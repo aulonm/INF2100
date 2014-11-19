@@ -88,6 +88,12 @@ class Program extends SyntaxUnit {
 		if (!AlboC.noLink) {
 			// Check that 'main' has been declared properly:
 			// -- Must be changed in part 2:
+            FuncDecl main;
+            Declaration d = progDecls.findDecl("main", null);
+            main = (FuncDecl) d;
+            if(main.type != Types.intType)
+                error("'main' should return type 'int'");
+
 		}
 	}
 
@@ -381,6 +387,7 @@ abstract class VarDecl extends Declaration {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        
 	}
 
 	@Override
@@ -705,11 +712,13 @@ class CallStatm extends Statement {
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        fc.check(curDecls);
     }
 
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+        fc.genCode(curFunc);
     }
 
     static CallStatm parse() {
@@ -775,6 +784,8 @@ class ForStatm extends Statement {
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        control.check(curDecls);
+        statmlist.check(curDecls);
     }
 
     @Override
@@ -878,31 +889,27 @@ class IfStatm extends Statement {
 		// -- Must be changed in part 2:
         e.check(curDecls);
         ifList.check(curDecls);
-        elseList.check(curDecls);
+        if(elseList != null){elseList.check(curDecls);}
 	}
 
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-        String testLabel = Code.getLocalLabel(), endLabel = Code
-                .getLocalLabel();
+        String endLabel = Code.getLocalLabel(),
+               elseLabel = "";
+        if(elseList != null){elseLabel = Code.getLocalLabel();}
 
+        Code.genInstr("", "","", "Start if-statement");
+        e.genCode(curFunc);
+        Code.genInstr("", "cmpl", "$0, %eax", "== 0");
+        Code.genInstr("", "je", (elseList != null) ? elseLabel : endLabel, "");
+        ifList.genCode(curFunc);
         if(elseList != null){
-            e.genCode(curFunc);
-            Code.genInstr("", "cmpl", "$0, %eax", "");
-            Code.genInstr("", "je", testLabel, "");
-            ifList.genCode(curFunc);
             Code.genInstr("", "jmp", endLabel, "");
-            Code.genInstr(testLabel, "", "", "Start of if-statement");
+            Code.genInstr(elseLabel, "", "", "else");
             elseList.genCode(curFunc);
-            Code.genInstr(endLabel, "", "", "Else-statement");
-        }else {
-            e.genCode(curFunc);
-            Code.genInstr("", "cmpl", "$0, %eax", "");
-            Code.genInstr("", "je", endLabel, "");
-            ifList.genCode(curFunc);
-            Code.genInstr(testLabel, "", "", "Start/end of if-statement"); //What?
         }
+        Code.genInstr(endLabel, "", "", "End if-statement");
 	}
 
 	static IfStatm parse() {
@@ -965,13 +972,14 @@ class ReturnStatm extends Statement{
     void check(DeclList curDecls) {
         e.check(curDecls);
         // -- Must be changed in part 2:
+
     }
 
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
         e.genCode(curFunc);
-        Code.genInstr("", "jmp", ".exit", ""); //Something something exit
+        Code.genInstr("", "jmp", ".exit$"+curFunc.assemblerName, "Return");
     }
 
     static ReturnStatm parse() {
@@ -1117,6 +1125,7 @@ class AssignStatm extends Statement{
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        a.check(curDecls);
     }
 
     @Override
@@ -1154,6 +1163,8 @@ class Assignment extends Statement{
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        lhs.check(curDecls);
+        e.check(curDecls);
     }
 
     @Override
@@ -1265,6 +1276,13 @@ class Expression extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+        firstTerm.genCode(curFunc);
+        if(secondTerm != null){
+            Code.genInstr("", "pushl", "%eax", "");
+            secondTerm.genCode(curFunc);
+            relOpr.genCode(curFunc);
+        }
+
 	}
 
 	static Expression parse() {
@@ -1301,6 +1319,7 @@ class Term extends SyntaxUnit {
     Factor first;
     Term second;
     TermOpr termOpr;
+    Type type;
 
 	@Override
 	void check(DeclList curDecls) {
@@ -1310,6 +1329,13 @@ class Term extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+        if (first != null){
+            first.genCode(curFunc);
+            Code.genInstr("", "pushl", "%eax", "");
+        }
+        second.genCode(curFunc);
+        if(first != null)
+            termOpr.genCode(curFunc);
 	}
 
 	static Term parse() {
@@ -1355,6 +1381,13 @@ class Factor extends Term {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+        if(first != null){
+            first.genCode(curFunc);
+            Code.genInstr("", "pushl", "%eax", "");
+        }
+        second.genCode(curFunc);
+        if(first != null)
+            factorOpr.genCode(curFunc);
     }
 
     static Factor parse() {
@@ -1388,10 +1421,11 @@ class Factor extends Term {
 /*
  * A <primary>
  */
-class Primary extends SyntaxUnit {
+class Primary extends Factor {
     // -- Must be changed in part 1+2:
     Operand first;
     PrefixOpr prefix;
+
 
     @Override
     void check(DeclList curDecls) {
@@ -1401,6 +1435,12 @@ class Primary extends SyntaxUnit {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+        if(first != null){
+            first.genCode(curFunc);
+            Code.genInstr("", "pushl", "%eax", "");
+            prefix.genCode(curFunc);
+        }
+
     }
 
     static Primary parse() {
@@ -1450,6 +1490,10 @@ class TermOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
+        Code.genInstr("", "movl", "%eax, %ecx", "");
+        Code.genInstr("", "popl", "%eax", "");
+        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx, %eax", " + ");}
+        else if(oprToken == subtractToken){Code.genInstr("", "subl", "%ecx, %eax", " - ");}
     }
 
     static TermOpr parse(){
@@ -1479,6 +1523,11 @@ class FactorOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
+        Code.genInstr("", "movl", "%eax, %ecx", "");
+        Code.genInstr("", "popl", "%eax", "");
+        Code.genInstr("", "cdq", "", "");
+        if(oprToken == divideToken){Code.genInstr("", "idivl", "%ecx", " / ");}
+        else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx, %eax", " * ");}
     }
 
     static FactorOpr parse(){
@@ -1508,6 +1557,8 @@ class PrefixOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
+        if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", " negative nr");}
+        else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax), %eax", "peker");}
     }
 
     static PrefixOpr parse(){
@@ -1684,6 +1735,8 @@ class Number extends Operand {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        type = Types.intType;
+
 	}
 
 	@Override
