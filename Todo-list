@@ -30,28 +30,28 @@ FuncDecl          x
 
 StatmList         x       x
 CallStatm         x       x
-EmptyStatm        x       x
-ForStatm          x       x
-IfStatm           x       x                 x
-ReturnStatm       x       x                 x (njaaaa)
+EmptyStatm        x       x         x       x
+ForStatm          x       x         x
+IfStatm           x       x         x       x
+ReturnStatm       x       x                 x
 WhileStatm        x       x         x       x
-LhsVariable       x       x
-AssignStatm       x       x
+LhsVariable       x       x         x       x
+AssignStatm       x       x         x       x
 AssignStatm       x       x
 Assignment        x       x
 
 ExpList           x       x
-Expression        x       x
+Expression        x       x                 x
 
-Term
-Factor
-Primary
-TermOpr
-FactorOpr
-PrefixOpr
+Term              x       x                 x
+Factor            x       x                 x
+Primary           x       x                 x
+TermOpr           x       x                 x
+FactorOpr         x       x                 x
+PrefixOpr         x       x                 x
 FunctionCall      x       x
-Number            x       x
-Variable          x       x
-Address           x       x
-InnerExpr         x       x
+Number            x       x         x       x
+Variable          x       x         x
+Address           x       x         x       x
+InnerExpr         x       x         x       x
 
