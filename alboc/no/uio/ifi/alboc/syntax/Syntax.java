@@ -30,6 +30,7 @@ public class Syntax {
 		// -- Must be changed in part 1+2:
         Scanner.readNext();
         Scanner.readNext();
+
 	}
 
 	public static void finish() {
@@ -981,6 +982,7 @@ class ReturnStatm extends Statement{
     @Override
     void check(DeclList curDecls) {
         e.check(curDecls);
+
         // -- Must be changed in part 2:
 
     }
@@ -1340,7 +1342,9 @@ class Term extends SyntaxUnit {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
-	}
+
+
+   	}
 
 	@Override
 	void genCode(FuncDecl curFunc) {
@@ -1389,9 +1393,11 @@ class Factor extends Term {
     Primary first;
     Factor second;
 
+
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+
     }
 
     @Override
@@ -1441,6 +1447,7 @@ class Primary extends Factor {
     // -- Must be changed in part 1+2:
     Operand first;
     PrefixOpr prefix;
+
 
 
     @Override

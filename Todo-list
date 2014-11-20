@@ -13,20 +13,20 @@ Finish Token methods:
 
 
 
-Part 1 todo class/method list
+Part 1+2 todo class/method list
 
 Classes           Parse   Print   check   gencode
-DecList                   x
-GlobalDeclList    x
-LocalDeclList     x
-ParamDeclList     x       x
-DeclType          x       x
-Declaration       x
-varDecl
-GlobalVarDecl     x
-LocalVarDecl      x
-ParamDecl         x        x
-FuncDecl          x
+DecList                   x         x
+GlobalDeclList    x       x         x
+LocalDeclList     x       x         x
+ParamDeclList     x       x         x
+DeclType          x       x         x       x
+Declaration       x       x         x       x
+varDecl           x       x                 x
+GlobalVarDecl     x       x         x       x (i think)
+LocalVarDecl      x       x         x
+ParamDecl         x       x         x
+FuncDecl          x       x
 
 StatmList         x       x
 CallStatm         x       x         x       x
@@ -38,17 +38,17 @@ ReturnStatm       x       x                 x
 WhileStatm        x       x         x       x
 LhsVariable       x       x         x       x
 AssignStatm       x       x         x       x
-Assignment        x       x                 x
+Assignment        x       x         x       x
 
-ExpList           x       x
+ExpList           x       x                 x
 Expression        x       x                 x
 
 Term              x       x                 x
 Factor            x       x                 x
 Primary           x       x                 x
-TermOpr           x       x                 x
-FactorOpr         x       x                 x
-PrefixOpr         x       x                 x
+TermOpr           x       x         x       x
+FactorOpr         x       x         x       x
+PrefixOpr         x       x         x       x
 FunctionCall      x       x                 x (i think)
 Number            x       x         x       x
 Variable          x       x         x       x
