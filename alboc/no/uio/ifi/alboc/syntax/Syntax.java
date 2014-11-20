@@ -441,15 +441,14 @@ class GlobalVarDecl extends VarDecl {
         // -- Must be changed in part 1:
         GlobalVarDecl gv = new GlobalVarDecl(Scanner.curName);
         gv.typeSpec = dt;
+        Scanner.skip(nameToken);
         if(Scanner.curToken == leftBracketToken) {
             // we found an array.
             gv.isArray = true;
             Scanner.skip(leftBracketToken); // skip this leftbracket
             gv.numElems = Scanner.curNum;
-            Scanner.skip(intToken); // skip the array size
+            Scanner.skip(numberToken); // skip the array size
             Scanner.skip(rightBracketToken); // skip the next right bracket token
-        } else {
-            Scanner.readNext(); // read next tokenn, instead of the current nameToken
         }
         Scanner.skip(semicolonToken);
         Log.leaveParser("</var decl>");
@@ -475,14 +474,13 @@ class LocalVarDecl extends VarDecl {
 		Log.enterParser("<var decl>");
         LocalVarDecl vv = new LocalVarDecl(Scanner.curName);
         vv.typeSpec = dt;
+        Scanner.skip(nameToken);
         if(Scanner.curToken == leftBracketToken){
             vv.isArray = true;
             Scanner.skip(leftBracketToken);
             vv.numElems = Scanner.curNum;
-            Scanner.skip(intToken); // skip the array size
+            Scanner.skip(numberToken); // skip the array size
             Scanner.skip(rightBracketToken); // skip the next right bracket token
-        } else {
-            Scanner.skip(nameToken); // read next tokenn, instead of the current nameToken
         }
         Scanner.skip(semicolonToken);
         Log.leaveParser("</var decl>");
@@ -1548,8 +1546,10 @@ class FactorOpr extends Operator{
         // PART 2
         Code.genInstr("", "movl", "%eax, %ecx", "");
         Code.genInstr("", "popl", "%eax", "");
-        Code.genInstr("", "cdq", "", "");
-        if(oprToken == divideToken){Code.genInstr("", "idivl", "%ecx", " / ");}
+        if(oprToken == divideToken){
+            Code.genInstr("", "cdq", "", "");
+            Code.genInstr("", "idivl", "%ecx", " / ");
+        }
         else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx, %eax", " * ");}
     }
 
@@ -1870,13 +1870,11 @@ class Variable extends Operand {
 		// -- Must be changed in part 1:
         Variable v = new Variable();
         v.varName = Scanner.curName;
+        Scanner.skip(nameToken);
         if(Scanner.curToken == leftBracketToken){
             Scanner.skip(leftBracketToken);
             v.index = Expression.parse();
             Scanner.skip(rightBracketToken);
-        }
-        else{
-            Scanner.skip(nameToken);
         }
         Log.leaveParser("</variable>");
 		return v;
