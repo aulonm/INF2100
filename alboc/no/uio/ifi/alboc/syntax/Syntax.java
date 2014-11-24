@@ -4,8 +4,6 @@ package no.uio.ifi.alboc.syntax;
  * module Syntax
  */
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import no.uio.ifi.alboc.alboc.AlboC;
 import no.uio.ifi.alboc.code.Code;
 import no.uio.ifi.alboc.error.Error;
@@ -15,7 +13,6 @@ import no.uio.ifi.alboc.scanner.Token;
 import static no.uio.ifi.alboc.scanner.Token.*;
 import no.uio.ifi.alboc.types.*;
 
-import java.util.function.Function;
 
 /*
  * Creates a syntax tree by parsing an AlboC program; 
@@ -31,6 +28,13 @@ public class Syntax {
 		// -- Must be changed in part 1+2:
         Scanner.readNext();
         Scanner.readNext();
+        library = new GlobalDeclList();
+        library.addDecl(new FuncDecl("exit", Types.intType, "status"));
+        library.addDecl(new FuncDecl("getchar", Types.intType, null));
+        library.addDecl(new FuncDecl("getint",  Types.intType, null));
+        library.addDecl(new FuncDecl("putchar",  Types.intType, "c"));
+        library.addDecl(new FuncDecl("putint", Types.intType, "c"));
+
 
 	}
 
@@ -564,6 +568,20 @@ class FuncDecl extends Declaration {
 		// -- Must be changed in part 1:
 	}
 
+    FuncDecl(String n, Type rt, String t){
+        super(n);
+        assemblerName = (AlboC.underscoredGlobals() ? "_" : "") + n;
+        this.type = rt;
+
+        if(t != null){
+            ParamDecl p = new ParamDecl(t);
+            funcParams = new ParamDeclList();
+            funcParams.addDecl(p);
+            funcParams.firstDecl.type = Types.intType;
+        }
+
+    }
+
 	@Override
 	int declSize() {
 		return 0;
@@ -575,10 +593,17 @@ class FuncDecl extends Declaration {
         visible = true;
         typeSpec.check(curDecls);
         type = typeSpec.type;
-        funcParams.check(curDecls);
-        funcVars.check(funcParams);
+
+        if(funcParams != null) {
+            funcParams.check(curDecls);
+            funcVars.check(funcParams);
+        }
+        else{
+            funcVars.check(curDecls);
+        }
         funcBody.check(funcVars);
-	}
+
+    }
 
 	@Override
 	void checkWhetherFunction(int nParamsUsed, SyntaxUnit use) {
@@ -1337,26 +1362,29 @@ class Expression extends SyntaxUnit {
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         firstTerm.check(curDecls);
-
-        if(secondTerm  != null){
+        if(secondTerm == null) {
+            type = firstTerm.type;
+        }
+        else{
             secondTerm.check(curDecls);
-        }
-        if(relOpr.oprToken == equalToken || relOpr.oprToken == notEqualToken){
-            if(firstTerm.type instanceof ValueType && secondTerm.type instanceof ValueType &&
-                    (firstTerm.type == secondTerm.type || firstTerm.type == Types.intType || secondTerm.type == Types.intType)){
-                type = Types.intType;
+            if(relOpr.oprToken == equalToken || relOpr.oprToken == notEqualToken){
+                if(firstTerm.type instanceof ValueType && secondTerm.type instanceof ValueType &&
+                        (firstTerm.type == secondTerm.type || firstTerm.type == Types.intType || secondTerm.type == Types.intType)){
+                    type = Types.intType;
+                }else{
+                    Error.error("Type of x was " + firstTerm.type + " and type for y was " + secondTerm.type + ". Both should have been intType");
+                }
+            }else if(Token.isRelOperator(relOpr.oprToken)){
+                if(firstTerm.type == Types.intType && secondTerm.type == Types.intType){
+                    type = Types.intType;
+                }else{
+                    Error.error("Expected both to be intTypes, x was " + firstTerm.type + " and y was " + secondTerm.type);
+                }
             }else{
-                Error.error("Type of x was " + firstTerm.type + " and type for y was " + secondTerm.type + ". Both should have been intType");
+                Error.error("Not a valid expression");
             }
-        }else if(Token.isRelOperator(relOpr.oprToken)){
-            if(firstTerm.type == Types.intType && secondTerm.type == Types.intType){
-                type = Types.intType;
-            }else{
-                Error.error("Expected both to be intTypes, x was " + firstTerm.type + " and y was " + secondTerm.type);
-            }
-        }else{
-            Error.error("Not a valid expression");
         }
+
 
 
 
