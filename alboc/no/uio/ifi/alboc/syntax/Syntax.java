@@ -5,6 +5,7 @@ package no.uio.ifi.alboc.syntax;
  */
 
 import com.sun.org.apache.bcel.internal.generic.RETURN;
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import no.uio.ifi.alboc.alboc.AlboC;
 import no.uio.ifi.alboc.code.Code;
 import no.uio.ifi.alboc.error.Error;
@@ -1020,7 +1021,6 @@ class ReturnStatm extends Statement{
     @Override
     void check(DeclList curDecls) {
         e.check(curDecls);
-
         // -- Must be changed in part 2:
 
     }
@@ -1255,6 +1255,7 @@ class Assignment extends Statement{
 
 class ExprList extends SyntaxUnit {
 	Expression firstExpr = null;
+    static int length = 0;
 
 	@Override
 	void check(DeclList curDecls) {
@@ -1284,6 +1285,7 @@ class ExprList extends SyntaxUnit {
 
 		// -- Must be changed in part 1:
 		ExprList el = new ExprList();
+        length = 1;
         while(Scanner.curToken != rightParToken){
             if(el.firstExpr == null){
                 el.firstExpr = Expression.parse();
@@ -1293,6 +1295,7 @@ class ExprList extends SyntaxUnit {
                 while(prevExpr.nextExpr != null){
                     prevExpr = prevExpr.nextExpr;
                 }
+                length++;
                 prevExpr.nextExpr = Expression.parse();
             }
             if(Scanner.curToken != rightParToken){
@@ -1336,9 +1339,27 @@ class Expression extends SyntaxUnit {
         firstTerm.check(curDecls);
 
         if(secondTerm  != null){
-
             secondTerm.check(curDecls);
         }
+        if(relOpr.oprToken == equalToken || relOpr.oprToken == notEqualToken){
+            if(firstTerm.type instanceof ValueType && secondTerm.type instanceof ValueType &&
+                    (firstTerm.type == secondTerm.type || firstTerm.type == Types.intType || secondTerm.type == Types.intType)){
+                type = Types.intType;
+            }else{
+                Error.error("Type of x was " + firstTerm.type + " and type for y was " + secondTerm.type + ". Both should have been intType");
+            }
+        }else if(Token.isRelOperator(relOpr.oprToken)){
+            if(firstTerm.type == Types.intType && secondTerm.type == Types.intType){
+                type = Types.intType;
+            }else{
+                Error.error("Expected both to be intTypes, x was " + firstTerm.type + " and y was " + secondTerm.type);
+            }
+        }else{
+            Error.error("Not a valid expression");
+        }
+
+
+
 	}
 
 	@Override
@@ -1392,9 +1413,17 @@ class Term extends SyntaxUnit {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        first.check(curDecls);
+        if(second != null){
+            second.check(curDecls);
+        }
+        if(first.type == Types.intType){
+            type = first.type;
+        }else{
+            Error.error("Not declared as intType, was declared as "  + first.type);
+        }
 
-
-   	}
+    }
 
 	@Override
 	void genCode(FuncDecl curFunc) {
@@ -1442,11 +1471,21 @@ class Factor extends SyntaxUnit {
     FactorOpr factorOpr;
     Primary first;
     Factor second;
+    Type type;
 
 
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        first.check(curDecls);
+        if(second != null){
+            second.check(curDecls);
+        }
+        if(first.type == Types.intType){
+            type = first.type;
+        }else{
+            Error.error("Not declared as intType, was declared as "  + first.type);
+        }
 
     }
 
@@ -1497,12 +1536,28 @@ class Primary extends SyntaxUnit {
     // -- Must be changed in part 1+2:
     Operand first;
     PrefixOpr prefix;
+    Type type;
 
 
 
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
+        first.check(curDecls);
+
+        if(prefix.oprToken == starToken){
+            if(first.type instanceof PointerType){
+                type = first.type;
+            }
+        }else if(prefix.oprToken == subtractToken){
+            if(first.type == Types.intType){
+                type = Types.intType;
+            }else{
+                Error.error("Expected intType, got " + first.type);
+            }
+        }else{
+            Error.error("Invalid prefix operator on variable " + first);
+        }
     }
 
     @Override
@@ -1770,6 +1825,35 @@ class FunctionCall extends Operand {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        if(el == null){
+            Error.error("ExprList is null");
+        }
+
+        Declaration d = curDecls.findDecl(funcName, this);
+
+        d.checkWhetherFunction(el.length, d);
+        type = d.type;
+        declRef = (FuncDecl) d;
+
+
+       //Check params
+        el.check(curDecls);
+
+
+        // check func
+        Declaration declTmp = declRef.funcParams.firstDecl;
+        Expression callTmp = el.firstExpr;
+        while(declTmp != null || callTmp != null){
+            if(declTmp == null || callTmp == null){
+                Error.error("FunctionDecl and callDecl parameterlist are not equal length");
+            }
+            if(declTmp.type != callTmp.type || callTmp.type != Types.intType) {
+                Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type);
+            }
+            declTmp = declTmp.nextDecl;
+            callTmp = callTmp.nextExpr;
+        }
+
 	}
 
 	@Override
