@@ -405,7 +405,13 @@ abstract class VarDecl extends Declaration {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
-        
+        visible = true;
+        typeSpec.check(curDecls);
+        if(isArray){
+            type = new ArrayType(typeSpec.type, numElems);
+        }{
+            type = typeSpec.type;
+        }
 	}
 
 	@Override
@@ -565,6 +571,9 @@ class FuncDecl extends Declaration {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        visible = true;
+        typeSpec.check(curDecls);
+        type = typeSpec.type;
         funcParams.check(curDecls);
         funcVars.check(funcParams);
         funcBody.check(funcVars);
@@ -1320,11 +1329,14 @@ class Expression extends SyntaxUnit {
 	Operator relOpr = null;
 	Type type = null;
 
+
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         firstTerm.check(curDecls);
-        if(secondTerm != null){
+
+        if(secondTerm  != null){
+
             secondTerm.check(curDecls);
         }
 	}
@@ -1425,7 +1437,7 @@ class Term extends SyntaxUnit {
 /*
  * A <factor>
  */
-class Factor extends Term {
+class Factor extends SyntaxUnit {
     // -- Must be changed in part 1+2:
     FactorOpr factorOpr;
     Primary first;
@@ -1481,7 +1493,7 @@ class Factor extends Term {
 /*
  * A <primary>
  */
-class Primary extends Factor {
+class Primary extends SyntaxUnit {
     // -- Must be changed in part 1+2:
     Operand first;
     PrefixOpr prefix;
