@@ -417,10 +417,10 @@ Tree:     int LF;
 Tree:     int gcd(int a, int b){
 Tree:       while (a != b) {
 Tree:         if (a < b) {
-Tree:           b=ba;
+Tree:           b=b - a;
 Tree:           }
 Tree:         else {
-Tree:           a=ab;
+Tree:           a=a - b;
 Tree:           
 Tree:           }
 Tree:       }

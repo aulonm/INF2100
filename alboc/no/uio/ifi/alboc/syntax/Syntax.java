@@ -111,7 +111,7 @@ class Program extends SyntaxUnit {
 		if (Scanner.curToken != eofToken) {
             Error.expected("A declaration");
         }
-        System.out.println(Log.ut + "  what  " + Log.inn);
+        //System.out.println(Log.ut + "  what  " + Log.inn);
 		Log.leaveParser("</program>");
 
 		return p;
@@ -165,8 +165,13 @@ abstract class DeclList extends SyntaxUnit {
         }
         else{
             Declaration prevDecl = firstDecl;
-            while(prevDecl.nextDecl != null)
+            while(prevDecl.nextDecl != null){
+                if(prevDecl.name.equals(d.name))
+                    d.error("name " + d.name + " already declared");
                 prevDecl = prevDecl.nextDecl;
+            }
+            if(prevDecl.name.equals(d.name))
+                d.error("name " + d.name + " already declared");
             prevDecl.nextDecl = d;
         }
 	}
@@ -184,7 +189,19 @@ abstract class DeclList extends SyntaxUnit {
 
 	Declaration findDecl(String name, SyntaxUnit use) {
 		// -- Must be changed in part 2:
-		return null;
+        Declaration dx = firstDecl;
+        while(dx != null){
+            if(dx.name.equals(name)){
+                return dx;
+            }
+            dx = dx.nextDecl;
+        }
+        if(outerScope != null){
+            return outerScope.findDecl(name, use);
+        }
+        Error.error("name " + name + " is unknown");
+
+        return null;
 	}
 }
 
@@ -548,6 +565,9 @@ class FuncDecl extends Declaration {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        funcParams.check(curDecls);
+        funcVars.check(funcParams);
+        funcBody.check(funcVars);
 	}
 
 	@Override
@@ -558,6 +578,8 @@ class FuncDecl extends Declaration {
 	@Override
 	void checkWhetherVariable(SyntaxUnit use) {
 		// -- Must be changed in part 2:
+        use.error(name + " is a function and no variable!");
+
 	}
 
 	@Override
@@ -620,6 +642,15 @@ class StatmList extends SyntaxUnit {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        if(first != null){
+            Statement s = first;
+            s.check(curDecls);
+            while(s.nextStatm != null){ // sjekker alle statements i lista
+                s = s.nextStatm;
+                s.check(curDecls);
+            }
+        }
+
 	}
 
 	@Override
@@ -1219,6 +1250,11 @@ class ExprList extends SyntaxUnit {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        Expression e = firstExpr;
+        while(e != null){ // sjekker alle exprs i exprlisten
+            e.check(curDecls);
+            e = e.nextExpr;
+        }
 	}
 
 	@Override
@@ -1287,6 +1323,10 @@ class Expression extends SyntaxUnit {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        firstTerm.check(curDecls);
+        if(secondTerm != null){
+            secondTerm.check(curDecls);
+        }
 	}
 
 	@Override

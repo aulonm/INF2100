@@ -26,9 +26,9 @@ varDecl           x       x                 x
 GlobalVarDecl     x       x         x       x (i think)
 LocalVarDecl      x       x         x
 ParamDecl         x       x         x
-FuncDecl          x       x
+FuncDecl          x       x         x
 
-StatmList         x       x
+StatmList         x       x         x
 CallStatm         x       x         x       x
 EmptyStatm        x       x         x       x
 ForStatm          x       x         x       x
@@ -40,8 +40,8 @@ LhsVariable       x       x         x       x
 AssignStatm       x       x         x       x
 Assignment        x       x         x       x
 
-ExpList           x       x                 x
-Expression        x       x                 x
+ExpList           x       x         x       x
+Expression        x       x         x (usikker)        x
 
 Term              x       x                 x
 Factor            x       x                 x
