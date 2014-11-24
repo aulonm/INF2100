@@ -259,6 +259,7 @@ class LocalDeclList extends DeclList {
  * diagrams.)
  */
 class ParamDeclList extends DeclList {
+    static int length = 0;
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
@@ -271,6 +272,7 @@ class ParamDeclList extends DeclList {
         while(Scanner.curToken == intToken){
             DeclType ts = DeclType.parse();
             pdl.addDecl(ParamDecl.parse(ts));
+            length++;
         }
 
         return pdl;
@@ -284,6 +286,7 @@ class ParamDeclList extends DeclList {
 			px = px.nextDecl;
 			if (px != null)
 				Log.wTree(", ");
+
 		}
 	}
 }
@@ -572,12 +575,13 @@ class FuncDecl extends Declaration {
         super(n);
         assemblerName = (AlboC.underscoredGlobals() ? "_" : "") + n;
         this.type = rt;
+        funcParams = new ParamDeclList();
 
-        if(t != null){
+        if(t == null){
             ParamDecl p = new ParamDecl(t);
-            funcParams = new ParamDeclList();
             funcParams.addDecl(p);
             funcParams.firstDecl.type = Types.intType;
+
         }
 
     }
@@ -1286,6 +1290,7 @@ class ExprList extends SyntaxUnit {
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         Expression e = firstExpr;
+
         while(e != null){ // sjekker alle exprs i exprlisten
             e.check(curDecls);
             e = e.nextExpr;
@@ -1573,7 +1578,10 @@ class Primary extends SyntaxUnit {
         // -- Must be changed in part 2:
         first.check(curDecls);
 
-        if(prefix.oprToken == starToken){
+        if(prefix == null){
+            type = first.type;
+        }
+        else if(prefix.oprToken == starToken){
             if(first.type instanceof PointerType){
                 type = first.type;
             }
@@ -1583,8 +1591,6 @@ class Primary extends SyntaxUnit {
             }else{
                 Error.error("Expected intType, got " + first.type);
             }
-        }else{
-            Error.error("Invalid prefix operator on variable " + first);
         }
     }
 
@@ -1853,28 +1859,33 @@ class FunctionCall extends Operand {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
+        System.out.println(funcName);
         if(el == null){
             Error.error("ExprList is null");
         }
 
         Declaration d = curDecls.findDecl(funcName, this);
 
+
         d.checkWhetherFunction(el.length, d);
         type = d.type;
         declRef = (FuncDecl) d;
-
+        ;
 
        //Check params
         el.check(curDecls);
 
 
+
         // check func
         Declaration declTmp = declRef.funcParams.firstDecl;
+
         Expression callTmp = el.firstExpr;
         while(declTmp != null || callTmp != null){
             if(declTmp == null || callTmp == null){
                 Error.error("FunctionDecl and callDecl parameterlist are not equal length");
             }
+
             if(declTmp.type != callTmp.type || callTmp.type != Types.intType) {
                 Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type);
             }
