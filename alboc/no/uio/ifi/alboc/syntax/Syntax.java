@@ -26,8 +26,7 @@ public class Syntax {
 
 	public static void init() {
 		// -- Must be changed in part 1+2:
-        Scanner.readNext();
-        Scanner.readNext();
+
         library = new GlobalDeclList();
         library.addDecl(new FuncDecl("exit", Types.intType, "status"));
         library.addDecl(new FuncDecl("getchar", Types.intType, null));
@@ -35,7 +34,8 @@ public class Syntax {
         library.addDecl(new FuncDecl("putchar",  Types.intType, "c"));
         library.addDecl(new FuncDecl("putint", Types.intType, "c"));
 
-
+        Scanner.readNext();
+        Scanner.readNext();
 	}
 
 	public static void finish() {
@@ -612,6 +612,9 @@ class FuncDecl extends Declaration {
 	@Override
 	void checkWhetherFunction(int nParamsUsed, SyntaxUnit use) {
 		// -- Must be changed in part 2:
+        if(funcParams != null && funcParams.length != nParamsUsed){
+            Error.error("FUCK THIS");
+        }
 	}
 
 	@Override
@@ -1870,7 +1873,7 @@ class FunctionCall extends Operand {
         d.checkWhetherFunction(el.length, d);
         type = d.type;
         declRef = (FuncDecl) d;
-        ;
+
 
        //Check params
         el.check(curDecls);
