@@ -24,8 +24,7 @@ int test2()
    int* a0;  int* a4;
 
    a[0] = -2;
-   a0 =
-    a;  
+   a0 = a;  
    a4 = &a[4];  
    a4[-4] = a4[-4]-1;
    putchar('a');  putchar('0');  putchar('=');  putint(*a0);  putchar(LF);

@@ -1593,7 +1593,7 @@ class Primary extends SyntaxUnit {
         first.check(curDecls);
 
         if(prefix == null){
-            System.out.println("hei1");
+            // System.out.println("hei1");
             Type tmp = first.type;
             while(tmp instanceof PointerType){
                 type = tmp.getElemType();
@@ -1602,7 +1602,7 @@ class Primary extends SyntaxUnit {
             type = tmp;
         }
         else if(prefix.oprToken == starToken){
-            System.out.println("hei2");
+            // System.out.println("hei2");
             Type tmp = first.type;
             while(tmp instanceof PointerType){
                 type = tmp.getElemType();
@@ -1634,12 +1634,12 @@ class Primary extends SyntaxUnit {
         // -- Must be changed in part 1:
         Log.enterParser("<primary>");
         Primary p = new Primary();
-        System.out.println(Scanner.curToken);
+        // System.out.println(Scanner.curToken);
         if(Token.isPrefixOperator(Scanner.curToken)){
             p.prefix = PrefixOpr.parse();
         }
         p.first = Operand.parse();
-        System.out.println(p.first.lineNum +"");
+        // System.out.println(p.first.lineNum +"");
 
         Log.leaveParser("</primary>");
         return p;
@@ -1892,7 +1892,7 @@ class FunctionCall extends Operand {
 
         Declaration d = curDecls.findDecl(funcName, this);
         Log.noteBinding(funcName, lineNum, d.lineNum);
-
+ 
 
         //d.checkWhetherFunction(el.length, this);
         type = d.type;
