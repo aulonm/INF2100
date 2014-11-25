@@ -1,0 +1,39 @@
+/* Program 'pointers'
+   ------------------
+   Tests various use of pointers.
+*/
+
+int LF;
+
+int test1 ()
+{
+   int v;
+   int *p1;
+   int **p2;
+   int ***p3;
+
+   p1 = &v;  p2 = &p1;  p3 = &p2; 
+   v = 17;  *p1 = *p1+1;  **p2 = *(*p2)+2;  ***p3 = *(*(*p3))+3;
+   putchar('v');  putchar('=');  putint(*p1);  putchar('=');
+   putint(*(*p2));  putchar('=');  putint(*(*(*(p3))));  putchar(LF);
+}
+
+int test2()
+{
+   int a[10];
+   int* a0;  int* a4;
+
+   a[0] = -2;
+   a0 = a;  
+   a4 = &a[4];  
+   a4[-4] = a4[-4]-1;
+   putchar('a');  putchar('0');  putchar('=');  putint(*a0);  putchar(LF);
+}
+
+int main ()
+{
+   LF = 10;  /* Line feed character */
+   test1();  
+   test2();  
+   exit(0);
+}

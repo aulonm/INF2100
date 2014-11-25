@@ -1,0 +1,1620 @@
+	1: # Test all the operators
+	2: 
+	3: int print (int x, int op1, int op2, int y, int res)
+Parser:   <program>
+Parser:     <type>
+Parser:     </type>
+Parser:     <func decl>
+Parser:       <type>
+Parser:       </type>
+Parser:       <param decl>
+Parser:       </param decl>
+Parser:       <type>
+Parser:       </type>
+Parser:       <param decl>
+Parser:       </param decl>
+Parser:       <type>
+Parser:       </type>
+Parser:       <param decl>
+Parser:       </param decl>
+Parser:       <type>
+Parser:       </type>
+Parser:       <param decl>
+Parser:       </param decl>
+Parser:       <type>
+	4: {
+Parser:       </type>
+Parser:       <param decl>
+	5:   putint(x);  putchar(' ');  putchar(op1);  
+Parser:       </param decl>
+Parser:       <func body>
+Parser:         <statm list>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+	6:   if (op2 != ' ') { putchar(op2); }  
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <if-statm>
+Parser:               <expression>
+Parser:                 <term>
+Parser:                   <factor>
+Parser:                     <primary>
+Parser:                       <operand>
+Parser:                         <variable>
+Parser:                         </variable>
+Parser:                       </operand>
+Parser:                     </primary>
+Parser:                   </factor>
+Parser:                 </term>
+Parser:                 <rel opr>
+Parser:                 </rel opr>
+Parser:                 <term>
+Parser:                   <factor>
+Parser:                     <primary>
+Parser:                       <operand>
+Parser:                         <number>
+Parser:                         </number>
+Parser:                       </operand>
+Parser:                     </primary>
+Parser:                   </factor>
+Parser:                 </term>
+Parser:               </expression>
+Parser:               <statm list>
+Parser:                 <statement>
+Parser:                   <call-statm>
+Parser:                     <function call>
+Parser:                       <expr list>
+Parser:                         <expression>
+Parser:                           <term>
+Parser:                             <factor>
+Parser:                               <primary>
+Parser:                                 <operand>
+Parser:                                   <variable>
+Parser:                                   </variable>
+Parser:                                 </operand>
+Parser:                               </primary>
+Parser:                             </factor>
+Parser:                           </term>
+Parser:                         </expression>
+Parser:                       </expr list>
+Parser:                     </function call>
+	7:   putchar(' ');  putint(y);  putchar(' ');  putchar('=');  
+Parser:                   </call-statm>
+Parser:                 </statement>
+Parser:               </statm list>
+Parser:             </if-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+	8:   putchar(' ');  putint(res);  putchar(10);
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+	9: }
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+	10: 
+	11: int test (int a, int b)
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:         </statm list>
+Parser:       </func body>
+Parser:     </func delc>
+Parser:     <type>
+Parser:     </type>
+Parser:     <func decl>
+Parser:       <type>
+Parser:       </type>
+Parser:       <param decl>
+Parser:       </param decl>
+Parser:       <type>
+	12: {
+Parser:       </type>
+Parser:       <param decl>
+	13:   print(a, '+', ' ', b, a+b);
+Parser:       </param decl>
+Parser:       <func body>
+Parser:         <statm list>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                       <term opr>
+Parser:                       </term opr>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <variable>
+	14:   print(a, '-', ' ', b, a-b);
+Parser:                               </variable>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                       <term opr>
+Parser:                       </term opr>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <variable>
+	15:   print(a, '*', ' ', b, a*b);
+Parser:                               </variable>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                         <factor opr>
+Parser:                         </factor opr>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <variable>
+	16:   print(a, '/', ' ', b, a/b);
+Parser:                               </variable>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                         <factor opr>
+Parser:                         </factor opr>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <variable>
+	17:   print(a, '=', '=', b, a==b);
+Parser:                               </variable>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	18:   print(a, '!', '=', b, a!=b);
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	19:   print(a, '<', ' ', b, a<b);
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	20:   print(a, '<', '=', b, a<=b);
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	21:   print(a, '>', ' ', b, a>b);
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	22:   print(a, '>', '=', b, a>=b);
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <call-statm>
+Parser:               <function call>
+Parser:                 <expr list>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+Parser:                   <expression>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                     <rel opr>
+Parser:                     </rel opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <variable>
+	23: }
+Parser:                             </variable>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </expression>
+	24: 
+	25: int main () 
+Parser:                 </expr list>
+Parser:               </function call>
+Parser:             </call-statm>
+Parser:           </statement>
+Parser:         </statm list>
+Parser:       </func body>
+Parser:     </func delc>
+Parser:     <type>
+Parser:     </type>
+Parser:     <func decl>
+	26: {
+	27:   int va[3];  int vb[3];  int ia;  int ib;
+Parser:       <func body>
+Parser:         <type>
+Parser:         </type>
+Parser:         <var decl>
+Parser:         </var decl>
+Parser:         <type>
+Parser:         </type>
+Parser:         <var decl>
+Parser:         </var decl>
+Parser:         <type>
+Parser:         </type>
+Parser:         <var decl>
+	28: 
+Parser:         </var decl>
+Parser:         <type>
+	29:   va[0] = -3;   va[1] = 0;  va[2] = 17;
+Parser:         </type>
+Parser:         <var decl>
+Parser:         </var decl>
+Parser:         <statm list>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <prefix opr>
+Parser:                         </prefix opr>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+	30:   vb[0] = -32;  vb[1] = 2;  vb[2] = 17;
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <prefix opr>
+Parser:                         </prefix opr>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <assign-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+	31: 
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+	32:   for (ia = 0;  ia < 3;  ia = ia+1) {
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:             </assign-statm>
+Parser:           </statement>
+Parser:           <statement>
+Parser:             <for-statm>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <number>
+Parser:                           </number>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:               <expression>
+Parser:                 <term>
+Parser:                   <factor>
+Parser:                     <primary>
+Parser:                       <operand>
+Parser:                         <variable>
+Parser:                         </variable>
+Parser:                       </operand>
+Parser:                     </primary>
+Parser:                   </factor>
+Parser:                 </term>
+Parser:                 <rel opr>
+Parser:                 </rel opr>
+Parser:                 <term>
+Parser:                   <factor>
+Parser:                     <primary>
+Parser:                       <operand>
+Parser:                         <number>
+Parser:                         </number>
+Parser:                       </operand>
+Parser:                     </primary>
+Parser:                   </factor>
+Parser:                 </term>
+Parser:               </expression>
+Parser:               <assignment>
+Parser:                 <lhs-variable>
+Parser:                   <variable>
+Parser:                   </variable>
+Parser:                 </lhs-variable>
+Parser:                 <expression>
+Parser:                   <term>
+Parser:                     <factor>
+Parser:                       <primary>
+Parser:                         <operand>
+Parser:                           <variable>
+Parser:                           </variable>
+Parser:                         </operand>
+Parser:                       </primary>
+Parser:                     </factor>
+Parser:                     <term opr>
+Parser:                     </term opr>
+Parser:                     <term>
+Parser:                       <factor>
+Parser:                         <primary>
+Parser:                           <operand>
+Parser:                             <number>
+	33:     for (ib = 0;  ib < 3;  ib = ib+1) {
+Parser:                             </number>
+Parser:                           </operand>
+Parser:                         </primary>
+Parser:                       </factor>
+Parser:                     </term>
+Parser:                   </term>
+Parser:                 </expression>
+Parser:               </assignment>
+Parser:               <statm list>
+Parser:                 <statement>
+Parser:                   <for-statm>
+Parser:                     <assignment>
+Parser:                       <lhs-variable>
+Parser:                         <variable>
+Parser:                         </variable>
+Parser:                       </lhs-variable>
+Parser:                       <expression>
+Parser:                         <term>
+Parser:                           <factor>
+Parser:                             <primary>
+Parser:                               <operand>
+Parser:                                 <number>
+Parser:                                 </number>
+Parser:                               </operand>
+Parser:                             </primary>
+Parser:                           </factor>
+Parser:                         </term>
+Parser:                       </expression>
+Parser:                     </assignment>
+Parser:                     <expression>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <variable>
+Parser:                               </variable>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                       <rel opr>
+Parser:                       </rel opr>
+Parser:                       <term>
+Parser:                         <factor>
+Parser:                           <primary>
+Parser:                             <operand>
+Parser:                               <number>
+Parser:                               </number>
+Parser:                             </operand>
+Parser:                           </primary>
+Parser:                         </factor>
+Parser:                       </term>
+Parser:                     </expression>
+Parser:                     <assignment>
+Parser:                       <lhs-variable>
+Parser:                         <variable>
+Parser:                         </variable>
+Parser:                       </lhs-variable>
+Parser:                       <expression>
+Parser:                         <term>
+Parser:                           <factor>
+Parser:                             <primary>
+Parser:                               <operand>
+Parser:                                 <variable>
+Parser:                                 </variable>
+Parser:                               </operand>
+Parser:                             </primary>
+Parser:                           </factor>
+Parser:                           <term opr>
+Parser:                           </term opr>
+Parser:                           <term>
+Parser:                             <factor>
+Parser:                               <primary>
+Parser:                                 <operand>
+Parser:                                   <number>
+	34:       test(va[ia], vb[ib]);
+Parser:                                   </number>
+Parser:                                 </operand>
+Parser:                               </primary>
+Parser:                             </factor>
+Parser:                           </term>
+Parser:                         </term>
+Parser:                       </expression>
+Parser:                     </assignment>
+Parser:                     <statm list>
+Parser:                       <statement>
+Parser:                         <call-statm>
+Parser:                           <function call>
+Parser:                             <expr list>
+Parser:                               <expression>
+Parser:                                 <term>
+Parser:                                   <factor>
+Parser:                                     <primary>
+Parser:                                       <operand>
+Parser:                                         <variable>
+Parser:                                           <expression>
+Parser:                                             <term>
+Parser:                                               <factor>
+Parser:                                                 <primary>
+Parser:                                                   <operand>
+Parser:                                                     <variable>
+Parser:                                                     </variable>
+Parser:                                                   </operand>
+Parser:                                                 </primary>
+Parser:                                               </factor>
+Parser:                                             </term>
+Parser:                                           </expression>
+Parser:                                         </variable>
+Parser:                                       </operand>
+Parser:                                     </primary>
+Parser:                                   </factor>
+Parser:                                 </term>
+Parser:                               </expression>
+Parser:                               <expression>
+Parser:                                 <term>
+Parser:                                   <factor>
+Parser:                                     <primary>
+Parser:                                       <operand>
+Parser:                                         <variable>
+Parser:                                           <expression>
+Parser:                                             <term>
+Parser:                                               <factor>
+Parser:                                                 <primary>
+Parser:                                                   <operand>
+Parser:                                                     <variable>
+Parser:                                                     </variable>
+Parser:                                                   </operand>
+Parser:                                                 </primary>
+Parser:                                               </factor>
+Parser:                                             </term>
+Parser:                                           </expression>
+	35:     }
+Parser:                                         </variable>
+Parser:                                       </operand>
+Parser:                                     </primary>
+Parser:                                   </factor>
+Parser:                                 </term>
+Parser:                               </expression>
+	36:   }
+Parser:                             </expr list>
+Parser:                           </function call>
+	37: }
+Parser:                         </call-statm>
+Parser:                       </statement>
+Parser:                     </statm list>
+Parser:                   </for-statm>
+Parser:                 </statement>
+Parser:               </statm list>
+Parser:             </for-statm>
+Parser:           </statement>
+Parser:         </statm list>
+Parser:       </func body>
+Parser:     </func delc>
+Parser:   </program>
+Tree:     int print(int x, int op1, int op2, int y, int res){
+Tree:       putint(x);
+Tree:       putchar(32);
+Tree:       putchar(op1);
+Tree:       if (op2 != 32) {
+Tree:         putchar(op2);
+Tree:         }
+Tree:       putchar(32);
+Tree:       putint(y);
+Tree:       putchar(32);
+Tree:       putchar(61);
+Tree:       putchar(32);
+Tree:       putint(res);
+Tree:       putchar(10);
+Tree:       
+Tree:     }
+Tree:     int test(int a, int b){
+Tree:       print(a, 43, 32, b, a + b);
+Tree:       print(a, 45, 32, b, a - b);
+Tree:       print(a, 42, 32, b, a * b);
+Tree:       print(a, 47, 32, b, a / b);
+Tree:       print(a, 61, 61, b, a == b);
+Tree:       print(a, 33, 61, b, a != b);
+Tree:       print(a, 60, 32, b, a < b);
+Tree:       print(a, 60, 61, b, a <= b);
+Tree:       print(a, 62, 32, b, a > b);
+Tree:       print(a, 62, 61, b, a >= b);
+Tree:       
+Tree:     }
+Tree:     int main(){
+Tree:       int va;
+Tree:       int vb;
+Tree:       int ia;
+Tree:       int ib;
+Tree:       va[0]=-3;
+Tree:       va[1]=0;
+Tree:       va[2]=17;
+Tree:       vb[0]=-32;
+Tree:       vb[1]=2;
+Tree:       vb[2]=17;
+Tree:       for (ia=0;ia < 3}ia=ia + 1) {
+Tree:         for (ib=0;ib < 3}ib=ib + 1) {
+Tree:           test(va[ia], vb[ib]);
+Tree:         }
+Tree:       }
+Tree:       
+Tree:     }
