@@ -8,7 +8,7 @@ Finish Token methods:
   isFactorOperator
   isOperand
 
-
+check printtree for localVarDecl arrays
 
 
 
@@ -22,7 +22,7 @@ LocalDeclList     x       x         x
 ParamDeclList     x       x         x
 DeclType          x       x         x       x
 Declaration       x       x         x       x
-varDecl           x       x         x       x
+varDecl           x                 x       x
 GlobalVarDecl     x       x         x       x (i think)
 LocalVarDecl      x       x         x
 ParamDecl         x       x         x

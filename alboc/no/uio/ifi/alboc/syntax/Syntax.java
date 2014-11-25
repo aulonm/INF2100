@@ -1319,20 +1319,21 @@ class ExprList extends SyntaxUnit {
 		// -- Must be changed in part 1:
 		ExprList el = new ExprList();
         length = 1;
-        while(Scanner.curToken != rightParToken){
-            if(el.firstExpr == null){
-                el.firstExpr = Expression.parse();
-            }
-            else{
-                Expression prevExpr = el.firstExpr;
-                while(prevExpr.nextExpr != null){
-                    prevExpr = prevExpr.nextExpr;
+        if(Scanner.curToken != rightParToken) { // makes sure the firstExpr is null if there's no expressions
+            while (Scanner.curToken != rightParToken) {
+                if (el.firstExpr == null) {
+                    el.firstExpr = Expression.parse();
+                } else {
+                    Expression prevExpr = el.firstExpr;
+                    while (prevExpr.nextExpr != null) {
+                        prevExpr = prevExpr.nextExpr;
+                    }
+                    length++;
+                    prevExpr.nextExpr = Expression.parse();
                 }
-                length++;
-                prevExpr.nextExpr = Expression.parse();
-            }
-            if(Scanner.curToken != rightParToken){
-                Scanner.skip(commaToken);
+                if (Scanner.curToken != rightParToken) {
+                    Scanner.skip(commaToken);
+                }
             }
         }
         Scanner.skip(rightParToken);
@@ -1862,7 +1863,7 @@ class FunctionCall extends Operand {
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
-        System.out.println(funcName);
+
         if(el == null){
             Error.error("ExprList is null");
         }
@@ -1870,21 +1871,21 @@ class FunctionCall extends Operand {
         Declaration d = curDecls.findDecl(funcName, this);
 
 
-        d.checkWhetherFunction(el.length, d);
+        //d.checkWhetherFunction(el.length, this);
         type = d.type;
         declRef = (FuncDecl) d;
 
 
        //Check params
         el.check(curDecls);
-
+        System.out.println(funcName);
 
 
         // check func
         Declaration declTmp = declRef.funcParams.firstDecl;
-
         Expression callTmp = el.firstExpr;
         while(declTmp != null || callTmp != null){
+            System.out.println(declTmp  + "   " + callTmp);
             if(declTmp == null || callTmp == null){
                 Error.error("FunctionDecl and callDecl parameterlist are not equal length");
             }
