@@ -96,6 +96,8 @@ class Program extends SyntaxUnit {
 			// -- Must be changed in part 2:
             FuncDecl main;
             Declaration d = progDecls.findDecl("main", null);
+            Log.noteBinding("main", 0, d.lineNum);
+
             main = (FuncDecl) d;
             if(main.type != Types.intType)
                 error("'main' should return type 'int'");
@@ -1460,11 +1462,11 @@ class Term extends SyntaxUnit {
         }
         if(first.type == Types.intType){
             type = first.type;
-        }else{
-
+        } else if (first.type instanceof ArrayType) {
+        	type = first.type;
+        } else{
             Error.error("Not declared as intType, was declared as "  + first.type);
         }
-
     }
 
 	@Override
@@ -1525,9 +1527,11 @@ class Factor extends SyntaxUnit {
         }
         if(first.type == Types.intType){
             type = first.type;
-        }else{
+        } else if(first.type instanceof ArrayType) {
+        	type = first.type;
+        } else{
             System.out.println(first.type);
-            Error.error("Not declared as intType, was declared as "  + first.type);
+            Error.error("Not declared as intType, was declared as "  + first.lineNum);
         }
 
     }
@@ -1604,6 +1608,7 @@ class Primary extends SyntaxUnit {
                 type = tmp.getElemType();
                 tmp = tmp.getElemType();
             }
+            type = tmp;
         }else if(prefix.oprToken == subtractToken){
             if(first.type == Types.intType){
                 type = Types.intType;
@@ -1611,6 +1616,7 @@ class Primary extends SyntaxUnit {
                 Error.error("Expected intType, got " + first.type);
             }
         }
+
     }
 
     @Override
@@ -1885,6 +1891,7 @@ class FunctionCall extends Operand {
         }
 
         Declaration d = curDecls.findDecl(funcName, this);
+        Log.noteBinding(funcName, lineNum, d.lineNum);
 
 
         //d.checkWhetherFunction(el.length, this);
@@ -1999,6 +2006,8 @@ class Variable extends Operand {
 	@Override
 	void check(DeclList curDecls) {
 		Declaration d = curDecls.findDecl(varName, this);
+        Log.noteBinding(varName, lineNum, d.lineNum);
+
 		d.checkWhetherVariable(this);
 		declRef = (VarDecl) d;
 

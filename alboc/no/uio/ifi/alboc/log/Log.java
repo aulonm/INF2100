@@ -117,6 +117,13 @@ public class Log {
 	public static void noteBinding(String name, int lineNum, int useLineNum) {
 		if (!doLogBinding)
 			return;
+		if(name.equals("main")) writeLogLine("Binding: "+ name + " refers to declaration in line "+useLineNum);
+		else if (name.equals("putchar") || name.equals("getchar") || name.equals("putint")
+			|| name.equals("getint") || name.equals("exit")) {
+			writeLogLine("Binding: Line "+ lineNum + ": "+name+" refers to declaration in the library");
+		} else {
+			writeLogLine("Binding: Line "+ lineNum + ": "+name+" refers to declaration in line "+useLineNum);
+		}
 		// -- Must be changed in part 2:
 	}
 
