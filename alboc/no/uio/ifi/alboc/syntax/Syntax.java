@@ -415,9 +415,11 @@ abstract class VarDecl extends Declaration {
 		// -- Must be changed in part 2:
         visible = true;
         typeSpec.check(curDecls);
+
         if(isArray){
+
             type = new ArrayType(typeSpec.type, numElems);
-        }{
+        }else {
             type = typeSpec.type;
         }
 	}
@@ -577,7 +579,7 @@ class FuncDecl extends Declaration {
         this.type = rt;
         funcParams = new ParamDeclList();
 
-        if(t == null){
+        if(t != null){
             ParamDecl p = new ParamDecl(t);
             funcParams.addDecl(p);
             funcParams.firstDecl.type = Types.intType;
@@ -1336,7 +1338,7 @@ class ExprList extends SyntaxUnit {
                 }
             }
         } else {
-        	firstExpr = null;
+        	el.firstExpr = null;
         }
         Scanner.skip(rightParToken);
         Log.leaveParser("</expr list>");
@@ -1459,6 +1461,7 @@ class Term extends SyntaxUnit {
         if(first.type == Types.intType){
             type = first.type;
         }else{
+
             Error.error("Not declared as intType, was declared as "  + first.type);
         }
 
@@ -1523,6 +1526,7 @@ class Factor extends SyntaxUnit {
         if(first.type == Types.intType){
             type = first.type;
         }else{
+            System.out.println(first.type);
             Error.error("Not declared as intType, was declared as "  + first.type);
         }
 
@@ -1585,11 +1589,20 @@ class Primary extends SyntaxUnit {
         first.check(curDecls);
 
         if(prefix == null){
-            type = first.type;
+            System.out.println("hei1");
+            Type tmp = first.type;
+            while(tmp instanceof PointerType){
+                type = tmp.getElemType();
+                tmp = tmp.getElemType();
+            }
+            type = tmp;
         }
         else if(prefix.oprToken == starToken){
-            if(first.type instanceof PointerType){
-                type = first.type;
+            System.out.println("hei2");
+            Type tmp = first.type;
+            while(tmp instanceof PointerType){
+                type = tmp.getElemType();
+                tmp = tmp.getElemType();
             }
         }else if(prefix.oprToken == subtractToken){
             if(first.type == Types.intType){
@@ -1615,11 +1628,12 @@ class Primary extends SyntaxUnit {
         // -- Must be changed in part 1:
         Log.enterParser("<primary>");
         Primary p = new Primary();
-
+        System.out.println(Scanner.curToken);
         if(Token.isPrefixOperator(Scanner.curToken)){
             p.prefix = PrefixOpr.parse();
         }
         p.first = Operand.parse();
+        System.out.println(p.first.lineNum +"");
 
         Log.leaveParser("</primary>");
         return p;
@@ -1880,14 +1894,12 @@ class FunctionCall extends Operand {
 
        //Check params
         el.check(curDecls);
-        System.out.println(funcName);
 
 
         // check func
         Declaration declTmp = declRef.funcParams.firstDecl;
         Expression callTmp = el.firstExpr;
         while(declTmp != null || callTmp != null){
-            System.out.println(declTmp  + "   " + callTmp);
             if(declTmp == null || callTmp == null){
                 Error.error("FunctionDecl and callDecl parameterlist are not equal length");
             }
@@ -1995,7 +2007,6 @@ class Variable extends Operand {
 		} else {
 			index.check(curDecls);
 			Log.noteTypeCheck("a[e]", d.type, "a", index.type, "e", lineNum);
-
 			if (index.type == Types.intType) {
 				// OK
 			} else {
@@ -2052,6 +2063,7 @@ class Variable extends Operand {
         Variable v = new Variable();
         v.varName = Scanner.curName;
         Scanner.skip(nameToken);
+
         if(Scanner.curToken == leftBracketToken){
             Scanner.skip(leftBracketToken);
             v.index = Expression.parse();
