@@ -1335,6 +1335,8 @@ class ExprList extends SyntaxUnit {
                     Scanner.skip(commaToken);
                 }
             }
+        } else {
+        	firstExpr = null;
         }
         Scanner.skip(rightParToken);
         Log.leaveParser("</expr list>");
