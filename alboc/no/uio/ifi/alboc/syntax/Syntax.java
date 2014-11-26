@@ -659,13 +659,13 @@ class FuncDecl extends Declaration {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		Code.genInstr("", ".global", assemblerName, "");
-		Code.genInstr(assemblerName, "enter", funcVars.dataSize()+",$0", "# Start function " + assemblerName);
+		Code.genInstr(assemblerName, "enter", "$"+funcVars.dataSize()+",$0", "# Start function " + assemblerName);
 
 		if(funcParams != null){
-			funcParams.genCode(curFunc);
+			funcParams.genCode(this);
 		}
-		funcVars.genCode(curFunc);
-		funcBody.genCode(curFunc);
+		funcVars.genCode(this);
+		funcBody.genCode(this);
 
 		Code.genInstr(".exit$"+assemblerName,"","","");
 		Code.genInstr("","leave","","");
@@ -1125,6 +1125,7 @@ class ReturnStatm extends Statement{
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+        System.out.println(""+curFunc.assemblerName);
         e.genCode(curFunc);
         Code.genInstr("", "jmp", ".exit$"+curFunc.assemblerName, "Return");
     }
@@ -1371,7 +1372,7 @@ class ExprList extends SyntaxUnit {
         Expression curr = firstExpr;
         while(curr != null){
             curr.genCode(curFunc);
-            Code.genInstr("", "pushl", "%eax", "Push to stack");
+            // Code.genInstr("", "pushl", "%eax", "Push to stack");
             curr = curr.nextExpr;
         }
 	}
@@ -1469,11 +1470,12 @@ class Expression extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		// Assignment already redcued away pointer values, so we're left with the actual value
         firstTerm.genCode(curFunc);
         if(secondTerm != null){
-            Code.genInstr("", "pushl", "%eax", "");
-            secondTerm.genCode(curFunc);
-            relOpr.genCode(curFunc);
+            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer first term paa stacken
+            secondTerm.genCode(curFunc); // execute second term
+            relOpr.genCode(curFunc); // naar denne kjores ligger term2 i eax og term1 paa toppen av stack
         }
 
 	}
@@ -1533,13 +1535,16 @@ class Term extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-        if (first != null){
-            first.genCode(curFunc);
-            Code.genInstr("", "pushl", "%eax", "");
-        }
-        second.genCode(curFunc);
-        if(first != null)
+        // if (first != null){			
+        first.genCode(curFunc);
+
+        // }
+        //second.genCode(curFunc);
+        if(second != null) {
+            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
+        	second.genCode(curFunc);
             termOpr.genCode(curFunc);
+        }
 	}
 
 	static Term parse() {
@@ -1598,13 +1603,13 @@ class Factor extends SyntaxUnit {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
-        if(first != null){
-            first.genCode(curFunc);
-            Code.genInstr("", "pushl", "%eax", "");
-        }
-        second.genCode(curFunc);
-        if(first != null)
+		first.genCode(curFunc);
+        if(second != null) {
+        	Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer first paa stacken
+       		second.genCode(curFunc);       		
             factorOpr.genCode(curFunc);
+        }
+
     }
 
     static Factor parse() {
@@ -1674,12 +1679,10 @@ class Primary extends SyntaxUnit {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
-        if(first != null){
-            first.genCode(curFunc);
-            Code.genInstr("", "pushl", "%eax", "");
-            prefix.genCode(curFunc);
-        }
-
+        first.genCode(curFunc);
+        Code.genInstr("", "pushl", "%eax", "");
+        if(prefix != null) prefix.genCode(curFunc);
+        
     }
 
     static Primary parse() {
