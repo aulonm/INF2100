@@ -41,7 +41,7 @@ AssignStatm       x       x         x       x
 Assignment        x       x         x       x
 
 ExpList           x       x         x       x
-Expression        x       x         x (usikker)        x
+Expression        x       x         x       x
 
 Term              x       x         x       x
 Factor            x       x         x       x

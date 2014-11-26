@@ -220,6 +220,11 @@ class GlobalDeclList extends DeclList {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		Declaration gdl = firstDecl;
+		while(gdl != null){
+			gdl.genCode(curFunc);
+			gdl = gdl.nextDecl;
+		}
 	}
 
 	static GlobalDeclList parse() {
@@ -241,6 +246,11 @@ class LocalDeclList extends DeclList {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		Declaration ldl = firstDecl;
+		while(ldl != null){
+			ldl.genCode(curFunc);
+			ldl = ldl.nextDecl;
+		}
 	}
 
 
@@ -2023,7 +2033,7 @@ class Variable extends Operand {
 
 	@Override
 	void genCode(FuncDecl curFunc) {
-        // -- Must be changed in part 2:
+        // -- Must be changed in part  2:
         if (index == null) {
             Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
         } else {
