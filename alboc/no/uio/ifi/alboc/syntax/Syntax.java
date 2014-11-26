@@ -245,15 +245,15 @@ class GlobalDeclList extends DeclList {
  * diagrams.)
  */
 class LocalDeclList extends DeclList {
-	static int offset = 0;
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-		Declaration ldl = firstDecl;
-		while(ldl != null){
-			offset = offset + ldl.declSize();
-			ldl.genCode(curFunc);
-			ldl = ldl.nextDecl;
+		if(firstDecl != null) {
+			Declaration ldl = firstDecl;
+			while(ldl != null){
+				ldl.genCode(curFunc);
+				ldl = ldl.nextDecl;
+			}
 		}
 	}
 
@@ -280,12 +280,18 @@ class ParamDeclList extends DeclList {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:'
-
-		Declaration pdl = firstDecl;
-		while(pdl != null){
+		if(firstDecl != null) {
+			Declaration pdl = firstDecl;
+			if(pdl.nextDecl != null) {
+				pdl.nextDecl.genCode(curFunc);
+			}
 			pdl.genCode(curFunc);
-			pdl = pdl.nextDecl;
 		}
+		// Declaration pdl = firstDecl;
+		// while(pdl != null){
+		// 	pdl.genCode(curFunc);
+		// 	pdl = pdl.nextDecl;
+		// }
 	}
 
 	static ParamDeclList parse() {
@@ -365,7 +371,6 @@ abstract class Declaration extends SyntaxUnit {
 	boolean visible = false;
 	Declaration nextDecl = null;
 	int offset = 0;
-
 
 	Declaration(String n) {
 		name = n;
@@ -484,6 +489,8 @@ class GlobalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		// set offset
+
         if(isArray){
             Code.genVar(assemblerName, true, numElems, type.size()/numElems,
                     type + " " + name);
@@ -521,14 +528,15 @@ class GlobalVarDecl extends VarDecl {
 class LocalVarDecl extends VarDecl {
 	LocalVarDecl(String n) {
 		super(n);
-		assemblerName = (AlboC.underscoredGlobals() ? "_" : "") + n;
+		
 	}
 
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-
-	}
+		curFunc.localOffset += 4;
+		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
+		}
 
 	static LocalVarDecl parse(DeclType dt) {
 		Log.enterParser("<var decl>");
@@ -560,8 +568,8 @@ class ParamDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-
-
+		assemblerName = curFunc.paramOffset+"(%ebp)";
+		curFunc.paramOffset += 4;
 	}
 
 	static ParamDecl parse(DeclType dt) {
@@ -593,6 +601,8 @@ class FuncDecl extends Declaration {
     LocalDeclList funcVars;
     StatmList funcBody;
 	String exitLabel;
+	int paramOffset = 8;
+	int localOffset = 0;
 
 	FuncDecl(String n) {
 		// Used for user functions:
@@ -658,7 +668,7 @@ class FuncDecl extends Declaration {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-		Code.genInstr("", ".global", assemblerName, "");
+		Code.genInstr("", ".globl", assemblerName, "");
 		Code.genInstr(assemblerName, "enter", "$"+funcVars.dataSize()+",$0", "# Start function " + assemblerName);
 
 		if(funcParams != null){
@@ -1680,8 +1690,10 @@ class Primary extends SyntaxUnit {
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
         first.genCode(curFunc);
-        Code.genInstr("", "pushl", "%eax", "");
-        if(prefix != null) prefix.genCode(curFunc);
+        if(prefix != null) {
+        	Code.genInstr("", "pushl", "%eax", "");
+        	prefix.genCode(curFunc);
+        }
         
     }
 
