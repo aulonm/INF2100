@@ -138,7 +138,7 @@ class Program extends SyntaxUnit {
 abstract class DeclList extends SyntaxUnit {
 	Declaration firstDecl = null;
 	DeclList outerScope;
-	int length = 0;
+
 
 	DeclList() {
 		// -- Must be changed in part 1:
@@ -168,6 +168,7 @@ abstract class DeclList extends SyntaxUnit {
     // Lager FIFO liste
     void addDecl(Declaration d) {
 		// -- Must be changed in part 1:
+
         if(firstDecl == null){
             firstDecl = d;
         }
@@ -244,11 +245,13 @@ class GlobalDeclList extends DeclList {
  * diagrams.)
  */
 class LocalDeclList extends DeclList {
+	static int offset = 0;
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		Declaration ldl = firstDecl;
 		while(ldl != null){
+			offset = offset + ldl.declSize();
 			ldl.genCode(curFunc);
 			ldl = ldl.nextDecl;
 		}
@@ -273,9 +276,11 @@ class LocalDeclList extends DeclList {
  */
 class ParamDeclList extends DeclList {
     static int length = 0;
+
 	@Override
 	void genCode(FuncDecl curFunc) {
-		// -- Must be changed in part 2:
+		// -- Must be changed in part 2:'
+
 		Declaration pdl = firstDecl;
 		while(pdl != null){
 			pdl.genCode(curFunc);
@@ -359,7 +364,8 @@ abstract class Declaration extends SyntaxUnit {
 	Type type;
 	boolean visible = false;
 	Declaration nextDecl = null;
-	int stackOffset = 0;
+	int offset = 0;
+
 
 	Declaration(String n) {
 		name = n;
@@ -521,13 +527,7 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-		if(isArray){
-			Code.genVar(assemblerName, false, numElems, type.size()/numElems,
-					type + " " + name);
-		}else{
-			Code.genVar(assemblerName, false, 1, type.size(),
-					type + " " + name);
-		}
+
 	}
 
 	static LocalVarDecl parse(DeclType dt) {
@@ -560,6 +560,8 @@ class ParamDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+
+
 	}
 
 	static ParamDecl parse(DeclType dt) {
@@ -657,13 +659,17 @@ class FuncDecl extends Declaration {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		Code.genInstr("", ".global", assemblerName, "");
-		Code.genInstr(assemblerName, "enter", funcVars.dataSize()+",$0", "Start function " + assemblerName);
+		Code.genInstr(assemblerName, "enter", funcVars.dataSize()+",$0", "# Start function " + assemblerName);
 
+		if(funcParams != null){
+			funcParams.genCode(curFunc);
+		}
+		funcVars.genCode(curFunc);
 		funcBody.genCode(curFunc);
 
 		Code.genInstr(".exit$"+assemblerName,"","","");
 		Code.genInstr("","leave","","");
-		Code.genInstr("","ret","","End function " + assemblerName);
+		Code.genInstr("","ret","","# End function " + assemblerName);
 
 	}
 
