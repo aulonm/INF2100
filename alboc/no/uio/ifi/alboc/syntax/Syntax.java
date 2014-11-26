@@ -974,7 +974,19 @@ class ForControl extends Statement {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+		String testLabel = Code.getLocalLabel(), endLabel = Code
+				.getLocalLabel();
 
+		Code.genInstr("", "", "", "# Start for-statement");
+		first.genCode(curFunc);
+		Code.genInstr(testLabel, "", "", "");
+		e.genCode(curFunc);
+		Code.genInstr("", "cmpl", "$0,%eax", "");
+		Code.genInstr("", "je", endLabel, "");
+		statmlist.genCode(curFunc);
+		second.genCode(curFunc);
+		Code.genInstr("", "jmp", testLabel, "");
+		Code.genInstr(endLabel, "", "", "# End for-statement");
     }
 
     static ForControl parse() {
