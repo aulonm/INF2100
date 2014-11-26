@@ -12,7 +12,7 @@ def compare(file1, file2):
 		if excludeErrors: # if this is not False we exclude lines with this text
 			if excludeErrors not in lines1[i] and excludeErrors not in lines2[i]:
 				if lines1[i] != lines2[i]:
-					print "not equal:"
+					print "not equal. line %d" % i
 					print "line1: "+lines1[i]
 					print "line2: "+lines2[i]
 

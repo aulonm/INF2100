@@ -249,11 +249,18 @@ class LocalDeclList extends DeclList {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		if(firstDecl != null) {
+			// Declaration ldl = firstDecl;
+			// while(ldl != null){
+			// 	ldl.genCode(curFunc);
+			// 	ldl = ldl.nextDecl;
+			// }
+
 			Declaration ldl = firstDecl;
-			while(ldl != null){
-				ldl.genCode(curFunc);
-				ldl = ldl.nextDecl;
+			if(ldl.nextDecl != null) {
+				ldl.nextDecl.genCode(curFunc);
 			}
+			ldl.genCode(curFunc);
+
 		}
 	}
 
@@ -534,8 +541,10 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-		curFunc.localOffset += 4;
+				
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
+		curFunc.localOffset -= 4;
+
 		}
 
 	static LocalVarDecl parse(DeclType dt) {
@@ -568,8 +577,9 @@ class ParamDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		curFunc.paramOffset -= 4;
 		assemblerName = curFunc.paramOffset+"(%ebp)";
-		curFunc.paramOffset += 4;
+		
 	}
 
 	static ParamDecl parse(DeclType dt) {
@@ -669,17 +679,19 @@ class FuncDecl extends Declaration {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		Code.genInstr("", ".globl", assemblerName, "");
-		Code.genInstr(assemblerName, "enter", "$"+funcVars.dataSize()+",$0", "# Start function " + assemblerName);
+		Code.genInstr(assemblerName, "enter", "$"+funcVars.dataSize()+",$0", "Start function " + name);
 
 		if(funcParams != null){
+			paramOffset += funcParams.dataSize();
 			funcParams.genCode(this);
 		}
+		localOffset += funcVars.dataSize();
 		funcVars.genCode(this);
 		funcBody.genCode(this);
 
-		Code.genInstr(".exit$"+assemblerName,"","","");
+		Code.genInstr(".exit$"+name,"","","");
 		Code.genInstr("","leave","","");
-		Code.genInstr("","ret","","# End function " + assemblerName);
+		Code.genInstr("","ret","","End function " + name);
 
 	}
 
@@ -987,7 +999,7 @@ class ForControl extends Statement {
 		String testLabel = Code.getLocalLabel(), endLabel = Code
 				.getLocalLabel();
 
-		Code.genInstr("", "", "", "# Start for-statement");
+		Code.genInstr("", "", "", "Start for-statement");
 		first.genCode(curFunc);
 		Code.genInstr(testLabel, "", "", "");
 		e.genCode(curFunc);
@@ -996,7 +1008,7 @@ class ForControl extends Statement {
 		statmlist.genCode(curFunc);
 		second.genCode(curFunc);
 		Code.genInstr("", "jmp", testLabel, "");
-		Code.genInstr(endLabel, "", "", "# End for-statement");
+		Code.genInstr(endLabel, "", "", "End for-statement");
     }
 
     static ForControl parse() {
@@ -1058,12 +1070,12 @@ class IfStatm extends Statement {
 
         Code.genInstr("", "","", "Start if-statement");
         e.genCode(curFunc);
-        Code.genInstr("", "cmpl", "$0, %eax", "== 0");
+        Code.genInstr("", "cmpl", "$0,%eax", "");
         Code.genInstr("", "je", (elseList != null) ? elseLabel : endLabel, "");
         ifList.genCode(curFunc);
         if(elseList != null){
             Code.genInstr("", "jmp", endLabel, "");
-            Code.genInstr(elseLabel, "", "", "else");
+            Code.genInstr(elseLabel, "", "", "  else-part");
             elseList.genCode(curFunc);
         }
         Code.genInstr(endLabel, "", "", "End if-statement");
@@ -1137,7 +1149,7 @@ class ReturnStatm extends Statement{
         // -- Must be changed in part 2:
         System.out.println(""+curFunc.assemblerName);
         e.genCode(curFunc);
-        Code.genInstr("", "jmp", ".exit$"+curFunc.assemblerName, "Return");
+        Code.genInstr("", "jmp", ".exit$"+curFunc.name, "Return-statement");
     }
 
     static ReturnStatm parse() {
@@ -1332,7 +1344,7 @@ class Assignment extends Statement{
         Code.genInstr("", "pushl", "%eax", "");
         e.genCode(curFunc);
         Code.genInstr("", "popl", "%edx", "");
-        Code.genInstr("", "movl", "%eax, (%edx)", " = ");
+        Code.genInstr("", "movl", "%eax,(%edx)", "  =");
     }
 
     static Assignment parse() {
@@ -1379,12 +1391,22 @@ class ExprList extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-        Expression curr = firstExpr;
-        while(curr != null){
+        // Expression curr = firstExpr;
+        // while(curr != null){
+        //     curr.genCode(curFunc);
+        //     Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
+        //     curr = curr.nextExpr;
+        // }
+        if(firstExpr != null) {
+			Expression curr = firstExpr;
+			if(curr.nextExpr != null) {
+				curr.nextExpr.genCode(curFunc);
+            	Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
+				curr = curr.nextExpr;
+			}
             curr.genCode(curFunc);
-            // Code.genInstr("", "pushl", "%eax", "Push to stack");
-            curr = curr.nextExpr;
-        }
+            Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
+		}
 	}
 
 	static ExprList parse() {
@@ -1745,10 +1767,10 @@ class TermOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
-        Code.genInstr("", "movl", "%eax, %ecx", "");
+        Code.genInstr("", "movl", "%eax,%ecx", "");
         Code.genInstr("", "popl", "%eax", "");
-        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx, %eax", " + ");}
-        else if(oprToken == subtractToken){Code.genInstr("", "subl", "%ecx, %eax", " - ");}
+        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx,%eax", " + ");}
+        else if(oprToken == subtractToken){Code.genInstr("", "subl", "%ecx,%eax", "Compute -");}
     }
 
     static TermOpr parse(){
@@ -1992,13 +2014,15 @@ class FunctionCall extends Operand {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
         el.genCode(curFunc);
+        el.length = 0;
 
         FuncDecl f = declRef;
 
-        Code.genInstr("", "call", f.assemblerName, f.assemblerName+"()");
+        Code.genInstr("", "call", f.assemblerName, "Call "+f.name);
 
-
-        Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+", %esp", "Stack cleaned");
+        if(f.funcParams.dataSize()>0){
+	        Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+",%esp", "Remove parameters");
+        }
 
 
 	}
