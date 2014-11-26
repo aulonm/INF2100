@@ -416,10 +416,10 @@ abstract class VarDecl extends Declaration {
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         visible = true;
+
         typeSpec.check(curDecls);
 
         if(isArray){
-
             type = new ArrayType(typeSpec.type, numElems);
         }else {
             type = typeSpec.type;
@@ -1384,7 +1384,7 @@ class Expression extends SyntaxUnit {
             secondTerm.check(curDecls);
             if(relOpr.oprToken == equalToken || relOpr.oprToken == notEqualToken){
                 if(firstTerm.type instanceof ValueType && secondTerm.type instanceof ValueType &&
-                        (firstTerm.type == secondTerm.type || firstTerm.type == Types.intType || secondTerm.type == Types.intType)){
+                        (firstTerm.type.isSameType(secondTerm.type) || firstTerm.type == Types.intType || secondTerm.type == Types.intType)){
                     type = Types.intType;
                 }else{
                     Error.error("Type of x was " + firstTerm.type + " and type for y was " + secondTerm.type + ". Both should have been intType");
@@ -1457,15 +1457,15 @@ class Term extends SyntaxUnit {
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         first.check(curDecls);
-        if(second != null){
-            second.check(curDecls);
-        }
-        if(first.type == Types.intType){
+        if(second == null){
             type = first.type;
-        } else if (first.type instanceof ArrayType) {
-        	type = first.type;
-        } else{
-            Error.error("Not declared as intType, was declared as "  + first.type);
+        }else{
+            second.check(curDecls);
+            if(first.type == Types.intType && second.type == Types.intType){
+                type = first.type;
+            } else{
+                Error.error("Not declared as intType, was declared as "  + first.type);
+            }
         }
     }
 
@@ -1522,18 +1522,16 @@ class Factor extends SyntaxUnit {
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
         first.check(curDecls);
-        if(second != null){
-            second.check(curDecls);
-        }
-        if(first.type == Types.intType){
+        if(second == null){
             type = first.type;
-        } else if(first.type instanceof ArrayType) {
-        	type = first.type;
-        } else{
-            System.out.println(first.type);
-            Error.error("Not declared as intType, was declared as "  + first.lineNum);
+        }else{
+            second.check(curDecls);
+            if(first.type == Types.intType && second.type == Types.intType){
+                type = Types.intType;
+            }else{
+                Error.error("Not declared as intType, was declared as "  + first.type);
+            }
         }
-
     }
 
     @Override
@@ -1594,21 +1592,14 @@ class Primary extends SyntaxUnit {
 
         if(prefix == null){
             // System.out.println("hei1");
-            Type tmp = first.type;
-            while(tmp instanceof PointerType){
-                type = tmp.getElemType();
-                tmp = tmp.getElemType();
-            }
-            type = tmp;
+            type = first.type;
         }
         else if(prefix.oprToken == starToken){
-            // System.out.println("hei2");
-            Type tmp = first.type;
-            while(tmp instanceof PointerType){
-                type = tmp.getElemType();
-                tmp = tmp.getElemType();
+            if(first.type instanceof PointerType)
+                type = first.type.getElemType();
+            else{
+                Error.error("Expected pointerType, got " + first.type);
             }
-            type = tmp;
         }else if(prefix.oprToken == subtractToken){
             if(first.type == Types.intType){
                 type = Types.intType;
@@ -1906,14 +1897,14 @@ class FunctionCall extends Operand {
         // check func
         Declaration declTmp = declRef.funcParams.firstDecl;
         Expression callTmp = el.firstExpr;
-        while(declTmp != null || callTmp != null){
+        while(declTmp != null && callTmp != null){
             if(declTmp == null || callTmp == null){
                 Error.error("FunctionDecl and callDecl parameterlist are not equal length");
             }
 
-            if(declTmp.type != callTmp.type || callTmp.type != Types.intType) {
-                Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type);
-            }
+            //if(!declTmp.type.isSameType(callTmp.type) || !callTmp.type.isSameType(Types.intType)) {
+              //  Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type + " " +callTmp.lineNum);
+            //}
             declTmp = declTmp.nextDecl;
             callTmp = callTmp.nextExpr;
         }
