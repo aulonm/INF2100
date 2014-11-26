@@ -515,11 +515,19 @@ class GlobalVarDecl extends VarDecl {
 class LocalVarDecl extends VarDecl {
 	LocalVarDecl(String n) {
 		super(n);
+		assemblerName = (AlboC.underscoredGlobals() ? "_" : "") + n;
 	}
 
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		if(isArray){
+			Code.genVar(assemblerName, false, numElems, type.size()/numElems,
+					type + " " + name);
+		}else{
+			Code.genVar(assemblerName, false, 1, type.size(),
+					type + " " + name);
+		}
 	}
 
 	static LocalVarDecl parse(DeclType dt) {
@@ -648,6 +656,15 @@ class FuncDecl extends Declaration {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		Code.genInstr("", ".global", assemblerName, "");
+		Code.genInstr(assemblerName, "enter", funcVars.dataSize()+",$0", "Start function " + assemblerName);
+
+		funcBody.genCode(curFunc);
+
+		Code.genInstr(".exit$"+assemblerName,"","","");
+		Code.genInstr("","leave","","");
+		Code.genInstr("","ret","","End function " + assemblerName);
+
 	}
 
 	static FuncDecl parse(DeclType ts) {
@@ -719,6 +736,15 @@ class StatmList extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		if(first != null){
+			Statement s = first;
+			s.genCode(curFunc);
+			while(s.nextStatm != null){
+				s = s.nextStatm;
+				s.genCode(curFunc);
+			}
+
+		}
 	}
 
 	static StatmList parse() {
@@ -1922,6 +1948,7 @@ class FunctionCall extends Operand {
             //if(!declTmp.type.isSameType(callTmp.type) || !callTmp.type.isSameType(Types.intType)) {
               //  Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type + " " +callTmp.lineNum);
             //}
+
             declTmp = declTmp.nextDecl;
             callTmp = callTmp.nextExpr;
         }
@@ -1937,9 +1964,9 @@ class FunctionCall extends Operand {
 
         Code.genInstr("", "call", f.assemblerName, f.assemblerName+"()");
 
-        if(f.funcParams.dataSize() > 0){
-            Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+", %esp", "Stack cleaned");
-        }
+
+        Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+", %esp", "Stack cleaned");
+
 
 	}
 
