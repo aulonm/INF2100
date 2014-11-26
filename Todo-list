@@ -16,10 +16,10 @@ check printtree for localVarDecl arrays
 Part 1+2 todo class/method list
 
 Classes           Parse   Print   check   gencode
-DecList                   x         x
-GlobalDeclList    x       x         x
-LocalDeclList     x       x         x
-ParamDeclList     x       x         x
+DecList                   x         x       x
+GlobalDeclList    x       x         x       x
+LocalDeclList     x       x         x       x
+ParamDeclList     x       x         x       x
 DeclType          x       x         x       x
 Declaration       x       x         x       x
 varDecl           x                 x       x

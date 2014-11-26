@@ -138,6 +138,7 @@ class Program extends SyntaxUnit {
 abstract class DeclList extends SyntaxUnit {
 	Declaration firstDecl = null;
 	DeclList outerScope;
+	int length = 0;
 
 	DeclList() {
 		// -- Must be changed in part 1:
@@ -275,6 +276,11 @@ class ParamDeclList extends DeclList {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		Declaration pdl = firstDecl;
+		while(pdl != null){
+			pdl.genCode(curFunc);
+			pdl = pdl.nextDecl;
+		}
 	}
 
 	static ParamDeclList parse() {
@@ -353,6 +359,7 @@ abstract class Declaration extends SyntaxUnit {
 	Type type;
 	boolean visible = false;
 	Declaration nextDecl = null;
+	int stackOffset = 0;
 
 	Declaration(String n) {
 		name = n;
