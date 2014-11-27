@@ -268,8 +268,9 @@ class LocalDeclList extends DeclList {
 
 			ldl.genCode(curFunc);
 			System.out.println(firstDecl.assemblerName);
-			if(ldl.nextDecl != null) {
+			while(ldl.nextDecl != null) {
 				ldl.nextDecl.genCode(curFunc);
+				ldl = ldl.nextDecl;
 			}
 
 
@@ -1867,8 +1868,8 @@ class PrefixOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
-        if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", "  Compute prefix -");}
-        else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax),%eax", "peker");}
+        if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", "Compute prefix -");}
+        else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax),%eax", "Compute prefix *");}
     }
 
     static PrefixOpr parse(){
