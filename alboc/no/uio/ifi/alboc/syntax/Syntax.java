@@ -555,9 +555,10 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+
 		curFunc.localOffset += 4;
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
-
+		System.out.println(curFunc.localOffset + "");
 
 		}
 
