@@ -96,7 +96,8 @@ class Program extends SyntaxUnit {
 		if (!AlboC.noLink) {
 			// Check that 'main' has been declared properly:
 			// -- Must be changed in part 2:
-            FuncDecl main;
+
+			FuncDecl main;
             Declaration d = progDecls.findDecl("main", null);
             Log.noteBinding("main", 0, d.lineNum);
 
@@ -104,7 +105,7 @@ class Program extends SyntaxUnit {
             if(main.type != Types.intType)
                 error("'main' should be an int function!");
 			if(main.funcParams.length != 0){
-				error("Function 'main' sould have no parameters!");
+				error("Function 'main' should have no parameters!");
 			}
 
 		}
@@ -220,9 +221,6 @@ abstract class DeclList extends SyntaxUnit {
 				Error.error("Name " + name + " is unknown!");
 			}
 		}
-
-
-
         return null;
 	}
 }
@@ -262,12 +260,6 @@ class LocalDeclList extends DeclList {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
 		if(firstDecl != null) {
-			// Declaration ldl = firstDecl;
-			// while(ldl != null){
-			// 	ldl.genCode(curFunc);
-			// 	ldl = ldl.nextDecl;
-			// }
-
 			Declaration ldl = firstDecl;
 
 			ldl.genCode(curFunc);
@@ -275,8 +267,6 @@ class LocalDeclList extends DeclList {
 				ldl.nextDecl.genCode(curFunc);
 				ldl = ldl.nextDecl;
 			}
-
-
 		}
 	}
 
@@ -298,7 +288,6 @@ class LocalDeclList extends DeclList {
  * diagrams.)
  */
 class ParamDeclList extends DeclList {
-    static int length = 0;
 
 	@Override
 	void genCode(FuncDecl curFunc) {
@@ -311,12 +300,6 @@ class ParamDeclList extends DeclList {
 			}
 
 		}
-		// Declaration pdl = firstDecl;
-		// while(pdl != null){
-		// 	pdl.genCode(curFunc);
-		// 	pdl = pdl.nextDecl;
-		// }
-
 	}
 
 
@@ -327,9 +310,7 @@ class ParamDeclList extends DeclList {
         while(Scanner.curToken == intToken){
             DeclType ts = DeclType.parse();
             pdl.addDecl(ParamDecl.parse(ts));
-            //length++;
         }
-
         return pdl;
 	}
 
@@ -341,7 +322,6 @@ class ParamDeclList extends DeclList {
 			px = px.nextDecl;
 			if (px != null)
 				Log.wTree(", ");
-
 		}
 	}
 }
@@ -396,7 +376,6 @@ abstract class Declaration extends SyntaxUnit {
 	Type type;
 	boolean visible = false;
 	Declaration nextDecl = null;
-	int offset = 0;
 
 	Declaration(String n) {
 		name = n;
@@ -544,7 +523,6 @@ class GlobalVarDecl extends VarDecl {
         Scanner.skip(semicolonToken);
         Log.leaveParser("</var decl>");
         return gv;
-
 	}
 }
 
@@ -554,7 +532,6 @@ class GlobalVarDecl extends VarDecl {
 class LocalVarDecl extends VarDecl {
 	LocalVarDecl(String n) {
 		super(n);
-		
 	}
 
 	@Override
@@ -564,7 +541,6 @@ class LocalVarDecl extends VarDecl {
 			curFunc.localOffset += 4*numElems;
 		}else{
 			curFunc.localOffset += 4;
-
 		}
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
 
@@ -603,14 +579,10 @@ class ParamDecl extends VarDecl {
 		// -- Must be changed in part 2:
 		assemblerName = curFunc.paramOffset+"(%ebp)";
 		curFunc.paramOffset += 4;
-
 	}
-
-
 
 	static ParamDecl parse(DeclType dt) {
 		Log.enterParser("<param decl>");
-
 		// -- Must be changed in part 1:
         ParamDecl pd = new ParamDecl(Scanner.curName);
         pd.typeSpec = dt;
@@ -691,7 +663,8 @@ class FuncDecl extends Declaration {
 	void checkWhetherFunction(int nParamsUsed, SyntaxUnit use) {
 		// -- Must be changed in part 2:
         if(funcParams != null && funcParams.length != nParamsUsed){
-            Error.error("Calls to " + name + " should have " + funcParams.length + " parameters, not " + nParamsUsed);
+            Error.error("Calls to " + name + " should have " +
+					funcParams.length + " parameters, not " + nParamsUsed);
         }
 	}
 
@@ -712,7 +685,6 @@ class FuncDecl extends Declaration {
 
 			funcParams.genCode(this);
 		}
-		//localOffset += funcVars.dataSize();
 		funcVars.genCode(this);
 		funcBody.genCode(this);
 
@@ -773,7 +745,6 @@ class StatmList extends SyntaxUnit {
 	// -- Must be changed in part 1:
     Statement first = null;
 
-
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
@@ -785,7 +756,6 @@ class StatmList extends SyntaxUnit {
                 s.check(curDecls);
             }
         }
-
 	}
 
 	@Override
@@ -798,7 +768,6 @@ class StatmList extends SyntaxUnit {
 				s = s.nextStatm;
 				s.genCode(curFunc);
 			}
-
 		}
 	}
 
@@ -983,7 +952,6 @@ class ForStatm extends Statement {
         Scanner.skip(rightParToken);
         Scanner.skip(leftCurlToken);
         fs.statmlist = StatmList.parse();
-        //Scanner.skip(rightCurlToken);
 
         Log.leaveParser("</for-statm>");
         return fs;
@@ -1041,7 +1009,6 @@ class ForControl extends Statement {
     static ForControl parse() {
         // -- Must be changed in part 1:
         ForControl fc = new ForControl();
-        // Usikker om dette trengs? Greit aa dobbeltsjekke kanskje?
         if(Scanner.curToken == nameToken
                 || Scanner.curToken == starToken){
             fc.first = Assignment.parse();
@@ -1119,19 +1086,15 @@ class IfStatm extends Statement {
         Scanner.skip(rightParToken);
         Scanner.skip(leftCurlToken);
         is.ifList = StatmList.parse();
-        //Scanner.skip(rightCurlToken);
-
         if(Scanner.curToken == Token.elseToken){
             Log.enterParser("<else-part>");
             Scanner.skip(elseToken);
             Scanner.skip(leftCurlToken);
             is.elseList = StatmList.parse();
-            //Scanner.skip(rightCurlToken);
             Log.leaveParser("</else-part>");
         }
         Log.leaveParser("</if-statm>");
         return is;
-
 	}
 
 
@@ -1153,7 +1116,6 @@ class IfStatm extends Statement {
             Log.wTreeLn("}");
             Log.outdentTree();
         }
-
 	}
 }
 
@@ -1168,7 +1130,6 @@ class ReturnStatm extends Statement{
     void check(DeclList curDecls) {
         e.check(curDecls);
         // -- Must be changed in part 2:
-
     }
 
     @Override
@@ -1243,7 +1204,6 @@ class WhileStatm extends Statement {
 		Scanner.skip(rightParToken);
 		Scanner.skip(leftCurlToken);
 		ws.body = StatmList.parse();
-		//Scanner.skip(rightCurlToken);
 
 		Log.leaveParser("</while-statm>");
 		return ws;
@@ -1417,23 +1377,8 @@ class ExprList extends SyntaxUnit {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		 //-- Must be changed in part 2:
-         Expression curr = firstExpr;
-         // while(curr != null){
-         //     curr.genCodeRec(curFunc, 0);
-         //     curr = curr.nextExpr;
-         // }
+        Expression curr = firstExpr;
         if (curr != null) curr.genCodeRec(curFunc, 0);
-		/*
-        if(firstExpr != null) {
-			Expression curr = firstExpr;
-			if(curr.nextExpr != null) {
-				curr.nextExpr.genCode(curFunc);
-            	Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
-				curr = curr.nextExpr;
-			}
-            curr.genCode(curFunc);
-            Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
-		}*/
 	}
 
 	static ExprList parse() {
@@ -1520,10 +1465,6 @@ class Expression extends SyntaxUnit {
                 Error.error("Not a valid expression");
             }
         }
-
-
-
-
 	}
 
 	@Override
@@ -1532,11 +1473,10 @@ class Expression extends SyntaxUnit {
 		// Assignment already redcued away pointer values, so we're left with the actual value
         firstTerm.genCode(curFunc);
         if(secondTerm != null){
-            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer first term paa stacken
-            secondTerm.genCode(curFunc); // execute second term
-            relOpr.genCode(curFunc); // naar denne kjores ligger term2 i eax og term1 paa toppen av stack
+            Code.genInstr("", "pushl", "%eax", "");
+            secondTerm.genCode(curFunc);
+            relOpr.genCode(curFunc);
         }
-
 	}
 
 	void genCodeRec(FuncDecl curFunc, int paramN){
@@ -1546,7 +1486,6 @@ class Expression extends SyntaxUnit {
 		genCode(curFunc);
 		paramN++;
 		Code.genInstr("", "pushl", "%eax", "Push parameter #"+paramN);
-
 	}
 
 	static Expression parse() {
@@ -1603,32 +1542,18 @@ class Term extends SyntaxUnit {
 
 	@Override
 	void genCode(FuncDecl curFunc) {
-		// -- Must be changed in part 2:
-        // if (first != null){			
-        //first.genCode(curFunc);
-
-        // }
-        //second.genCode(curFunc);
-//        if(second != null) {
-//			second.genCode(curFunc);
-//            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
-//        }
-//		first.genCode(curFunc);
-//		if(termOpr != null){
-//			termOpr.genCode(curFunc);
-//		}
 		first.genCode(curFunc);
-
-		if(second != null){
-			Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
-			second.genCode(curFunc);
-
-			if(termOpr != null){
-				termOpr.genCode(curFunc);
-			}
+		TermOpr tmpO = termOpr;
+		Term tmpT = second;
+		Factor tmpP = null;
+		while(tmpT != null){
+			Code.genInstr("", "pushl", "%eax", "");
+			tmpP = tmpT.first;
+			tmpP.genCode(curFunc);
+			tmpO.genCode(curFunc);
+			tmpO = tmpT.termOpr;
+			tmpT = tmpT.second;
 		}
-
-
 	}
 
 	static Term parse() {
@@ -1667,7 +1592,6 @@ class Factor extends SyntaxUnit {
     Factor second;
     Type type;
 
-
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
@@ -1686,15 +1610,19 @@ class Factor extends SyntaxUnit {
 
     @Override
     void genCode(FuncDecl curFunc) {
-        // -- Must be changed in part 2:
-
-
-
-        first.genCode(curFunc);
-		if(second != null){
+		first.genCode(curFunc);
+		FactorOpr tmpO = factorOpr;
+		Factor tmpF = second;
+		Primary tmpP = null;
+		while (tmpF != null) {
 			Code.genInstr("", "pushl", "%eax", "");
-			second.genCode(curFunc);
-			factorOpr.genCode(curFunc);
+
+			tmpP = tmpF.first;
+			tmpP.genCode(curFunc);
+			tmpO.genCode(curFunc);
+
+			tmpO = tmpF.factorOpr;
+			tmpF = tmpF.second;
 		}
     }
 
@@ -1707,7 +1635,6 @@ class Factor extends SyntaxUnit {
             f.factorOpr = FactorOpr.parse();
             f.second = Factor.parse();
         }
-
         Log.leaveParser("</factor>");
         return f;
     }
@@ -1735,8 +1662,6 @@ class Primary extends SyntaxUnit {
     PrefixOpr prefix;
     Type type;
 
-
-
     @Override
     void check(DeclList curDecls) {
         // -- Must be changed in part 2:
@@ -1758,7 +1683,6 @@ class Primary extends SyntaxUnit {
                 Error.error("Expected intType, got " + first.type);
             }
         }
-
     }
 
     @Override
@@ -1766,10 +1690,8 @@ class Primary extends SyntaxUnit {
         // -- Must be changed in part 2:
         first.genCode(curFunc);
         if(prefix != null) {
-        	// Code.genInstr("", "pushl", "%eax", "");
         	prefix.genCode(curFunc);
         }
-        
     }
 
     static Primary parse() {
@@ -2021,29 +1943,20 @@ class FunctionCall extends Operand {
     FuncDecl declRef = null;
 
 
-
 	@Override
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
-
         if(el == null){
             Error.error("ExprList is null");
         }
 
         Declaration d = curDecls.findDecl(funcName, this);
         Log.noteBinding(funcName, lineNum, d.lineNum);
- 
 
-       // d.checkWhetherFunction(el.length, this);
         type = d.type;
         declRef = (FuncDecl) d;
-
-
-       //Check params
         el.check(curDecls);
 
-
-        // check func
         Declaration declTmp = declRef.funcParams.firstDecl;
         Expression callTmp = el.firstExpr;
         while(declTmp != null && callTmp != null){
@@ -2053,7 +1966,6 @@ class FunctionCall extends Operand {
             declTmp = declTmp.nextDecl;
             callTmp = callTmp.nextExpr;
         }
-
 	}
 
 	@Override
@@ -2063,14 +1975,11 @@ class FunctionCall extends Operand {
         el.length = 0;
 
         FuncDecl f = declRef;
-
         Code.genInstr("", "call", f.assemblerName, "Call "+f.name);
 
         if(f.funcParams.dataSize()>0){
 	        Code.genInstr("", "addl", "$"+f.funcParams.dataSize()+",%esp", "Remove parameters");
         }
-
-
 	}
 
 	static FunctionCall parse() {
@@ -2108,7 +2017,6 @@ class Number extends Operand {
 	void check(DeclList curDecls) {
 		// -- Must be changed in part 2:
         type = Types.intType;
-
 	}
 
 	@Override
@@ -2170,7 +2078,6 @@ class Variable extends Operand {
 	@Override
 	void genCode(FuncDecl curFunc) {
         // -- Must be changed in part  2:
-
         if (index == null) {
 			if(declRef.type instanceof ArrayType){
 				Code.genInstr("", "leal", declRef.assemblerName+",%eax", varName);
@@ -2236,8 +2143,6 @@ class Variable extends Operand {
             index.printTree();
             Log.wTree("]");
         }
-
-
 	}
 }
 
