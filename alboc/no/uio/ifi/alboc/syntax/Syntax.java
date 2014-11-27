@@ -304,10 +304,11 @@ class ParamDeclList extends DeclList {
 		// -- Must be changed in part 2:'
 		if(firstDecl != null) {
 			Declaration pdl = firstDecl;
-			if(pdl.nextDecl != null) {
-				pdl.nextDecl.genCode(curFunc);
+			while(pdl != null) {
+				pdl.genCode(curFunc);
+				pdl = pdl.nextDecl;
 			}
-			pdl.genCode(curFunc);
+
 		}
 		// Declaration pdl = firstDecl;
 		// while(pdl != null){
@@ -600,9 +601,9 @@ class ParamDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-		curFunc.paramOffset -= 4;
 		assemblerName = curFunc.paramOffset+"(%ebp)";
-		
+		curFunc.paramOffset += 4;
+
 	}
 
 
@@ -708,7 +709,7 @@ class FuncDecl extends Declaration {
 		Code.genInstr(assemblerName, "enter", "$"+funcVars.dataSize()+",$0", "Start function " + name);
 
 		if(funcParams != null){
-			paramOffset += funcParams.dataSize();
+
 			funcParams.genCode(this);
 		}
 		//localOffset += funcVars.dataSize();
@@ -1605,15 +1606,30 @@ class Term extends SyntaxUnit {
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
         // if (first != null){			
-        first.genCode(curFunc);
+        //first.genCode(curFunc);
 
         // }
         //second.genCode(curFunc);
-        if(second != null) {
-            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
-        	second.genCode(curFunc);
-            termOpr.genCode(curFunc);
-        }
+//        if(second != null) {
+//			second.genCode(curFunc);
+//            Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
+//        }
+//		first.genCode(curFunc);
+//		if(termOpr != null){
+//			termOpr.genCode(curFunc);
+//		}
+		first.genCode(curFunc);
+
+		if(second != null){
+			Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer paa stacken
+			second.genCode(curFunc);
+
+			if(termOpr != null){
+				termOpr.genCode(curFunc);
+			}
+		}
+
+
 	}
 
 	static Term parse() {
@@ -1673,13 +1689,14 @@ class Factor extends SyntaxUnit {
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
 
-		first.genCode(curFunc);
-        if(second != null) {
-        	Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer first paa stacken
-       		second.genCode(curFunc);       		
-            factorOpr.genCode(curFunc);
-        }
 
+
+        first.genCode(curFunc);
+		if(second != null){
+			Code.genInstr("", "pushl", "%eax", "");
+			second.genCode(curFunc);
+			factorOpr.genCode(curFunc);
+		}
     }
 
     static Factor parse() {
