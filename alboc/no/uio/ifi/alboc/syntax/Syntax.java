@@ -120,7 +120,6 @@ class Program extends SyntaxUnit {
 		if (Scanner.curToken != eofToken) {
             Error.expected("A declaration");
         }
-        //System.out.println(Log.ut + "  what  " + Log.inn);
 		Log.leaveParser("</program>");
 
 		return p;
@@ -203,7 +202,6 @@ abstract class DeclList extends SyntaxUnit {
         Declaration dx = firstDecl;
         while(dx != null){
             if(dx.name.equals(name) && dx.visible == true){
-				//System.out.println(dx.name);
                 return dx;
             }
 
@@ -269,7 +267,6 @@ class LocalDeclList extends DeclList {
 			Declaration ldl = firstDecl;
 
 			ldl.genCode(curFunc);
-			System.out.println(firstDecl.assemblerName);
 			while(ldl.nextDecl != null) {
 				ldl.nextDecl.genCode(curFunc);
 				ldl = ldl.nextDecl;
@@ -566,7 +563,6 @@ class LocalVarDecl extends VarDecl {
 
 		}
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
-		System.out.println(curFunc.localOffset + "");
 
 
 		}
@@ -1174,7 +1170,6 @@ class ReturnStatm extends Statement{
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
-        //System.out.println(""+curFunc.assemblerName);
         e.genCode(curFunc);
         Code.genInstr("", "jmp", ".exit$"+curFunc.name, "Return-statement");
     }
@@ -1744,7 +1739,6 @@ class Primary extends SyntaxUnit {
         first.check(curDecls);
 
         if(prefix == null){
-            // System.out.println("hei1");
             type = first.type;
         }
         else if(prefix.oprToken == starToken){
@@ -1767,7 +1761,6 @@ class Primary extends SyntaxUnit {
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
         first.genCode(curFunc);
-		//System.out.println(first.lineNum + " " + first);
         if(prefix != null) {
         	// Code.genInstr("", "pushl", "%eax", "");
         	prefix.genCode(curFunc);
@@ -1779,12 +1772,10 @@ class Primary extends SyntaxUnit {
         // -- Must be changed in part 1:
         Log.enterParser("<primary>");
         Primary p = new Primary();
-        // System.out.println(Scanner.curToken);
         if(Token.isPrefixOperator(Scanner.curToken)){
             p.prefix = PrefixOpr.parse();
         }
         p.first = Operand.parse();
-        // System.out.println(p.first.lineNum +"");
 
         Log.leaveParser("</primary>");
         return p;
@@ -2158,9 +2149,7 @@ class Variable extends Operand {
 
 		d.checkWhetherVariable(this);
 		declRef = (VarDecl) d;
-		System.out.println(declRef.name + " " + index + " 1" + declRef.type);
 		if (index == null) {
-			System.out.println(declRef.name + " " + index + " 2");
 			type = d.type;
 		} else {
 			index.check(curDecls);
@@ -2184,7 +2173,6 @@ class Variable extends Operand {
         // -- Must be changed in part  2:
 
         if (index == null) {
-			System.out.println(varName + " " + index + " " + declRef.type);
 			if(declRef.type instanceof ArrayType){
 				Code.genInstr("", "leal", declRef.assemblerName+",%eax", varName);
 			}else {
