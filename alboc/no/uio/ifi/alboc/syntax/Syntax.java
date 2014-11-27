@@ -1740,7 +1740,7 @@ class Primary extends SyntaxUnit {
         first.genCode(curFunc);
 		System.out.println(first.lineNum + " " + first);
         if(prefix != null) {
-        	Code.genInstr("", "pushl", "%eax", "");
+        	// Code.genInstr("", "pushl", "%eax", "");
         	prefix.genCode(curFunc);
         }
         
