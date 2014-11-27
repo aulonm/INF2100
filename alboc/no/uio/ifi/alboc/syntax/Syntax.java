@@ -102,7 +102,10 @@ class Program extends SyntaxUnit {
 
             main = (FuncDecl) d;
             if(main.type != Types.intType)
-                error("'main' should return type 'int'");
+                error("'main' should be an int function!");
+			if(main.funcParams.length != 0){
+				error("Function 'main' sould have no parameters!");
+			}
 
 		}
 	}
@@ -139,6 +142,7 @@ class Program extends SyntaxUnit {
 abstract class DeclList extends SyntaxUnit {
 	Declaration firstDecl = null;
 	DeclList outerScope;
+	static int length = 0;
 
 
 	DeclList() {
@@ -169,9 +173,10 @@ abstract class DeclList extends SyntaxUnit {
     // Lager FIFO liste
     void addDecl(Declaration d) {
 		// -- Must be changed in part 1:
-
+		length++;
         if(firstDecl == null){
             firstDecl = d;
+
         }
         else{
             Declaration prevDecl = firstDecl;
@@ -211,13 +216,13 @@ abstract class DeclList extends SyntaxUnit {
             return outerScope.findDecl(name, use);
         }else{
 			if(use != null){
-				Error.error("unknown");
+				Error.error("Name " + name + " is unknown!");
 			}else{
-				Error.error("unknown2");
+				Error.error("Name " + name + " is unknown!");
 			}
 		}
 
-        Error.error("name " + name + " is unknown");
+
 
         return null;
 	}
@@ -687,7 +692,7 @@ class FuncDecl extends Declaration {
 	void checkWhetherFunction(int nParamsUsed, SyntaxUnit use) {
 		// -- Must be changed in part 2:
         if(funcParams != null && funcParams.length != nParamsUsed){
-            Error.error("FUCK THIS");
+            Error.error("Calls to " + name + " should have " + funcParams.length + " parameters, not " + nParamsUsed);
         }
 	}
 
@@ -2030,7 +2035,7 @@ class FunctionCall extends Operand {
         Log.noteBinding(funcName, lineNum, d.lineNum);
  
 
-        //d.checkWhetherFunction(el.length, this);
+        d.checkWhetherFunction(el.length, this);
         type = d.type;
         declRef = (FuncDecl) d;
 
