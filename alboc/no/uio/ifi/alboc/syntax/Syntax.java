@@ -200,14 +200,23 @@ abstract class DeclList extends SyntaxUnit {
 		// -- Must be changed in part 2:
         Declaration dx = firstDecl;
         while(dx != null){
-            if(dx.name.equals(name)){
+            if(dx.name.equals(name) && dx.visible == true){
+				System.out.println(dx.name);
                 return dx;
             }
+
             dx = dx.nextDecl;
         }
         if(outerScope != null){
             return outerScope.findDecl(name, use);
-        }
+        }else{
+			if(use != null){
+				Error.error("unknown");
+			}else{
+				Error.error("unknown2");
+			}
+		}
+
         Error.error("name " + name + " is unknown");
 
         return null;
@@ -299,7 +308,9 @@ class ParamDeclList extends DeclList {
 		// 	pdl.genCode(curFunc);
 		// 	pdl = pdl.nextDecl;
 		// }
+
 	}
+
 
 	static ParamDeclList parse() {
 		// -- Must be changed in part 1:
@@ -541,7 +552,7 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-				
+
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
 		curFunc.localOffset -= 4;
 
@@ -581,6 +592,8 @@ class ParamDecl extends VarDecl {
 		assemblerName = curFunc.paramOffset+"(%ebp)";
 		
 	}
+
+
 
 	static ParamDecl parse(DeclType dt) {
 		Log.enterParser("<param decl>");
@@ -624,6 +637,7 @@ class FuncDecl extends Declaration {
 
     FuncDecl(String n, Type rt, String t){
         super(n);
+		visible = true;
         assemblerName = (AlboC.underscoredGlobals() ? "_" : "") + n;
         this.type = rt;
         funcParams = new ParamDeclList();
@@ -1390,13 +1404,13 @@ class ExprList extends SyntaxUnit {
 
 	@Override
 	void genCode(FuncDecl curFunc) {
-		// -- Must be changed in part 2:
-        // Expression curr = firstExpr;
-        // while(curr != null){
-        //     curr.genCode(curFunc);
-        //     Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
-        //     curr = curr.nextExpr;
-        // }
+		 //-- Must be changed in part 2:
+         Expression curr = firstExpr;
+         while(curr != null){
+             curr.genCodeRec(curFunc, 0);
+             curr = curr.nextExpr;
+         }
+		/*
         if(firstExpr != null) {
 			Expression curr = firstExpr;
 			if(curr.nextExpr != null) {
@@ -1406,7 +1420,7 @@ class ExprList extends SyntaxUnit {
 			}
             curr.genCode(curFunc);
             Code.genInstr("", "pushl", "%eax", "Push parameter #"+(++length));
-		}
+		}*/
 	}
 
 	static ExprList parse() {
@@ -1509,6 +1523,17 @@ class Expression extends SyntaxUnit {
             secondTerm.genCode(curFunc); // execute second term
             relOpr.genCode(curFunc); // naar denne kjores ligger term2 i eax og term1 paa toppen av stack
         }
+
+	}
+
+	void genCodeRec(FuncDecl curFunc, int paramN){
+		if(nextExpr == null){
+			genCode(curFunc);
+			paramN++;
+			Code.genInstr("", "pushl", "%eax", "Push parameter #"+paramN);
+			return;
+		}
+		nextExpr.genCodeRec(curFunc, ++paramN);
 
 	}
 
@@ -1635,6 +1660,7 @@ class Factor extends SyntaxUnit {
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
+
 		first.genCode(curFunc);
         if(second != null) {
         	Code.genInstr("", "pushl", "%eax", ""); // mellomlagrer first paa stacken
@@ -1712,6 +1738,7 @@ class Primary extends SyntaxUnit {
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
         first.genCode(curFunc);
+		System.out.println(first.lineNum + " " + first);
         if(prefix != null) {
         	Code.genInstr("", "pushl", "%eax", "");
         	prefix.genCode(curFunc);
@@ -1769,7 +1796,7 @@ class TermOpr extends Operator{
         // PART 2
         Code.genInstr("", "movl", "%eax,%ecx", "");
         Code.genInstr("", "popl", "%eax", "");
-        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx,%eax", " + ");}
+        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx,%eax", "Compute + ");}
         else if(oprToken == subtractToken){Code.genInstr("", "subl", "%ecx,%eax", "Compute -");}
     }
 
@@ -1800,13 +1827,13 @@ class FactorOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
-        Code.genInstr("", "movl", "%eax, %ecx", "");
+        Code.genInstr("", "movl", "%eax,%ecx", "");
         Code.genInstr("", "popl", "%eax", "");
         if(oprToken == divideToken){
             Code.genInstr("", "cdq", "", "");
-            Code.genInstr("", "idivl", "%ecx", " / ");
+            Code.genInstr("", "idivl", "%ecx", "Compute / ");
         }
-        else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx, %eax", " * ");}
+        else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx,%eax", "Compute * ");}
     }
 
     static FactorOpr parse(){
@@ -1837,7 +1864,7 @@ class PrefixOpr extends Operator{
     void genCode(FuncDecl curFunc){
         // PART 2
         if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", " negative nr");}
-        else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax), %eax", "peker");}
+        else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax),%eax", "peker");}
     }
 
     static PrefixOpr parse(){
@@ -2067,7 +2094,7 @@ class Number extends Operand {
 
 	@Override
 	void genCode(FuncDecl curFunc) {
-		Code.genInstr("", "movl", "$" + numVal + ",%eax", "" + numVal);
+		Code.genInstr("", "movl", "$" + numVal + ",%eax","" + numVal);
 	}
 
 	static Number parse() {
@@ -2125,7 +2152,9 @@ class Variable extends Operand {
 	@Override
 	void genCode(FuncDecl curFunc) {
         // -- Must be changed in part  2:
+
         if (index == null) {
+			System.out.println(varName + " " + declRef.name + " " + declRef.assemblerName);
             Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
         } else {
             index.genCode(curFunc);
@@ -2139,6 +2168,9 @@ class Variable extends Operand {
             Code.genInstr("", "movl", "(%edx, %eax, 4), %eax", "");
         }
     }
+
+
+
 	void genAddressCode(FuncDecl curFunc) {
 		// Generate code to load the _address_ of the variable
 		// rather than its value.
