@@ -201,7 +201,7 @@ abstract class DeclList extends SyntaxUnit {
         Declaration dx = firstDecl;
         while(dx != null){
             if(dx.name.equals(name) && dx.visible == true){
-				System.out.println(dx.name);
+				//System.out.println(dx.name);
                 return dx;
             }
 
@@ -265,10 +265,13 @@ class LocalDeclList extends DeclList {
 			// }
 
 			Declaration ldl = firstDecl;
+
+			ldl.genCode(curFunc);
+			System.out.println(firstDecl.assemblerName);
 			if(ldl.nextDecl != null) {
 				ldl.nextDecl.genCode(curFunc);
 			}
-			ldl.genCode(curFunc);
+
 
 		}
 	}
@@ -552,9 +555,9 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
-
+		curFunc.localOffset += 4;
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
-		curFunc.localOffset -= 4;
+
 
 		}
 
@@ -699,7 +702,7 @@ class FuncDecl extends Declaration {
 			paramOffset += funcParams.dataSize();
 			funcParams.genCode(this);
 		}
-		localOffset += funcVars.dataSize();
+		//localOffset += funcVars.dataSize();
 		funcVars.genCode(this);
 		funcBody.genCode(this);
 
@@ -1161,7 +1164,7 @@ class ReturnStatm extends Statement{
     @Override
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
-        System.out.println(""+curFunc.assemblerName);
+        //System.out.println(""+curFunc.assemblerName);
         e.genCode(curFunc);
         Code.genInstr("", "jmp", ".exit$"+curFunc.name, "Return-statement");
     }
@@ -1738,7 +1741,7 @@ class Primary extends SyntaxUnit {
     void genCode(FuncDecl curFunc) {
         // -- Must be changed in part 2:
         first.genCode(curFunc);
-		System.out.println(first.lineNum + " " + first);
+		//System.out.println(first.lineNum + " " + first);
         if(prefix != null) {
         	// Code.genInstr("", "pushl", "%eax", "");
         	prefix.genCode(curFunc);
@@ -2154,7 +2157,7 @@ class Variable extends Operand {
         // -- Must be changed in part  2:
 
         if (index == null) {
-			System.out.println(varName + " " + declRef.name + " " + declRef.assemblerName);
+			//System.out.println(varName + " " + declRef.name + " " + declRef.assemblerName);
             Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
         } else {
             index.genCode(curFunc);
