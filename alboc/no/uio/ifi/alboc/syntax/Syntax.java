@@ -1796,7 +1796,7 @@ class TermOpr extends Operator{
         // PART 2
         Code.genInstr("", "movl", "%eax,%ecx", "");
         Code.genInstr("", "popl", "%eax", "");
-        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx,%eax", "Compute + ");}
+        if(oprToken == addToken) {Code.genInstr("", "addl", "%ecx,%eax", "Compute +");}
         else if(oprToken == subtractToken){Code.genInstr("", "subl", "%ecx,%eax", "Compute -");}
     }
 
@@ -1831,9 +1831,9 @@ class FactorOpr extends Operator{
         Code.genInstr("", "popl", "%eax", "");
         if(oprToken == divideToken){
             Code.genInstr("", "cdq", "", "");
-            Code.genInstr("", "idivl", "%ecx", "Compute / ");
+            Code.genInstr("", "idivl", "%ecx", "Compute /");
         }
-        else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx,%eax", "Compute * ");}
+        else if(oprToken == starToken){Code.genInstr("", "imull", "%ecx,%eax", "Compute *");}
     }
 
     static FactorOpr parse(){
