@@ -1,0 +1,4 @@
+int* main ()  /* main skal vaere en 'int'-funksjon! */
+{
+   putchar('!');   putchar(10);
+}
