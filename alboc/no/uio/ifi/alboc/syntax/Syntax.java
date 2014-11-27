@@ -1863,7 +1863,7 @@ class PrefixOpr extends Operator{
     @Override
     void genCode(FuncDecl curFunc){
         // PART 2
-        if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", " negative nr");}
+        if(oprToken == subtractToken){Code.genInstr("", "negl", "%eax", " Compute prefix -");}
         else if(oprToken == starToken){Code.genInstr("", "movl", "(%eax),%eax", "peker");}
     }
 
