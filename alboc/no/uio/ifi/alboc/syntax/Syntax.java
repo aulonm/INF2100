@@ -142,7 +142,7 @@ class Program extends SyntaxUnit {
 abstract class DeclList extends SyntaxUnit {
 	Declaration firstDecl = null;
 	DeclList outerScope;
-	static int length = 0;
+	int length = 0;
 
 
 	DeclList() {
@@ -176,7 +176,6 @@ abstract class DeclList extends SyntaxUnit {
 		length++;
         if(firstDecl == null){
             firstDecl = d;
-
         }
         else{
             Declaration prevDecl = firstDecl;
@@ -328,7 +327,7 @@ class ParamDeclList extends DeclList {
         while(Scanner.curToken == intToken){
             DeclType ts = DeclType.parse();
             pdl.addDecl(ParamDecl.parse(ts));
-            length++;
+            //length++;
         }
 
         return pdl;
@@ -2035,7 +2034,7 @@ class FunctionCall extends Operand {
         Log.noteBinding(funcName, lineNum, d.lineNum);
  
 
-        d.checkWhetherFunction(el.length, this);
+       // d.checkWhetherFunction(el.length, this);
         type = d.type;
         declRef = (FuncDecl) d;
 
@@ -2051,11 +2050,6 @@ class FunctionCall extends Operand {
             if(declTmp == null || callTmp == null){
                 Error.error("FunctionDecl and callDecl parameterlist are not equal length");
             }
-
-            //if(!declTmp.type.isSameType(callTmp.type) || !callTmp.type.isSameType(Types.intType)) {
-              //  Error.error("Function call parameter type not equal to function declaration type or int is " + callTmp.type + " " +callTmp.lineNum);
-            //}
-
             declTmp = declTmp.nextDecl;
             callTmp = callTmp.nextExpr;
         }
