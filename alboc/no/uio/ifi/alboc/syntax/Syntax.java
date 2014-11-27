@@ -1406,10 +1406,11 @@ class ExprList extends SyntaxUnit {
 	void genCode(FuncDecl curFunc) {
 		 //-- Must be changed in part 2:
          Expression curr = firstExpr;
-         while(curr != null){
-             curr.genCodeRec(curFunc, 0);
-             curr = curr.nextExpr;
-         }
+         // while(curr != null){
+         //     curr.genCodeRec(curFunc, 0);
+         //     curr = curr.nextExpr;
+         // }
+        if (curr != null) curr.genCodeRec(curFunc, 0);
 		/*
         if(firstExpr != null) {
 			Expression curr = firstExpr;
@@ -1527,13 +1528,12 @@ class Expression extends SyntaxUnit {
 	}
 
 	void genCodeRec(FuncDecl curFunc, int paramN){
-		if(nextExpr == null){
-			genCode(curFunc);
-			paramN++;
-			Code.genInstr("", "pushl", "%eax", "Push parameter #"+paramN);
-			return;
+		if(nextExpr != null){
+			nextExpr.genCodeRec(curFunc, paramN++);
 		}
-		nextExpr.genCodeRec(curFunc, ++paramN);
+		genCode(curFunc);
+		paramN++;
+		Code.genInstr("", "pushl", "%eax", "Push parameter #"+paramN);
 
 	}
 
