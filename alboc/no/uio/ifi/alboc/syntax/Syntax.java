@@ -13,6 +13,8 @@ import no.uio.ifi.alboc.scanner.Token;
 import static no.uio.ifi.alboc.scanner.Token.*;
 import no.uio.ifi.alboc.types.*;
 
+import java.lang.reflect.Array;
+
 
 /*
  * Creates a syntax tree by parsing an AlboC program; 
@@ -2139,8 +2141,9 @@ class Variable extends Operand {
 
 		d.checkWhetherVariable(this);
 		declRef = (VarDecl) d;
-
+		System.out.println(declRef.name + " " + index + " 1" + declRef.type);
 		if (index == null) {
+			System.out.println(declRef.name + " " + index + " 2");
 			type = d.type;
 		} else {
 			index.check(curDecls);
@@ -2165,7 +2168,11 @@ class Variable extends Operand {
 
         if (index == null) {
 			System.out.println(varName + " " + index + " " + declRef.type);
-            Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
+			if(declRef.type instanceof ArrayType){
+				Code.genInstr("", "leal", declRef.assemblerName+",%eax", varName);
+			}else {
+				Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
+			}
         } else {
             index.genCode(curFunc);
             if (declRef.type instanceof ArrayType) {
@@ -2173,7 +2180,7 @@ class Variable extends Operand {
                         varName + "[...]");
             } else {
                 Code.genInstr("", "movl", declRef.assemblerName + ",%edx",
-                        varName + "[...]");
+						varName + "[...]");
             }
             Code.genInstr("", "movl", "(%edx,%eax,4),%eax", "");
         }
