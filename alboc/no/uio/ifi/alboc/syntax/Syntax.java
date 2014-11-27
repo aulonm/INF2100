@@ -556,10 +556,15 @@ class LocalVarDecl extends VarDecl {
 	@Override
 	void genCode(FuncDecl curFunc) {
 		// -- Must be changed in part 2:
+		if(isArray){
+			curFunc.localOffset += 4*numElems;
+		}else{
+			curFunc.localOffset += 4;
 
-		curFunc.localOffset += 4;
+		}
 		assemblerName = "-"+curFunc.localOffset+"(%ebp)";
 		System.out.println(curFunc.localOffset + "");
+
 
 		}
 
@@ -2159,7 +2164,7 @@ class Variable extends Operand {
         // -- Must be changed in part  2:
 
         if (index == null) {
-			//System.out.println(varName + " " + declRef.name + " " + declRef.assemblerName);
+			System.out.println(varName + " " + index + " " + declRef.type);
             Code.genInstr("", "movl", declRef.assemblerName + ",%eax", varName);
         } else {
             index.genCode(curFunc);
